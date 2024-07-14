@@ -58,6 +58,7 @@
 
   # configure git
   programs.git = {
+    enable = true;
     userName = "jordaniza";
     userEmail = "j@jordaniza.com";
 
