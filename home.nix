@@ -18,14 +18,30 @@
   # The home.packages option allows you to install Nix packages into your
   # environment.
   home.packages = with pkgs; [
-    # # Adds the 'hello' command to your environment. It prints a friendly
-    # # "Hello, world!" when run.
-    # pkgs.hello
+    # cli utils
+    lf
+    trash-cli
 
-    # install github cli
+    # random
+    cbonsai
+    neofetch
+
+    # git
     gh
     git
 
+    # browser
+    brave
+
+    # editors
+    vscode
+
+    # javascript
+    nodejs_22
+    bun
+
+    # python
+    python3 
 
     # # It is sometimes useful to fine-tune packages, for example, by applying
     # # overrides. You can do that directly here, just don't forget the
@@ -39,7 +55,12 @@
     # (pkgs.writeShellScriptBin "my-hello" ''
     #   echo "Hello, ${config.home.username}!"
     # '')
-  ];
+  ] ++ (with pkgs.gnomeExtensions; [
+    burn-my-windows
+    blur-my-shell
+    gtile
+    clipboard-history
+  ]);
 
   # Home Manager is pretty good at managing dotfiles. The primary way to manage
   # plain files is through 'home.file'.
@@ -56,6 +77,20 @@
     # '';
   };
 
+  # configure brave
+  programs.chromium = {
+    enable = true;
+    package = pkgs.brave;
+    # extension IDs are found in the URL of the chrome store
+    extensions = [
+      "ldcoohedfbjoobcadoglnnmmfbdlmmhf" # frame companion
+      "dbepggeogbaibhgnhhndojpepiihcmeb" # vimium
+      "eimadpbcbfnmbkopoojfekhnkhdbieeh" # dark reader
+      "nngceckbapebfimnlniiiahkandclblb" # bitwarden
+      "gphhapmejobijbbhgpjhcjognlahblep" # GNOME shell
+    ];
+  };
+
   # configure git
   programs.git = {
     enable = true;
@@ -64,6 +99,61 @@
 
     extraConfig = {
       init.defaultBranch = "main";
+    };
+  };
+
+  programs.bash = {
+    enable = true;
+    shellAliases = {
+      ls = "lf";
+      rm = "echo '[INFO]: using trash-cli to remove files\n' && trash";
+    };
+    bashrcExtra = ''
+      neofetch
+    '';
+  };
+
+
+  nixpkgs.config = {
+    allowUnfree = true;
+  };
+
+   dconf = {
+    enable = true;
+    settings = {
+      # configure system settings
+      "org/gnome/desktop/interface" = {
+         color-scheme = "prefer-dark";
+      };
+
+      # setup the extensions here
+      "org/gnome/shell" = {
+        disable-user-extensions = false; # allow user extensions
+        enabled-extensions = with pkgs.gnomeExtensions; [
+          blur-my-shell.extensionUuid
+          burn-my-windows.extensionUuid
+          clipboard-history.extensionUuid
+          gtile.extensionUuid
+        ];
+      };
+
+      # config the extensions here
+      "org/gnome/shell/extensions/blur-my-shell" = {
+	brightness = 0.75;
+        noise-amount = 0;
+      };
+
+      "org/gnome/shell/extensions/clipboard-history" = {
+	paste-on-selection = false;
+	toggle-menu = ["<Super>v"];
+      };
+
+      "org/gnome/shell/extensions/burn-my-windows" = {
+        last-extension-version = 42;
+	last-prefs-version = 42;
+	prefs-open-count = 1;
+	# todo: default to the hexagon effect - takes 2 seconds but would be nice to do it declaratively
+      };
     };
   };
 

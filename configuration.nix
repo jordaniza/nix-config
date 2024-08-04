@@ -43,23 +43,37 @@
     LC_TIME = "en_GB.UTF-8";
   };
 
-	
-
   services.xserver = {
     # Enable the X11 windowing system.
     # You can disable this if you're only using the Wayland session.
    enable = true;
    
    # gnome support
+   # if you migrate from kde cursor theme might be set to breeze
+   # check with `dconf read /org/gnome/desktop/interface/cursor-theme`
+   # and if it's wrong reset by using `dconf rest (same path as above)`
    displayManager.gdm.enable = true;
    desktopManager.gnome.enable = true;
-
    # Configure keymap in X11
    xkb = {
      layout = "us";
      variant = "";
    };
+
+   excludePackages = with pkgs;  [
+     xterm
+   ];
   };
+
+
+   # touchpad and mouse
+   services.libinput = {
+     enable = true;
+     touchpad = { 
+        accelSpeed = "1.0";
+        accelProfile = "flat";
+     };
+   };
 
   # Enable CUPS to print documents.
   services.printing.enable = true;
@@ -137,6 +151,7 @@
     git
     home-manager
   ];
+
 
   # Some programs need SUID wrappers, can be configured further or are
   # started in user sessions.
