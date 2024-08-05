@@ -91,7 +91,13 @@
     ];
   };
 
+
   # configure git
+  programs.ssh = {
+    enable = true;
+
+  };
+
   programs.git = {
     enable = true;
     userName = "jordaniza";
@@ -99,6 +105,9 @@
 
     extraConfig = {
       init.defaultBranch = "main";
+      credential.helper = "${
+          pkgs.git.override { withLibsecret = true; }
+        }/bin/git-credential-libsecret";
     };
   };
 
@@ -113,6 +122,7 @@
     };
     bashrcExtra = ''
       neofetch
+      unset SSH_ASKPASS
     '';
   };
 
@@ -190,7 +200,6 @@
   #  /etc/profiles/per-user/jordan/etc/profile.d/hm-session-vars.sh
   #
   home.sessionVariables = {
-    # EDITOR = "emacs";
   };
 
   # Let Home Manager install and manage itself.
