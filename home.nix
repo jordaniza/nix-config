@@ -25,7 +25,7 @@
     # random
     cbonsai
     neofetch
-
+   
     # git
     gh
     git
@@ -107,6 +107,9 @@
     shellAliases = {
       ls = "lf";
       rm = "echo '[INFO]: using trash-cli to remove files\n' && trash";
+      vim = "nvim";
+      reload = "source ~/.bashrc";
+      nixup = "sudo nixos-rebuild switch --flake ~/.nix#default";
     };
     bashrcExtra = ''
       neofetch
@@ -155,6 +158,19 @@
 	# todo: default to the hexagon effect - takes 2 seconds but would be nice to do it declaratively
       };
     };
+  };
+
+  # neovim w. nixvim
+  programs.nixvim = {
+    enable = true;
+    options = {
+      number = true;
+      relativenumber = true;
+      shiftwidth = 2;
+    };  
+     
+    colorschemes.dracula.enable = true;
+    plugins.lightline.enable = true;
   };
 
   # Home Manager can also manage your environment variables through
