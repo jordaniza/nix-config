@@ -3,7 +3,8 @@ This is a bit of a primer on the nix stuff. I'm sure there's a lot here that's w
 # TODO
 
 - [] Configure VS Code extensions
-- [] Configure brave profiles
+- [x] Configure brave profiles
+    (Manual)
 - [] Crypto (might want to do manually):
   - Frame
   - Trezor Suite
@@ -18,7 +19,7 @@ This is a bit of a primer on the nix stuff. I'm sure there's a lot here that's w
    - not worth it
 - [x] Connect Git to Github
 - [] Copilot
-- [] Apps:
+- [x] Apps:
   - Discord
   - Telegram
 - Basic neovim that I like
@@ -67,3 +68,13 @@ Gnome extensions need a few things
 # Flakes and Nixvim
 
 Not super clear from the docs but nixvim needs to be installed as a flake to be accessible by home manager, then you can configure it
+
+
+# Post install steps
+
+On a fresh profile, there are some manual steps you'll need to take:
+
+- [] Setup Hardware config for the specific machine
+- [] Sync Brave profiles -> easiest to do this manually and takes a few seconds
+- [] Authorize Bitwarden, Github
+- [] Login to Google accounts where relevant
