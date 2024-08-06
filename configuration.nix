@@ -151,7 +151,11 @@
     git
     home-manager
   ];
-
+  
+  # while this seems like a duplication 
+  # doesn't seem to work otherwise 
+  # I guess this is TODO
+  fonts.packages = with pkgs; [ nerdfonts ];
 
   # Some programs need SUID wrappers, can be configured further or are
   # started in user sessions.

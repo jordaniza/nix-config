@@ -6,7 +6,7 @@
     (import ./config/git.nix { inherit pkgs; })
     (import ./config/dconf.nix { inherit pkgs; })
     (import ./config/chromium.nix { inherit pkgs; })
-    ./config/nixvim.nix
+    (import ./config/nixvim.nix { inherit pkgs; })
     ./config/bash.nix
     ./config/kitty.nix
     ./config/ssh.nix
@@ -15,7 +15,7 @@
 
   # Home Manager needs a bit of information about you and the paths it should
   # manage.
-  home.username = "jordan";
+
   home.homeDirectory = "/home/jordan";
 
   # This value determines the Home Manager release that your configuration is
@@ -43,8 +43,6 @@
 
   nixpkgs.config.allowUnfree = true;
   
-  fonts.fontconfig.enable = true;
-
   # Home Manager can also manage your environment variables through
   # 'home.sessionVariables'. These will be explicitly sourced when using a
   # shell provided by Home Manager. If you don't want to manage your shell

@@ -1,3 +1,4 @@
+{ pkgs, ... }:
 {
   # neovim w. nixvim
   programs.nixvim = {
@@ -81,5 +82,8 @@
 	};
       };
     };
+    
+    extraPlugins = with pkgs.vimPlugins; [ nvim-web-devicons ];
+
   };
 }
