@@ -7,6 +7,7 @@
       vim = "nvim";
       reload = "source ~/.bashrc";
       nixup = "sudo nixos-rebuild switch --flake ~/.nix#default";
+      nixedit = "nvim ~/.nix";
     };
     bashrcExtra = ''
       neofetch

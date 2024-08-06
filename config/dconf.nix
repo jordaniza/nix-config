@@ -56,17 +56,10 @@
       "org/gnome/shell" = {
         disable-user-extensions = false; # allow user extensions
         enabled-extensions = with pkgs.gnomeExtensions; [
-          blur-my-shell.extensionUuid
           burn-my-windows.extensionUuid
           clipboard-history.extensionUuid
           gtile.extensionUuid
         ];
-      };
-
-      # config the extensions here
-      "org/gnome/shell/extensions/blur-my-shell" = {
-	brightness = 0.75;
-        noise-amount = 0;
       };
 
       "org/gnome/shell/extensions/clipboard-history" = {

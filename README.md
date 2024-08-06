@@ -13,12 +13,13 @@ This is a bit of a primer on the nix stuff. I'm sure there's a lot here that's w
 - [x] Configure GTILE
 - [x] Configure keyboard shortcuts
    - need to add pop shell
-- [] Configure the terminal appearance
+- [x] Configure the terminal appearance
 - [] Configure user profile
 - [x] Background image
    - not worth it
 - [x] Connect Git to Github
 - [] Copilot
+- [] Btrfs snapshots (& test)
 - [x] Apps:
   - Discord
   - Telegram
@@ -28,7 +29,7 @@ This is a bit of a primer on the nix stuff. I'm sure there's a lot here that's w
   - [] Treesitter
     - [] Some LSPs
 
-- [] Understand imports and better structure code
+- [x] Understand imports and better structure code
 
 # BASICS
 
