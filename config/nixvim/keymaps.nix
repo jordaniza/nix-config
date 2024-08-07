@@ -1,5 +1,4 @@
 [
-
   # general
   {
     mode = "i";
@@ -9,6 +8,19 @@
       noremap = true;
       silent = true;
       desc = "Go from insert to normal mode";
+    };
+  }
+
+  # code editing
+
+  {
+    mode = "n";
+    key = "<leader>i";
+    action = "<cmd>lua vim.diagnostic.open_float()<CR>";
+    options = {
+      desc = "Highlight diagnostic";
+      noremap = true;
+      silent = true;
     };
   }
 
@@ -22,7 +34,7 @@
       desc = "Toggle NvimTree";
     };
   }
-  
+
   {
     mode = "n";
     key = "<C-l>";
@@ -63,7 +75,6 @@
       desc = "Live grep with Telescope";
     };
   }
-
 
   # harpoon
   {

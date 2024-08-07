@@ -2,34 +2,23 @@ This is a bit of a primer on the nix stuff. I'm sure there's a lot here that's w
 
 # TODO
 
-- [] Configure VS Code extensions
-- [x] Configure brave profiles
-    (Manual)
 - [] Crypto (might want to do manually):
   - Frame
   - Trezor Suite
   - Ledger
   - udev rules
-- [x] Configure GTILE
-- [x] Configure keyboard shortcuts
-   - need to add pop shell
-- [x] Configure the terminal appearance
 - [] Configure user profile
-- [x] Background image
-   - not worth it
-- [x] Connect Git to Github
+- [] Background image
+   - copy across
 - [] Copilot
+- [] Power & hibernation
 - [] Btrfs snapshots (& test)
-- [x] Apps:
-  - Discord
-  - Telegram
-- Basic neovim that I like
-  - [x] RLN
-  - [] Transparency
-  - [] Treesitter
-    - [] Some LSPs
+- More Nixvim:
+    - [] Solidity setup 
+    - [] Split buffers and use tabs
+- [] Configure VS Code & extensions if needed
+- [] Figure out separate profile for Mixxx
 
-- [x] Understand imports and better structure code
 
 # BASICS
 

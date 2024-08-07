@@ -7,8 +7,12 @@
       lf
       trash-cli
 
+      # manim
+      # ffmpeg
+      # manim
+      vlc
+
       # random
-      cbonsai
       neofetch
 
       # git
@@ -25,12 +29,11 @@
       # vscode
       gnome.dconf-editor
 
-      # javascript
+      # languages
       nodejs_22
       bun
-
-      # python
       python3
+      gcc
 
       # apps
       discord
