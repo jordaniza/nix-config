@@ -6,7 +6,7 @@
     (import ./config/git.nix { inherit pkgs; })
     (import ./config/dconf.nix { inherit pkgs; })
     (import ./config/chromium.nix { inherit pkgs; })
-    (import ./config/nixvim.nix { inherit pkgs; })
+    (import ./config/nixvim { inherit pkgs; })
     ./config/bash.nix
     ./config/kitty.nix
     ./config/ssh.nix
@@ -59,8 +59,7 @@
   #
   #  /etc/profiles/per-user/jordan/etc/profile.d/hm-session-vars.sh
   #
-  home.sessionVariables = {
-  };
+  home.sessionVariables = {};
 
   # Let Home Manager install and manage itself.
   programs.home-manager.enable = true;

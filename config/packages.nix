@@ -39,6 +39,7 @@
     
     # utilities
     wl-clipboard
+    ripgrep
 
     # fonts
     fira-code

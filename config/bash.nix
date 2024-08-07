@@ -8,6 +8,7 @@
       reload = "source ~/.bashrc";
       nixup = "sudo nixos-rebuild switch --flake ~/.nix#default";
       nixedit = "cd ~/.nix && nvim";
+      clearswap = "rm -rf ~/.local/state/nvim/swap/*";
     };
     bashrcExtra = ''
       neofetch
