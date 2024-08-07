@@ -36,7 +36,7 @@
         };
 
       "org/gnome/desktop/wm/keybindings" = {
-        toggle-maximize = ["<Super>m"]; 
+        maximize = ["<Super>m"]; 
 	close=["<Alt>F4" "<Super>q" "<Alt>AudioPrev" "<Alt>AudioMicMute"];
 	move-to-workspace-1=["<Shift><Super>Home" "<Shift><Super>F1" "<Shift><Super>exclam" "<Shift><Super>AudioMute"];
 	move-to-workspace-2=["<Shift><Super>F2" "<Shift><Super>at" "<Shift><Super>AudioLowerVolume"];

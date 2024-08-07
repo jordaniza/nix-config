@@ -1,17 +1,4 @@
-{ pkgs, ... }: 
-{
-  auto-session = {
-    enable = true;
-    autoRestore.enabled = true;
-    autoSave.enabled = true;
-    autoSession = {
-      enabled = true;
-      enableLastSession = true;
-      useGitBranch = true;
-    };
-  };
-
-  # search
+{pkgs, ...}: {
   telescope = {
     enable = true;
   };
@@ -28,35 +15,47 @@
     enable = true;
   };
 
-  # code formatting
-  conform-nvim = {
-    
+  auto-save = {
     enable = true;
+  };
 
-    # Define formatters by file type
+  treesitter = {
+    enable = true;
+    #    folding = true;
+    nixvimInjections = true;
+    grammarPackages = pkgs.vimPlugins.nvim-treesitter.allGrammars;
+  };
+
+  # fmt
+  # autosave will work but make sure you have things installed
+  conform-nvim = {
+    enable = true;
     formattersByFt = {
-      "*" = [ "codespell" ];
-      "_" = [ "trim_whitespace" ];
-      javascript = [ "prettierd" "prettier" ];
-      json = [ "jq" ];
-      lua = [ "stylua" ];
-      nix = [ "alejandra" ];
-      python = [ "isort" "black" ];
-      rust = [ "rustfmt" ];
-	sh = [ "shfmt" ];
+      css = ["prettierd" "prettier"];
+      html = ["prettierd" "prettier"];
+      javascript = ["prettierd" "prettier"];
+      javascriptreact = ["prettier"];
+      json = ["prettier"];
+      lua = ["stylua"];
+      markdown = ["prettier"];
+      nix = ["alejandra"];
+      python = ["black"];
+      rust = ["rustfmt"];
+      sh = ["shfmt"];
+      typescript = ["prettierd" "prettier"];
+      typescriptreact = ["prettier"];
+      yaml = ["prettierd" "prettier"];
     };
-
-        # Autocommand for formatting on save
-    formatOnSave = ''
-        require('conform').format()
-    '';
+    formatOnSave = {
+      lspFallback = true;
+      timeoutMs = 2000;
+    };
   };
 
   lsp = {
     enable = true;
 
     servers = {
-
       # nix
       nil-ls.enable = true;
 
@@ -65,10 +64,13 @@
 
       # rust
       rust-analyzer = {
-	installRustc = true;
-	enable = true;
-	installCargo = true;
+        installRustc = true;
+        enable = true;
+        installCargo = true;
       };
+
+      # python
+      pyright.enable = true;
     };
   };
 }
