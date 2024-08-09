@@ -41,6 +41,7 @@
       nix = ["alejandra"];
       python = ["black"];
       rust = ["rustfmt"];
+      solidity = ["forge_fmt"];
       sh = ["shfmt"];
       typescript = ["prettierd" "prettier"];
       typescriptreact = ["prettier"];
@@ -64,9 +65,9 @@
 
       # rust
       rust-analyzer = {
-        installRustc = true;
+        installRustc = false;
         enable = true;
-        installCargo = true;
+        installCargo = false;
       };
 
       # python

@@ -6,6 +6,8 @@
       # cli utils
       lf
       trash-cli
+      curl
+      wget
 
       # manim
       # ffmpeg
@@ -34,6 +36,8 @@
       bun
       python3
       gcc
+      cargo
+      rustc
 
       # apps
       discord
@@ -50,11 +54,11 @@
 
       # formatters
       alejandra
-      rustfmt
       black
       prettierd
       shfmt
       stylua
+      rustfmt
 
       # # It is sometimes useful to fine-tune packages, for example, by applying
       # # overrides. You can do that directly here, just don't forget the

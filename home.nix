@@ -1,16 +1,17 @@
-{ config, pkgs, ... }:
-
 {
+  pkgs,
+  lib,
+  ...
+}: {
   imports = [
-    (import ./config/packages.nix { inherit pkgs; })
-    (import ./config/git.nix { inherit pkgs; })
-    (import ./config/dconf.nix { inherit pkgs; })
-    (import ./config/chromium.nix { inherit pkgs; })
-    (import ./config/nixvim { inherit pkgs; })
+    (import ./config/packages.nix {inherit pkgs;})
+    (import ./config/git.nix {inherit pkgs;})
+    (import ./config/dconf.nix {inherit pkgs;})
+    (import ./config/chromium.nix {inherit pkgs;})
+    (import ./config/nixvim {inherit pkgs;})
     ./config/bash.nix
     ./config/kitty.nix
     ./config/ssh.nix
-    
   ];
 
   # Home Manager needs a bit of information about you and the paths it should
@@ -42,7 +43,7 @@
   };
 
   nixpkgs.config.allowUnfree = true;
-  
+
   # Home Manager can also manage your environment variables through
   # 'home.sessionVariables'. These will be explicitly sourced when using a
   # shell provided by Home Manager. If you don't want to manage your shell
@@ -59,7 +60,6 @@
   #
   #  /etc/profiles/per-user/jordan/etc/profile.d/hm-session-vars.sh
   #
-  home.sessionVariables = {};
 
   # Let Home Manager install and manage itself.
   programs.home-manager.enable = true;

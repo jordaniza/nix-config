@@ -16,14 +16,57 @@
     };
   };
 
-  outputs = { self, nixpkgs, home-manager, nixvim, ... }@inputs: {
+  outputs = {
+    self,
+    nixpkgs,
+    home-manager,
+    nixvim,
+    ...
+  } @ inputs: let
+    system = "x86_64-linux";
+    pkgs = import nixpkgs {inherit system;};
+    foundry-bin = import ./foundry-bin {inherit pkgs;};
+  in {
+    # setup foundry
+    apps = {
+      anvil = {
+        type = "app";
+        program = "${foundry-bin}/bin/anvil";
+      };
+      chisel = {
+        type = "app";
+        program = "${foundry-bin}/bin/chisel";
+      };
+      cast = {
+        type = "app";
+        program = "${foundry-bin}/bin/cast";
+      };
+      forge = {
+        type = "app";
+        program = "${foundry-bin}/bin/forge";
+      };
+    };
+
+    defaultPackage = foundry-bin;
+
+    devShell = pkgs.mkShell {
+      buildInputs = [
+        foundry-bin
+      ];
+    };
+
+    overlay = final: prev: {
+      foundry-bin = final.callPackage ./foundry-bin {};
+    };
+
     nixosConfigurations.default = nixpkgs.lib.nixosSystem {
       specialArgs = {inherit inputs;};
       modules = [
         ./configuration.nix
         home-manager.nixosModules.default
         {
-          home-manager.sharedModules = [ nixvim.homeManagerModules.nixvim ];
+          environment.systemPackages = [foundry-bin];
+          home-manager.sharedModules = [nixvim.homeManagerModules.nixvim];
         }
       ];
     };
