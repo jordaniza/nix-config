@@ -38,6 +38,8 @@
       gcc
       cargo
       rustc
+      go
+      gopls
 
       # apps
       discord
@@ -60,6 +62,8 @@
       stylua
       rustfmt
 
+      # blockchain
+
       # # It is sometimes useful to fine-tune packages, for example, by applying
       # # overrides. You can do that directly here, just don't forget the
       # # parentheses. Maybe you want to install Nerd Fonts with a limited number of
@@ -78,5 +82,10 @@
       blur-my-shell
       gtile
       clipboard-history
-    ]);
+    ])
+    ++ (
+      with pkgs.nodePackages; [
+        prettier
+      ]
+    );
 }

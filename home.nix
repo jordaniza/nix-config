@@ -1,6 +1,7 @@
 {
-  pkgs,
   lib,
+  config,
+  pkgs,
   ...
 }: {
   imports = [
@@ -9,7 +10,7 @@
     (import ./config/dconf.nix {inherit pkgs;})
     (import ./config/chromium.nix {inherit pkgs;})
     (import ./config/nixvim {inherit pkgs;})
-    ./config/bash.nix
+    (import ./config/bash.nix {inherit config pkgs;})
     ./config/kitty.nix
     ./config/ssh.nix
   ];
@@ -60,6 +61,27 @@
   #
   #  /etc/profiles/per-user/jordan/etc/profile.d/hm-session-vars.sh
   #
+  home.sessionVariables = {
+    # allow some global installs using npm
+    TEST = "TICKLES";
+    #PATH = "${config.home.homeDirectory}/.npm-packages/bin:${pkgs.nodejs}/bin:$PATH";
+    #NODE_PATH = "${config.home.homeDirectory}/.npm-packages/lib/node_modules";
+  };
+
+  home.activation = {
+    installNpmPackages =
+      lib.hm.dag.entryAfter ["writeBoundary"]
+      ''
+        # Ensure the npm packages directory exists
+        mkdir -p ${config.home.homeDirectory}/.npm-packages/lib/node_modules
+
+        # Configure npm to use the home directory for global installations
+        echo "prefix=${config.home.homeDirectory}/.npm-packages" > ${config.home.homeDirectory}/.npmrc
+
+        # Install npm packages globally
+        ${pkgs.nodejs}/bin/npm install -g  @nomicfoundation/solidity-language-server
+      '';
+  };
 
   # Let Home Manager install and manage itself.
   programs.home-manager.enable = true;

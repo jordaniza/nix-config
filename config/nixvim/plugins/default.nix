@@ -41,7 +41,7 @@
       nix = ["alejandra"];
       python = ["black"];
       rust = ["rustfmt"];
-      solidity = ["forge_fmt"];
+      solidity = ["prettier"];
       sh = ["shfmt"];
       typescript = ["prettierd" "prettier"];
       typescriptreact = ["prettier"];
@@ -62,6 +62,8 @@
 
       # ts
       tsserver.enable = true;
+
+
 
       # rust
       rust-analyzer = {
