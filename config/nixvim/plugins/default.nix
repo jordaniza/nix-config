@@ -41,6 +41,7 @@
       nix = ["alejandra"];
       python = ["black"];
       rust = ["rustfmt"];
+      # bit janky atm - put a prettierrc in the root and it works
       solidity = ["prettier"];
       sh = ["shfmt"];
       typescript = ["prettierd" "prettier"];
@@ -56,14 +57,20 @@
   lsp = {
     enable = true;
 
+    keymaps = {
+      lspBuf = {
+        gd = "definition";
+        gi = "implementation";
+        rn = "rename";
+      };
+    };
+
     servers = {
       # nix
       nil-ls.enable = true;
 
       # ts
       tsserver.enable = true;
-
-
 
       # rust
       rust-analyzer = {

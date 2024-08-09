@@ -62,10 +62,8 @@
   #  /etc/profiles/per-user/jordan/etc/profile.d/hm-session-vars.sh
   #
   home.sessionVariables = {
-    # allow some global installs using npm
-    TEST = "TICKLES";
-    #PATH = "${config.home.homeDirectory}/.npm-packages/bin:${pkgs.nodejs}/bin:$PATH";
-    #NODE_PATH = "${config.home.homeDirectory}/.npm-packages/lib/node_modules";
+    # TODO I am not sure why but these variables seem to be ignored by bash so
+    # if you need them, set in the bashrc
   };
 
   home.activation = {
@@ -78,8 +76,8 @@
         # Configure npm to use the home directory for global installations
         echo "prefix=${config.home.homeDirectory}/.npm-packages" > ${config.home.homeDirectory}/.npmrc
 
-        # Install npm packages globally
-        ${pkgs.nodejs}/bin/npm install -g  @nomicfoundation/solidity-language-server
+        # Install npm packages globally - only if not in nixpkgs
+        ${pkgs.nodejs}/bin/npm install -g  @nomicfoundation/solidity-language-server prettier-plugin-solidity
       '';
   };
 

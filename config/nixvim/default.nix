@@ -29,28 +29,22 @@
       #   vim-solidity
     ];
 
-    extraConfigLua =
-      # lua
-      ''
-               local lspconfig = require('lspconfig')
+    extraConfigLua = ''
+                    local lspconfig = require('lspconfig')
+                    local configs = require 'lspconfig.configs'
 
+          -- odd formatting
+                    configs.solidity = {
+               default_config = {
+                 cmd = {'nomicfoundation-solidity-language-server', '--stdio'},
+                 filetypes = { 'solidity' },
+                 root_dir = lspconfig.util.find_git_ancestor,
+                 single_file_support = true,
+               },
+                    }
 
-        -- go manual config
-               lspconfig.gopls.setup{
-                 cmd = {'gopls'},
-                 settings = {
-                   gopls = {
-                     analyses = {
-                       unusedparams = true,
-                     },
-                     staticcheck = true,
-                   },
-                 },
-               }
+      lspconfig.solidity.setup {}
 
-
-
-
-      '';
+    '';
   };
 }
