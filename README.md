@@ -9,16 +9,21 @@ This is a bit of a primer on the nix stuff. I'm sure there's a lot here that's w
   - udev rules
 - [] Configure user profile
 - [] Background image
-   - copy across
+  - copy across
 - [] Copilot
 - [] Power & hibernation
 - [] Btrfs snapshots (& test)
 - More Nixvim:
-    - [] Solidity setup 
-    - [] Split buffers and use tabs
+  - [x] Solidity setup
+    - [x] basic LSP
+    - [x] GD
+    - [x] rn
+    - [] GD to imports (might depend on project)
+  - [] Split buffers and use tabs
+  - [] navigate between windows
+  - [] session that actually works
 - [] Configure VS Code & extensions if needed
 - [] Figure out separate profile for Mixxx
-
 
 # BASICS
 
@@ -35,7 +40,7 @@ sudo nixos-rebuild switch --flake ~/.nix#default
 
 (which I have aliased to `nixup`)
 
-don't use home-manager as we are seeing this as a complete system. 
+don't use home-manager as we are seeing this as a complete system.
 
 On home manager you have:
 
@@ -43,7 +48,6 @@ On home manager you have:
 - Home manager packages (these have home-manager config settings)
 
 Example: trash-cli you need to do at the top of home.nix
-
 
 # Gnome
 
@@ -54,11 +58,9 @@ Gnome extensions need a few things
 3. Config the extension by exporting dconf - someone in github has a tool to convert to home manager
 4. Log back in if you need to activate a new extension as we can't reload the shell in wayland - TBC about X
 
-
 # Flakes and Nixvim
 
 Not super clear from the docs but nixvim needs to be installed as a flake to be accessible by home manager, then you can configure it
-
 
 # Post install steps
 
