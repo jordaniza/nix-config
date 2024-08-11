@@ -1,7 +1,14 @@
-{pkgs, ...}: {
+{pkgs, ...}: let
+  extraConfig = builtins.readFile ./lua/extraConfig.lua;
+in {
   # neovim w. nixvim
   programs.nixvim = {
     enable = true;
+
+    globals.mapleader = " ";
+
+    keymaps = import ./keymaps.nix;
+    plugins = import ./plugins {inherit pkgs;};
 
     colorschemes.dracula.enable = true;
 
@@ -17,34 +24,11 @@
       register = "unnamedplus";
     };
 
-    globals.mapleader = " ";
-
-    keymaps = import ./keymaps.nix;
-
-    plugins = import ./plugins {inherit pkgs;};
-
     extraPlugins = with pkgs.vimPlugins; [
       nvim-web-devicons
       nvim-lspconfig
-      #   vim-solidity
     ];
 
-    extraConfigLua = ''
-                    local lspconfig = require('lspconfig')
-                    local configs = require 'lspconfig.configs'
-
-          -- odd formatting
-                    configs.solidity = {
-               default_config = {
-                 cmd = {'nomicfoundation-solidity-language-server', '--stdio'},
-                 filetypes = { 'solidity' },
-                 root_dir = lspconfig.util.find_git_ancestor,
-                 single_file_support = true,
-               },
-                    }
-
-      lspconfig.solidity.setup {}
-
-    '';
+    extraConfigLua = extraConfig;
   };
 }

@@ -67,20 +67,18 @@
   };
 
   home.activation = {
-    installNpmPackages =
-      lib.hm.dag.entryAfter ["writeBoundary"]
-      ''
-        # Ensure the npm packages directory exists
-        mkdir -p ${config.home.homeDirectory}/.npm-packages/lib/node_modules
+    # don't run this on every activation, otherwise it delays the boot process
+    # todo: doesn't install the package in the expected place
+    installNpmPackages = lib.hm.dag.entryAfter ["writeBoundary"] ''
+      NM_DIR="${config.home.homeDirectory}/.npm-packages/lib/node_modules/"
 
-        # Configure npm to use the home directory for global installations
+      if [ ! -d "$NM_DIR/@nomicfoundation/solidity-language-server" ]; then
+        mkdir -p $NM_DIR
         echo "prefix=${config.home.homeDirectory}/.npm-packages" > ${config.home.homeDirectory}/.npmrc
-
-        # Install npm packages globally - only if not in nixpkgs
         ${pkgs.nodejs}/bin/npm install -g  @nomicfoundation/solidity-language-server prettier-plugin-solidity
-      '';
+      fi
+    '';
   };
-
   # Let Home Manager install and manage itself.
   programs.home-manager.enable = true;
 }

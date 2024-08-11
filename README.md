@@ -1,7 +1,5 @@
 This is a bit of a primer on the nix stuff. I'm sure there's a lot here that's wrong but we can learn as we go!
 
-# TODO
-
 - [] Crypto (might want to do manually):
   - Frame
   - Trezor Suite
@@ -70,3 +68,23 @@ On a fresh profile, there are some manual steps you'll need to take:
 - [] Sync Brave profiles -> easiest to do this manually and takes a few seconds
 - [] Authorize Bitwarden, Github
 - [] Login to Google accounts where relevant
+- [] Install npm globals (TODO: fix)
+
+# NPM Globals
+
+Atm we have an issue that NPM globals not available as packages can't easily be added.
+We fix this by allowing globals to be installed in /home and changing the npm path.
+
+There's a startup script that runs but if you enable it, it will run on boot every time - this adds ~5mins to boot.
+We can conditionally run it but some issues with that. For now you can just run the command as it's 1 package but as this grows we will
+need a proper solution.
+
+-- os
+
+206 2024-08-10 00:18:28  
+207 2024-08-10 00:19:19
+
+-- hm
+
+162 2024-08-10 00:18:31  
+163 2024-08-10 00:19:32
