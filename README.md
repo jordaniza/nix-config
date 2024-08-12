@@ -8,7 +8,7 @@ This is a bit of a primer on the nix stuff. I'm sure there's a lot here that's w
 - [] Configure user profile
 - [] Background image
   - copy across
-- [] Copilot
+- [x] Copilot
 - [] Power & hibernation
 - [] Btrfs snapshots (& test)
 - More Nixvim:
@@ -17,8 +17,8 @@ This is a bit of a primer on the nix stuff. I'm sure there's a lot here that's w
     - [x] GD
     - [x] rn
     - [] GD to imports (might depend on project)
-  - [] Split buffers and use tabs
-  - [] navigate between windows
+  - [x] Split buffers and use tabs
+  - [x] navigate between windows
   - [] session that actually works
 - [] Configure VS Code & extensions if needed
 - [] Figure out separate profile for Mixxx
@@ -60,15 +60,25 @@ Gnome extensions need a few things
 
 Not super clear from the docs but nixvim needs to be installed as a flake to be accessible by home manager, then you can configure it
 
+# foundry
+
+Forge is extremely tricky as:
+
+- It aint a nixpkg
+- It's hard to install due to some issues with solc binaries
+
+There's a flake that takes care of the forge installation that's been added to flake.nix
+
 # Post install steps
 
 On a fresh profile, there are some manual steps you'll need to take:
 
 - [] Setup Hardware config for the specific machine
-- [] Sync Brave profiles -> easiest to do this manually and takes a few seconds
+- [] Sync Brave profiles -> easiest to do this manually and takes a few minutes
 - [] Authorize Bitwarden, Github
 - [] Login to Google accounts where relevant
-- [] Install npm globals (TODO: fix)
+- [] Login to copilot using :Copilot
+- [] Install npm globals (TODO: fix [see below](#npm-globals))
 
 # NPM Globals
 

@@ -34,12 +34,11 @@
       # languages
       nodejs_22
       bun
+      yarn
       python3
       gcc
       cargo
       rustc
-      go
-      gopls
 
       # apps
       discord
@@ -86,6 +85,8 @@
     ++ (
       with pkgs.nodePackages; [
         prettier
+        live-server
+        pnpm
       ]
     );
 }

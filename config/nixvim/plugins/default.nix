@@ -4,8 +4,20 @@
 
   telescope = {
     enable = true;
+    settings = {
+      defaults = {
+        file_ignore_patterns = [
+          "^.git/"
+          "^.mypy_cache/"
+          "^__pycache__/"
+          "^output/"
+          "^data/"
+          "%.ipynb"
+          "^node_modules/"
+        ];
+      };
+    };
   };
-
   harpoon = {
     enable = true;
   };
@@ -22,9 +34,17 @@
     enable = true;
   };
 
+  comment = {
+    enable = true;
+  };
+
   treesitter = {
     enable = true;
     nixvimInjections = true;
     grammarPackages = pkgs.vimPlugins.nvim-treesitter.allGrammars;
+  };
+
+  copilot-vim = {
+    enable = true;
   };
 }

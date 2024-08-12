@@ -11,6 +11,28 @@
     };
   }
 
+  {
+    mode = "n";
+    key = "<C-l>";
+    action = "<C-w>l";
+    options = {
+      noremap = true;
+      silent = true;
+      desc = "Move to right window";
+    };
+  }
+
+  {
+    mode = "n";
+    key = "<C-h>";
+    action = "<C-w>h";
+    options = {
+      noremap = true;
+      silent = true;
+      desc = "Move to left window";
+    };
+  }
+
   # code editing
 
   {
@@ -32,26 +54,6 @@
     options = {
       silent = true;
       desc = "Toggle NvimTree";
-    };
-  }
-
-  {
-    mode = "n";
-    key = "<C-l>";
-    action = "<cmd>lua if require'nvim-tree.view'.is_visible() then vim.cmd('wincmd l') end<CR>";
-    options = {
-      silent = true;
-      desc = "Move to buffer from NvimTree";
-    };
-  }
-
-  {
-    mode = "n";
-    key = "<C-h>";
-    action = "<cmd>lua if require'nvim-tree.view'.is_visible() then vim.cmd('wincmd h') end<CR>";
-    options = {
-      silent = true;
-      desc = "Move to NvimTree from buffer";
     };
   }
 
