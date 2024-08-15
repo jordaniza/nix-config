@@ -22,6 +22,11 @@ This is a bit of a primer on the nix stuff. I'm sure there's a lot here that's w
   - [] session that actually works
 - [] Configure VS Code & extensions if needed
 - [] Figure out separate profile for Mixxx
+- [] Turn off cmp for markdown as it's annoying
+
+Think we're pretty close to be honest -
+
+Some tweaks you can do
 
 # BASICS
 

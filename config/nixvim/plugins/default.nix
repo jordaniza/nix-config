@@ -2,6 +2,42 @@
   conform-nvim = import ./conform.nix;
   lsp = import ./lsp.nix;
 
+  cmp = {
+    enable = true;
+    settings = {
+      sources = [
+        {
+          name = "nvim_lsp";
+        }
+        {
+          name = "luasnip";
+        }
+        {
+          name = "path";
+        }
+        {
+          name = "buffer";
+        }
+      ];
+    };
+  };
+
+  cmp-nvim-lsp = {
+    enable = true;
+  };
+  cmp-buffer = {
+    enable = true;
+  };
+  cmp-path = {
+    enable = true;
+  };
+  cmp-cmdline = {
+    enable = true;
+  };
+  luasnip = {
+    enable = true;
+  };
+
   telescope = {
     enable = true;
     settings = {
@@ -46,5 +82,10 @@
 
   copilot-vim = {
     enable = true;
+    settings = {
+      filetypes = {
+        markdown = false;
+      };
+    };
   };
 }

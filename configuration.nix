@@ -1,15 +1,17 @@
 # Edit this configuration file to define what should be installed on
 # your system.  Help is available in the configuration.nix(5) man page
 # and in the NixOS manual (accessible by running ‘nixos-help’).
-
-{ config, pkgs, inputs, ... }:
-
 {
-  imports =
-    [ # Include the results of the hardware scan.
-      ./hardware-configuration.nix
-      inputs.home-manager.nixosModules.default
-    ];
+  config,
+  pkgs,
+  inputs,
+  ...
+}: {
+  imports = [
+    # Include the results of the hardware scan.
+    ./hardware-configuration.nix
+    inputs.home-manager.nixosModules.default
+  ];
 
   # Bootloader.
   boot.loader.systemd-boot.enable = true;
@@ -46,34 +48,33 @@
   services.xserver = {
     # Enable the X11 windowing system.
     # You can disable this if you're only using the Wayland session.
-   enable = true;
-   
-   # gnome support
-   # if you migrate from kde cursor theme might be set to breeze
-   # check with `dconf read /org/gnome/desktop/interface/cursor-theme`
-   # and if it's wrong reset by using `dconf rest (same path as above)`
-   displayManager.gdm.enable = true;
-   desktopManager.gnome.enable = true;
-   # Configure keymap in X11
-   xkb = {
-     layout = "us";
-     variant = "";
-   };
+    enable = true;
 
-   excludePackages = with pkgs;  [
-     xterm
-   ];
+    # gnome support
+    # if you migrate from kde cursor theme might be set to breeze
+    # check with `dconf read /org/gnome/desktop/interface/cursor-theme`
+    # and if it's wrong reset by using `dconf rest (same path as above)`
+    displayManager.gdm.enable = true;
+    desktopManager.gnome.enable = true;
+    # Configure keymap in X11
+    xkb = {
+      layout = "us";
+      variant = "";
+    };
+
+    excludePackages = with pkgs; [
+      xterm
+    ];
   };
 
-
-   # touchpad and mouse
-   services.libinput = {
-     enable = true;
-     touchpad = { 
-        accelSpeed = "1.0";
-        accelProfile = "flat";
-     };
-   };
+  # touchpad and mouse
+  services.libinput = {
+    enable = true;
+    touchpad = {
+      accelSpeed = "1.0";
+      accelProfile = "flat";
+    };
+  };
 
   # Enable CUPS to print documents.
   services.printing.enable = true;
@@ -81,6 +82,11 @@
   # Enable sound with pipewire.
   hardware.pulseaudio.enable = false;
   security.rtkit.enable = true;
+  security.sudo = {
+    enable = true;
+    extraConfig = "Defaults timestamp_timeout=10";
+  };
+
   services.pipewire = {
     enable = true;
     alsa.enable = true;
@@ -101,39 +107,43 @@
   users.users.jordan = {
     isNormalUser = true;
     description = "Jordan";
-    extraGroups = [ "networkmanager" "wheel" ];
-      };
+    extraGroups = ["networkmanager" "wheel"];
+  };
 
   # home manager
   home-manager = {
-    extraSpecialArgs = { inherit inputs; };
+    extraSpecialArgs = {inherit inputs;};
     users = {
       "jordan" = import ./home.nix;
     };
   };
 
   # exclude gnome packages
-  environment.gnome.excludePackages = (
-    with pkgs; [
-      gnome-photos
-      gnome-tour  
-      gnome-text-editor
-  ]) ++ (
-   with pkgs.gnome; [
-      gnome-music
-      gnome-calendar
-      gnome-maps
-      yelp
-      totem
-      gnome-weather
-      geary
-      epiphany
-      gnome-calculator
-      gnome-clocks
-      cheese
-      gnome-contacts
-      simple-scan
-  ]); 
+  environment.gnome.excludePackages =
+    (
+      with pkgs; [
+        gnome-photos
+        gnome-tour
+        gnome-text-editor
+      ]
+    )
+    ++ (
+      with pkgs.gnome; [
+        gnome-music
+        gnome-calendar
+        gnome-maps
+        yelp
+        totem
+        gnome-weather
+        geary
+        epiphany
+        gnome-calculator
+        gnome-clocks
+        cheese
+        gnome-contacts
+        simple-scan
+      ]
+    );
 
   # Install firefox.
   programs.firefox.enable = true;
@@ -142,7 +152,7 @@
   nixpkgs.config.allowUnfree = true;
 
   # nix config
-  nix.settings.experimental-features = [ "nix-command" "flakes" ];
+  nix.settings.experimental-features = ["nix-command" "flakes"];
 
   # List packages installed in system profile. To search, run:
   # $ nix search wget
@@ -151,11 +161,11 @@
     git
     home-manager
   ];
-  
-  # while this seems like a duplication 
-  # doesn't seem to work otherwise 
+
+  # while this seems like a duplication
+  # doesn't seem to work otherwise
   # I guess this is TODO
-  fonts.packages = with pkgs; [ nerdfonts ];
+  fonts.packages = with pkgs; [nerdfonts];
 
   # Some programs need SUID wrappers, can be configured further or are
   # started in user sessions.

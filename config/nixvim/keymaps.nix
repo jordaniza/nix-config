@@ -33,6 +33,18 @@
     };
   }
 
+  # clear highlight with leader /
+  {
+    mode = "n";
+    key = "<leader>/";
+    action = ":nohlsearch<CR>";
+    options = {
+      noremap = true;
+      silent = true;
+      desc = "Clear search highlight";
+    };
+  }
+
   # code editing
 
   {
@@ -136,6 +148,52 @@
     options = {
       silent = true;
       desc = "Navigate to Harpoon file 4";
+    };
+  }
+
+  {
+    mode = "n";
+    key = "<leader>5";
+    action = "<cmd>lua require('harpoon.ui').nav_file(5)<CR>";
+    options = {
+      silent = true;
+      desc = "Navigate to Harpoon file 5";
+    };
+  }
+  {
+    mode = "n";
+    key = "<leader>6";
+    action = "<cmd>lua require('harpoon.ui').nav_file(6)<CR>";
+    options = {
+      silent = true;
+      desc = "Navigate to Harpoon file 6";
+    };
+  }
+  {
+    mode = "n";
+    key = "<leader>7";
+    action = "<cmd>lua require('harpoon.ui').nav_file(7)<CR>";
+    options = {
+      silent = true;
+      desc = "Navigate to Harpoon file 7";
+    };
+  }
+  {
+    mode = "n";
+    key = "<leader>8";
+    action = "<cmd>lua require('harpoon.ui').nav_file(8)<CR>";
+    options = {
+      silent = true;
+      desc = "Navigate to Harpoon file 8";
+    };
+  }
+  {
+    mode = "n";
+    key = "<leader>9";
+    action = "<cmd>lua require('harpoon.ui').nav_file(9)<CR>";
+    options = {
+      silent = true;
+      desc = "Navigate to Harpoon file 9";
     };
   }
 ]
