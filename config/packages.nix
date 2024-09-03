@@ -15,6 +15,7 @@
       vlc
 
       # random
+      # fastfetch
       neofetch
 
       # git
@@ -28,7 +29,7 @@
       kitty
 
       # editors
-      # vscode
+      vscode
       gnome.dconf-editor
 
       # languages

@@ -60,11 +60,12 @@
 
   nvim-tree = {
     enable = true;
+    git.enable = true;
   };
 
-  lightline = {
-    enable = true;
-  };
+  # airline = {
+  #   enable = true;
+  # };
 
   auto-save = {
     enable = true;
