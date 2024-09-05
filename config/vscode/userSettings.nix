@@ -1,28 +1,42 @@
 {
+  # Programming Languages
   "typescript.preferGoToSourceDefinition" = true;
+  "[typescript].editor.defaultFormatter" = "esbenp.prettier-vscode";
+  "typescript.updateImportsOnFileMove.enabled" = "always";
+  "[javascript].editor.defaultFormatter" = "esbenp.prettier-vscode";
+  "[json].editor.defaultFormatter" = "esbenp.prettier-vscode";
+
+  # Editor
+  "workbench.colorTheme" = "Dracula Theme";
   "explorer.confirmDragAndDrop" = false;
   "explorer.confirmDelete" = false;
-  "peacock.affectStatusAndTitleBorders" = true;
+  "editor.minimap.enabled" = false;
+  "editor.renderWhitespace" = "none";
+  "editor.renderControlCharacters" = false;
+  "editor.fontLigatures" = true;
+  "editor.formatOnSave" = true;
+  "editor.inlineSuggest.enabled" = true;
+  "editor.tabSize" = 2;
+  "editor.stickyTabStops" = true;
+  "editor.detectIndentation" = false;
+  "editor.lineNumbers" = "relative";
+  # "editor.fontFamily" = "'Fira Code' Consolas 'Courier New' monospace";
+
+  "window.menuBarVisibility" = "hidden";
+  "window.titleBarStyle" = "custom";
+  "window.customMenuBarAltFocus" = false;
+  "window.enableMenuBarMnemonics" = false;
+
+  ## Peacock
   "peacock.affectActivityBar" = false;
   "peacock.affectSideBarBorder" = true;
   "peacock.affectEditorGroupBorder" = true;
   "peacock.affectTitleBar" = false;
   "peacock.affectSashHover" = false;
   "peacock.affectPanelBorder" = true;
-  "editor.minimap.enabled" = false;
-  "editor.renderWhitespace" = "none";
-  "editor.renderControlCharacters" = false;
-  "solidity.compileUsingRemoteVersion" = "latest";
-  "[typescript].editor.defaultFormatter" = "esbenp.prettier-vscode";
-  "[json].editor.defaultFormatter" = "esbenp.prettier-vscode";
-  "svelte.enable-ts-plugin" = true;
-  "svelte.plugin.svelte.note-new-transformation" = false;
-  "liveServer.settings.donotShowInfoMsg" = true;
-  "editor.formatOnSave" = true;
-  "workbench.editorAssociations" = {"*.wasm" = "default";};
-  "editor.inlineSuggest.enabled" = true;
-  # "editor.fontFamily" = "'Fira Code' Consolas 'Courier New' monospace";
-  "editor.fontLigatures" = true;
+  "peacock.affectStatusAndTitleBorders" = true;
+
+  ## Github
   "github.copilot.enable" = {
     "*" = true;
     "plaintext" = true;
@@ -31,15 +45,11 @@
     "yaml" = false;
     "solidity" = true;
   };
-  "[python].editor.formatOnType" = true;
-  "editor.tabSize" = 2;
-  "editor.stickyTabStops" = true;
-  "editor.detectIndentation" = false;
+
+  ## Prettier
   "prettier.printWidth" = 120;
-  "[dockerfile].editor.defaultFormatter" = "ms-azuretools.vscode-docker";
-  "[jsonc].editor.defaultFormatter" = "esbenp.prettier-vscode";
-  "typescript.updateImportsOnFileMove.enabled" = "always";
-  "[javascript].editor.defaultFormatter" = "esbenp.prettier-vscode";
+
+  ## Vim
   "vim.insertModeKeyBindings" = [
     {
       before = ["g" "f"];
@@ -134,17 +144,18 @@
   ];
   "vim.whichwrap" = "h l";
   "vim.useSystemClipboard" = true;
-  "editor.lineNumbers" = "relative";
   "vim.leader" = "<Space>";
-  "solidity.telemetry" = true;
-  "glassit-linux.opacity" = 90;
-  "window.menuBarVisibility" = "hidden";
+
+  # MultiCommand
   "multiCommand.commands" = [
     {
       command = "multiCommand.openSidebarAndFocus";
       sequence = ["workbench.action.toggleSidebarVisibility" "workbench.action.focusSideBar"];
     }
   ];
+
+  # GlassIt
+  "glassit-linux.opacity" = 90;
   "glassit.alpha" = 245;
   "glassit.step" = 10;
 }
