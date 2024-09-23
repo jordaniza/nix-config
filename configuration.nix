@@ -87,10 +87,9 @@
         settings = {
           # sudo keyd monitor to see the keycodes
           main = {
-            "leftcontrol" = "layer(leftctrl)";
           };
 
-          leftctrl = {
+          control = {
             "space" = "backspace";
           };
         };
