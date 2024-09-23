@@ -5,6 +5,10 @@
   "typescript.updateImportsOnFileMove.enabled" = "always";
   "[javascript].editor.defaultFormatter" = "esbenp.prettier-vscode";
   "[json].editor.defaultFormatter" = "esbenp.prettier-vscode";
+  "[solidity].formatter" = "prettier";
+  "[solidity]" = {
+    "editor.defaultFormatter" = "esbenp.prettier-vscode";
+  };
 
   # Editor
   "workbench.colorTheme" = "Dracula Theme";
@@ -40,7 +44,7 @@
   "github.copilot.enable" = {
     "*" = true;
     "plaintext" = true;
-    "markdown" = true;
+    "markdown" = false;
     "scminput" = false;
     "yaml" = false;
     "solidity" = true;
@@ -155,7 +159,6 @@
   ];
 
   # GlassIt
-  "glassit-linux.opacity" = 90;
   "glassit.alpha" = 245;
   "glassit.step" = 10;
 }

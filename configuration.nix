@@ -76,6 +76,40 @@
     };
   };
 
+  # keyboard - requires keyd installed
+  services.keyd = {
+    enable = true;
+
+    # setup the custom keybindings
+    keyboards = {
+      default = {
+        ids = ["*"];
+        settings = {
+          # sudo keyd monitor to see the keycodes
+          main = {
+            "leftcontrol" = "layer(leftctrl)";
+          };
+
+          leftctrl = {
+            "space" = "backspace";
+          };
+        };
+      };
+    };
+  };
+
+  systemd.services.keyd = {
+    enable = true;
+    serviceConfig = {
+      CapabilityBoundingSet = ["CAP_SETGID"];
+      Type = "simple";
+      ExecStart = "${pkgs.keyd}/bin/keyd";
+    };
+    wantedBy = ["sysinit.target"];
+    requires = ["local-fs.target"];
+    after = ["local-fs.target"];
+  };
+
   # Enable CUPS to print documents.
   services.printing.enable = true;
 
@@ -102,6 +136,8 @@
 
   # Enable touchpad support (enabled default in most desktopManager).
   # services.xserver.libinput.enable = true;
+
+  users.groups.keyd = {}; # Create the keyd group
 
   # Define a user account. Manage user-based packages in home.nix
   users.users.jordan = {
