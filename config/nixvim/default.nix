@@ -27,6 +27,7 @@ in {
     extraPlugins = with pkgs.vimPlugins; [
       nvim-web-devicons
       nvim-lspconfig
+      nvim-scrollbar
     ];
 
     extraConfigLua = extraConfig;

@@ -63,9 +63,14 @@
     git.enable = true;
   };
 
-  # airline = {
-  #   enable = true;
-  # };
+  # settings are in extraconfig, not sure why it doesn't work for me here
+  lualine = {
+    enable = true;
+  };
+
+  lsp-lines = {
+    enable = true;
+  };
 
   auto-save = {
     enable = true;

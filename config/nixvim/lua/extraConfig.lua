@@ -37,3 +37,28 @@ vim.api.nvim_create_autocmd("FileType", {
 		vim.opt_local.wrap = true
 	end,
 })
+
+-- nvim scrollbar
+require("scrollbar").setup()
+
+-- lualine
+require("lualine").setup({
+	options = {
+		theme = "auto",
+		globalstatus = true,
+		section_separators = "",
+		component_separators = "",
+	},
+	sections = {
+		lualine_a = { "mode" },
+		lualine_b = { "branch" },
+		lualine_c = { { "filename", path = 1 } }, -- Full path from repo root
+		lualine_x = {
+			{ "diagnostics", sources = { "nvim_diagnostic" }, sections = { "error", "warn" } }, -- LSP diagnostics
+			"encoding",
+			"filetype",
+		},
+		lualine_y = { "progress" }, -- Shows % through the file
+		lualine_z = { "location" }, -- Current line and column
+	},
+})
