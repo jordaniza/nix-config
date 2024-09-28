@@ -68,6 +68,10 @@
     enable = true;
   };
 
+  bufferline = {
+    enable = true;
+  };
+
   lsp-lines = {
     enable = true;
   };

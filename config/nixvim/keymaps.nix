@@ -196,4 +196,27 @@
       desc = "Navigate to Harpoon file 9";
     };
   }
+
+  # buffer navigation
+  {
+    mode = "n";
+    key = "<C-M-l>";
+    action = ":BufferLineCycleNext<CR>";
+    options = {
+      noremap = true;
+      silent = true;
+      desc = "Go to next buffer";
+    };
+  }
+
+  {
+    mode = "n";
+    key = "<C-M-h>";
+    action = ":BufferLineCyclePrev<CR>";
+    options = {
+      noremap = true;
+      silent = true;
+      desc = "Go to previous buffer";
+    };
+  }
 ]

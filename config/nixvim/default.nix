@@ -17,6 +17,7 @@ in {
       number = true;
       relativenumber = true;
       shiftwidth = 2;
+      showtabline = 2;
     };
 
     # share clipboard with the os
