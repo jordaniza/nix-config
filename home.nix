@@ -9,7 +9,7 @@
     (import ./config/git.nix {inherit pkgs;})
     (import ./config/dconf.nix {inherit pkgs;})
     (import ./config/chromium.nix {inherit pkgs;})
-    (import ./config/bash.nix {inherit config pkgs;})
+    (import ./config/zsh.nix {inherit config pkgs;})
     (import ./config/nixvim {inherit pkgs;})
     (import ./config/vscode {inherit config pkgs;})
     ./config/kitty.nix

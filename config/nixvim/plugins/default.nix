@@ -60,7 +60,13 @@
 
   nvim-tree = {
     enable = true;
-    git.enable = true;
+    git = {
+      enable = true;
+      ignore = false;
+    };
+    filters = {
+      dotfiles = false;
+    };
   };
 
   # settings are in extraconfig, not sure why it doesn't work for me here

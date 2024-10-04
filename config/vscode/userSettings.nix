@@ -8,6 +8,7 @@
   "[solidity].formatter" = "prettier";
   "[solidity]" = {
     "editor.defaultFormatter" = "esbenp.prettier-vscode";
+    "editor.trace.server" = "verbose";
   };
 
   # Editor

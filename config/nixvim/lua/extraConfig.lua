@@ -1,5 +1,7 @@
 -- extra config that will be imported into nixvim
 
+vim.lsp.set_log_level("debug")
+
 -- lsp for solidity
 local lspconfig = require("lspconfig")
 local configs = require("lspconfig.configs")
@@ -7,6 +9,13 @@ local configs = require("lspconfig.configs")
 configs.solidity = {
 	default_config = {
 		cmd = { "nomicfoundation-solidity-language-server", "--stdio" },
+		-- experimenting with increaing the max-old-space-size
+		-- cmd = {
+		-- 	"node",
+		-- 	"--max-old-space-size=8912",
+		-- 	"/home/jordan/.npm-packages/lib/node_modules/@nomicfoundation/solidity-language-server",
+		-- 	"--stdio",
+		-- },
 		filetypes = { "solidity" },
 		root_dir = lspconfig.util.find_git_ancestor,
 		single_file_support = false,

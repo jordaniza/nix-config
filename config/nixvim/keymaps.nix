@@ -219,4 +219,15 @@
       desc = "Go to previous buffer";
     };
   }
+
+  {
+    mode = "n";
+    key = "<C-x>";
+    action = ":bd<CR>";
+    options = {
+      noremap = true;
+      silent = true;
+      desc = "Close current buffer";
+    };
+  }
 ]

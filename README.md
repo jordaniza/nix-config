@@ -16,13 +16,15 @@ This is a bit of a primer on the nix stuff. I'm sure there's a lot here that's w
     - [x] basic LSP
     - [x] GD
     - [x] rn
-    - [] GD to imports (might depend on project)
+    - [x] GD to imports (might depend on project)
   - [x] Split buffers and use tabs
   - [x] navigate between windows
   - [] session that actually works
-- [] Configure VS Code & extensions if needed
+- [x] Configure VS Code & extensions if needed
 - [] Figure out separate profile for Mixxx
-- [] Turn off cmp for markdown as it's annoying
+- [x] Turn off cmp for markdown as it's annoying
+- [] Hook up to external display
+- [] Have a shell that uses vim motions better
 
 Think we're pretty close to be honest -
 

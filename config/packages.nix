@@ -10,8 +10,6 @@
       wget
 
       # manim
-      # ffmpeg
-      # manim
       vlc
 
       # random
@@ -44,6 +42,7 @@
       # apps
       discord
       telegram-desktop
+      whatsapp-for-linux
 
       # utilities
       wl-clipboard

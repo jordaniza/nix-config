@@ -4,7 +4,7 @@
   ...
 }: {
   programs.bash = {
-    enable = true;
+    enable = false;
     shellAliases = {
       ls = "lfcd";
       rm = "echo '[INFO]: using trash-cli to remove files\n' && trash";
