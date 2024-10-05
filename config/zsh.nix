@@ -27,6 +27,7 @@
     };
 
     shellAliases = {
+      ssh-dt = "kitty +kitten ssh jordan@dt";
       whatsapp = "whatsapp-for-linux";
       ls = "lfcd";
       rm = "echo '[INFO]: using trash-cli to remove files\n' && trash";
