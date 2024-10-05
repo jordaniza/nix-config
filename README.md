@@ -88,7 +88,8 @@ There's a flake that takes care of the forge installation that's been added to f
 On a fresh profile, there are some manual steps you'll need to take:
 
 - [] Setup Hardware config for the specific machine
-  - [] There are sample config files in the [Hardware directory](./hardware)
+  - [] There are sample config files in the [Hardware directory](./devices)
+  - [] You need to add the /etc/machine_id to flake.nix to dynamically switch
 - [] Sync Brave profiles -> easiest to do this manually and takes a few minutes
 - [] Authorize Bitwarden, Github
 - [] Login to Google accounts where relevant

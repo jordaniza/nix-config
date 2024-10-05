@@ -28,23 +28,24 @@
 
     # detect the device for hardware specific stuff
     # Fetch the machine-id from /etc/machine-id
-    machineId = builtins.readFile "/etc/machine-id";
+    machineId = builtins.replaceStrings ["\n"] [""] (builtins.readFile "/etc/machine-id");
 
     # Determine the correct hardware configuration based on machine-id
-    hardwareConfig =
+    hardwareConfig = (
       if machineId == "be2ddb959d5646dfb65446e0b9be05ed"
       then
         (
           builtins.trace "Machine ID: ${machineId}, using desktop configuration"
-          ./devices/desktop-hardware-configuration.nix
+          ./devices/desktop.nix
         )
       else if machineId == "your-laptop-machine-id"
       then
         (
           builtins.trace "Machine ID: ${machineId}, using laptop configuration"
-          ./devices/laptop-hardware-configuration.nix
+          ./devices/laptop.nix
         )
-      else abort "Unknown machine-id: ${machineId}";
+      else abort "Unknown machine-id: ${machineId}"
+    );
 
     # import foundry related utilities
     foundry-bin = import ./foundry-bin {inherit pkgs;};
