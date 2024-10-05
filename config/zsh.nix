@@ -27,6 +27,8 @@
     };
 
     shellAliases = {
+      cd = "z";
+      cat = "bat";
       ssh-dt = "kitty +kitten ssh jordan@dt";
       whatsapp = "whatsapp-for-linux";
       ls = "lfcd";

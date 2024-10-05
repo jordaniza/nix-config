@@ -13,6 +13,9 @@
     (import ./config/nixvim {inherit config pkgs;})
     (import ./config/vscode {inherit config pkgs;})
     (import ./config/tmux.nix {inherit config pkgs;})
+    (import ./config/bat.nix {inherit config pkgs;})
+    (import ./config/fzf.nix {inherit config pkgs;})
+    (import ./config/zoxide.nix {inherit config pkgs;})
     ./config/kitty.nix
     ./config/ssh.nix
   ];
