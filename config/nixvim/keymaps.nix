@@ -200,7 +200,7 @@
   # buffer navigation
   {
     mode = "n";
-    key = "<C-M-l>";
+    key = "<A-l>";
     action = ":BufferLineCycleNext<CR>";
     options = {
       noremap = true;
@@ -211,7 +211,7 @@
 
   {
     mode = "n";
-    key = "<C-M-h>";
+    key = "<A-h>";
     action = ":BufferLineCyclePrev<CR>";
     options = {
       noremap = true;

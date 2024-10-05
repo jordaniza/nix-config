@@ -1,10 +1,9 @@
 This is a bit of a primer on the nix stuff. I'm sure there's a lot here that's wrong but we can learn as we go!
 
 - [] Crypto (might want to do manually):
-  - Frame
-  - Trezor Suite
-  - Ledger
   - udev rules
+  - Suites
+  - XX Wallet might be best
 - [] Configure user profile
 - [] Background image
   - copy across
@@ -23,8 +22,16 @@ This is a bit of a primer on the nix stuff. I'm sure there's a lot here that's w
 - [x] Configure VS Code & extensions if needed
 - [] Figure out separate profile for Mixxx
 - [x] Turn off cmp for markdown as it's annoying
-- [] Hook up to external display
+- [x] Hook up to external display
 - [] Have a shell that uses vim motions better
+  - [] zsh
+  - [] tmux
+
+## Ultimate workflow
+
+## Ricing
+
+Once the workflow is sorted with gnome for things like tailscale and tmux, we can explore using hyprland and enable vim motions across the whole VM.
 
 Think we're pretty close to be honest -
 

@@ -82,8 +82,16 @@
     enable = true;
   };
 
-  auto-save = {
+  auto-session = {
     enable = true;
+    bypassSessionSaveFileTypes = [
+      "nvim-tree"
+    ];
+    autoSave.enabled = true;
+    autoRestore.enabled = true;
+    autoSession = {
+      enableLastSession = true;
+    };
   };
 
   comment = {

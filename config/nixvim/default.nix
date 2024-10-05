@@ -18,6 +18,9 @@ in {
       relativenumber = true;
       shiftwidth = 2;
       showtabline = 2;
+      directory = "~/.local/share/nvim/swap//";
+      undodir = "~/.local/share/nvim/undo//";
+      undofile = true;
     };
 
     # share clipboard with the os

@@ -81,3 +81,14 @@ require("bufferline").setup({
 		always_show_bufferline = false,
 	},
 })
+
+-- dont open a blank tree automatically
+require("auto-session").setup({
+	post_restore_cmds = {
+		function()
+			local nvim_tree_api = require("nvim-tree.api")
+			nvim_tree_api.tree.open() -- Open Nvim Tree
+			nvim_tree_api.tree.reload() -- Reload the tree
+		end,
+	},
+})
