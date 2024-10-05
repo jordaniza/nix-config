@@ -26,6 +26,22 @@
   # Enable networking
   networking.networkmanager.enable = true;
 
+  # tailscale
+  services.tailscale = {
+    enable = true;
+  };
+
+  # magic dns with tailscale
+  # https://tailscale.com/kb/1063/install-nixos
+  networking.nameservers = [
+    "100.100.100.100" # default
+    "149.112.112.112" # du
+    "9.9.9.9" # quad9
+    "1.1.1.1" # cloudflare
+    "8.8.8.8" # google
+  ];
+  networking.search = ["kudu-catla.ts.net"];
+
   # Set your time zone.
   time.timeZone = "Asia/Dubai";
 
@@ -134,7 +150,6 @@
 
   # Enable touchpad support (enabled default in most desktopManager).
   # services.xserver.libinput.enable = true;
-
   users.groups.keyd = {}; # Create the keyd group
 
   # Define a user account. Manage user-based packages in home.nix
