@@ -18,7 +18,7 @@
     options = {
       noremap = true;
       silent = true;
-      desc = "Move to right window";
+      desc = "Move to right split";
     };
   }
 
@@ -29,7 +29,7 @@
     options = {
       noremap = true;
       silent = true;
-      desc = "Move to left window";
+      desc = "Move to left split";
     };
   }
 
