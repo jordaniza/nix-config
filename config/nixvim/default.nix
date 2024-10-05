@@ -1,4 +1,8 @@
-{pkgs, ...}: let
+{
+  config,
+  pkgs,
+  ...
+}: let
   extraConfig = builtins.readFile ./lua/extraConfig.lua;
 in {
   # neovim w. nixvim
@@ -18,8 +22,8 @@ in {
       relativenumber = true;
       shiftwidth = 2;
       showtabline = 2;
-      directory = "~/.local/share/nvim/swap//";
-      undodir = "~/.local/share/nvim/undo//";
+      directory = "${config.home.homeDirectory}/.local/share/nvim/swap//";
+      undodir = "${config.home.homeDirectory}/.local/share/nvim/undo//";
       undofile = true;
     };
 

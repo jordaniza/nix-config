@@ -3,6 +3,11 @@
   # environment.
   home.packages = with pkgs;
     [
+      # hardware
+      lm_sensors
+      inxi
+      pciutils
+
       # cli utils
       lf
       trash-cli
