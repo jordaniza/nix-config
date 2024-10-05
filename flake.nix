@@ -38,7 +38,7 @@
           builtins.trace "Machine ID: ${machineId}, using desktop configuration"
           ./devices/desktop.nix
         )
-      else if machineId == "your-laptop-machine-id"
+      else if machineId == "a8bdaefc14bf4f0aa5d96468ceb313d9"
       then
         (
           builtins.trace "Machine ID: ${machineId}, using laptop configuration"
