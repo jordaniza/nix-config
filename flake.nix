@@ -30,22 +30,27 @@
     # Fetch the machine-id from /etc/machine-id
     machineId = builtins.replaceStrings ["\n"] [""] (builtins.readFile "/etc/machine-id");
 
-    # Determine the correct hardware configuration based on machine-id
-    hardwareConfig = (
+    # Determine the device based on the machine-id from /etc/machine-id
+    device = (
       if machineId == "be2ddb959d5646dfb65446e0b9be05ed"
       then
         (
           builtins.trace "Machine ID: ${machineId}, using desktop configuration"
-          ./devices/desktop.nix
+          "desktop"
         )
       else if machineId == "a8bdaefc14bf4f0aa5d96468ceb313d9"
       then
         (
           builtins.trace "Machine ID: ${machineId}, using laptop configuration"
-          ./devices/laptop.nix
+          "laptop"
         )
       else abort "Unknown machine-id: ${machineId}"
     );
+
+    hardwareConfig =
+      if device == "desktop"
+      then ./devices/desktop.nix
+      else ./devices/laptop.nix;
 
     # import foundry related utilities
     foundry-bin = import ./foundry-bin {inherit pkgs;};
@@ -83,7 +88,7 @@
     };
 
     nixosConfigurations.default = nixpkgs.lib.nixosSystem {
-      specialArgs = {inherit inputs;};
+      specialArgs = {inherit inputs device;};
       modules = [
         hardwareConfig
         ./configuration.nix
