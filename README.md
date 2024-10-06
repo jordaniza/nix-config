@@ -24,18 +24,18 @@ This is a bit of a primer on the nix stuff. I'm sure there's a lot here that's w
 - [x] Turn off cmp for markdown as it's annoying
 - [x] Hook up to external display
 - [] Have a shell that uses vim motions better
-  - [] zsh
-  - [] tmux
+  - [] zsh - need to set fg
+  - [x] tmux
+- [] ssh
+  - [] Good local ssh setup
+  - [] Prevent standby
+  - [] change hostnames to make it a bit easier
 
 ## Ultimate workflow
 
 ## Ricing
 
 Once the workflow is sorted with gnome for things like tailscale and tmux, we can explore using hyprland and enable vim motions across the whole VM.
-
-Think we're pretty close to be honest -
-
-Some tweaks you can do
 
 # BASICS
 

@@ -68,6 +68,7 @@
 
     # gnome support
     # if you migrate from kde cursor theme might be set to breeze
+
     # check with `dconf read /org/gnome/desktop/interface/cursor-theme`
     # and if it's wrong reset by using `dconf rest (same path as above)`
     displayManager.gdm.enable = true;
@@ -150,12 +151,20 @@
   };
 
   # if on desktop - prevent suspension so we can ssh into it
-  services.logind = {
-    extraConfig = ''
-             IdleAction=ignore
-      InhibitDelayMaxSec=5
-    '';
-  };
+  services.logind =
+    if device == "desktop"
+    then {
+      extraConfig = ''
+        IdleAction=ignore
+         IdleActionSec=0
+         InhibitDelayMaxSec=0
+         HandleLidSwitch=ignore
+         HandleLidSwitchDocked=ignore
+         HandleSuspendKey=ignore
+         HandleHibernateKey=ignore
+      '';
+    }
+    else {};
 
   # Enable touchpad support (enabled default in most desktopManager).
   # services.xserver.libinput.enable = true;
