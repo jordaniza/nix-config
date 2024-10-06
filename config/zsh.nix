@@ -57,9 +57,9 @@
       }
 
       if [[ -n "$SSH_CONNECTION" ]]; then
-        export PROMPT="(ssh) %n@%m %~ %# "
+        export PROMPT="(ssh) %n@%m %~ ->> "
       else
-        export PROMPT="%n@%m %~ %# "
+        export PROMPT="%n@%m %~ ->> "
       fi
     '';
   };
