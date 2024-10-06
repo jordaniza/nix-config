@@ -52,9 +52,15 @@
       export PATH="${config.home.homeDirectory}/.npm-packages/bin:${pkgs.nodejs}/bin:$PATH";
       export NODE_PATH="${config.home.homeDirectory}/.npm-packages/lib/node_modules";
 
-                    lfcd () {
-               cd "$(command lf -print-last-dir "$@")"
-                    }
+      lfcd () {
+        cd "$(command lf -print-last-dir "$@")"
+      }
+
+      if [[ -n "$SSH_CONNECTION" ]]; then
+        export PROMPT="(ssh) %n@%m %~ %# "
+      else
+        export PROMPT="%n@%m %~ %# "
+      fi
     '';
   };
 }
