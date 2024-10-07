@@ -9,11 +9,15 @@ local configs = require("lspconfig.configs")
 configs.solidity = {
 	default_config = {
 		cmd = { "nomicfoundation-solidity-language-server", "--stdio" },
-		-- experimenting with increaing the max-old-space-size
+		--		experimenting with increaing the max-old-space-size
 		-- cmd = {
 		-- 	"node",
 		-- 	"--max-old-space-size=8912",
 		-- 	"/home/jordan/.npm-packages/lib/node_modules/@nomicfoundation/solidity-language-server",
+		-- 	"--stdio",
+		-- },
+		-- cmd = {
+		-- 	"/home/jordan/Documents/dev/crypto/investigations/hardhat-vscode/server/out/index.js",
 		-- 	"--stdio",
 		-- },
 		filetypes = { "solidity" },

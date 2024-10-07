@@ -9,6 +9,7 @@
 
     # floats you can declare here so probably easiest to do it all here
     extraConfig = ''
+      disambiguate_escape_codes yes
       map space begin-selection
       map enter copy-to-clipboard
       background_opacity 0.9

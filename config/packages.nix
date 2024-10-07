@@ -34,6 +34,7 @@
       # editors
       vscode
       gnome.dconf-editor
+      gnome.gnome-tweaks
 
       # languages
       nodejs_22

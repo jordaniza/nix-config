@@ -6,10 +6,8 @@
   programs.zsh = {
     enable = true;
     enableCompletion = true;
-    #autosuggestions.enable = true;
 
     syntaxHighlighting.enable = true;
-
     plugins = [
       {
         name = "vi-mode";
@@ -21,8 +19,9 @@
     zplug = {
       enable = true;
       plugins = [
-        {name = "zsh-users/zsh-autosuggestions";}
-        # {name = "jeffreytse/zsh-vi-mode";}
+        {
+          name = "zsh-users/zsh-autosuggestions";
+        }
       ];
     };
 
@@ -46,6 +45,13 @@
       fb = "forge build";
       # neofetch = "fastfetch";
     };
+
+    initExtraFirst = ''
+      function zvm_config() {
+        ZVM_READKEY_ENGINE=$ZVM_READKEY_ENGINE_ZLE
+      }
+    '';
+
     initExtra = ''
       bindkey '^I' autosuggest-accept
       unset SSH_ASKPASS
@@ -61,6 +67,9 @@
       else
         export PROMPT="%n@%m %~ ->> "
       fi
+
+      zvm_after_init_commands+=('bindkey -M viins "gf" zvm_exit_insert_mode')
+
     '';
   };
 }
