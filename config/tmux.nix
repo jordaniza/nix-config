@@ -34,6 +34,7 @@
       bind s split-window -v  -c "#{pane_current_path}"
 
 
+      bind-key z resize-pane -Z
 
       unbind ]
       bind a copy-mode

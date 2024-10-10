@@ -109,6 +109,10 @@
           control = {
             "space" = "backspace";
           };
+
+          alt = {
+            "space" = "enter";
+          };
         };
       };
     };
@@ -134,7 +138,7 @@
   security.rtkit.enable = true;
   security.sudo = {
     enable = true;
-    extraConfig = "Defaults timestamp_timeout=10";
+    extraConfig = "Defaults timestamp_timeout=30";
   };
 
   services.pipewire = {

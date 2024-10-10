@@ -13,6 +13,7 @@
       trash-cli
       curl
       wget
+      gnumake
 
       # manim
       vlc

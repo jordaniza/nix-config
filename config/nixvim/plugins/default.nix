@@ -78,10 +78,6 @@
     enable = true;
   };
 
-  lsp-lines = {
-    enable = true;
-  };
-
   auto-session = {
     enable = true;
     bypassSessionSaveFileTypes = [
