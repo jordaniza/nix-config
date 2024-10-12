@@ -1,16 +1,22 @@
 {pkgs, ...}: {
   conform-nvim = import ./conform.nix;
+
   lsp = import ./lsp.nix;
 
   cmp = {
     enable = true;
     settings = {
+      mapping = {
+        __raw = ''
+          cmp.mapping.preset.insert({
+            ['<C-n>'] = cmp.mapping(cmp.mapping.select_next_item()),
+            ['<C-p>'] = cmp.mapping(cmp.mapping.select_prev_item()),
+          })
+        '';
+      };
       sources = [
         {
           name = "nvim_lsp";
-        }
-        {
-          name = "luasnip";
         }
         {
           name = "path";
@@ -25,16 +31,16 @@
   cmp-nvim-lsp = {
     enable = true;
   };
+
   cmp-buffer = {
     enable = true;
   };
+
   cmp-path = {
     enable = true;
   };
+
   cmp-cmdline = {
-    enable = true;
-  };
-  luasnip = {
     enable = true;
   };
 

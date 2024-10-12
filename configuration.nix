@@ -18,6 +18,10 @@
   boot.loader.efi.canTouchEfiVariables = true;
 
   networking.hostName = "nixos"; # Define your hostname.
+
+  networking.extraHosts = ''
+    217.79.240.58  api.etherscan.io
+  '';
   # networking.wireless.enable = true;  # Enables wireless support via wpa_supplicant.
 
   # Configure network proxy if necessary
