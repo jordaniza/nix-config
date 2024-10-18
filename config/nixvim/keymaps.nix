@@ -32,7 +32,7 @@
       desc = "Move to left split";
     };
   }
-
+  #
   # clear highlight with leader /
   {
     mode = "n";
@@ -223,7 +223,7 @@
   {
     mode = "n";
     key = "<C-x>";
-    action = ":bd<CR>";
+    action = ":bp\|bd #<CR>";
     options = {
       noremap = true;
       silent = true;
@@ -262,6 +262,29 @@
       noremap = true;
       silent = true;
       desc = "Save file";
+    };
+  }
+
+  # enable copilot with leader ce and disable with leader cd
+  {
+    mode = "n";
+    key = "<leader>ce";
+    action = "<cmd>Copilot enable<CR>";
+    options = {
+      noremap = true;
+      silent = true;
+      desc = "Enable Copilot";
+    };
+  }
+
+  {
+    mode = "n";
+    key = "<leader>cd";
+    action = "<cmd>Copilot disable<CR>";
+    options = {
+      noremap = true;
+      silent = true;
+      desc = "Disable Copilot";
     };
   }
 ]

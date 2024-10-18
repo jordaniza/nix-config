@@ -7,6 +7,7 @@
       lm_sensors
       inxi
       pciutils
+      pavucontrol
 
       # cli utils
       lf
