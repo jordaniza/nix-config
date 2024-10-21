@@ -96,3 +96,24 @@ require("auto-session").setup({
 		end,
 	},
 })
+
+-- when wrapped use visual lines for movement
+vim.api.nvim_create_augroup("WrapCursorMovement", {})
+
+vim.api.nvim_create_autocmd("OptionSet", {
+	pattern = "wrap",
+	group = "WrapCursorMovement",
+	callback = function()
+		vim.api.nvim_set_keymap("n", "j", "gj", { noremap = true, silent = true })
+		vim.api.nvim_set_keymap("n", "k", "gk", { noremap = true, silent = true })
+	end,
+})
+
+vim.api.nvim_create_autocmd("OptionSet", {
+	pattern = "nowrap",
+	group = "WrapCursorMovement",
+	callback = function()
+		vim.api.nvim_set_keymap("n", "j", "j", { noremap = true, silent = true })
+		vim.api.nvim_set_keymap("n", "k", "k", { noremap = true, silent = true })
+	end,
+})
