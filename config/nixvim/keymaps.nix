@@ -287,4 +287,25 @@
       desc = "Disable Copilot";
     };
   }
+  {
+    mode = "n";
+    key = "<leader>b";
+    action = "^";
+    options = {
+      noremap = true;
+      silent = true;
+      desc = "Go to beginning of line";
+    };
+  }
+
+  {
+    mode = "n";
+    key = "<leader>e";
+    action = "$";
+    options = {
+      noremap = true;
+      silent = true;
+      desc = "Go to end of line";
+    };
+  }
 ]
