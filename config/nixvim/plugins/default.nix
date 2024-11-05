@@ -11,6 +11,7 @@
           cmp.mapping.preset.insert({
             ['<C-n>'] = cmp.mapping(cmp.mapping.select_next_item()),
             ['<C-p>'] = cmp.mapping(cmp.mapping.select_prev_item()),
+            ['<CR>'] = cmp.mapping.confirm({ behavior = cmp.ConfirmBehavior.Insert, select = true })
           })
         '';
       };
