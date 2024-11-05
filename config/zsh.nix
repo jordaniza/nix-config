@@ -29,7 +29,7 @@
       cd = "z";
       cat = "bat";
       ssh-dt = "kitty +kitten ssh jordan@dt";
-      ssh-local = "ssh -X jordan@192.168.1.238";
+      ssh-local = "kitten ssh jordan@192.168.1.238";
       whatsapp = "whatsapp-for-linux";
       ls = "lfcd";
       rm = "echo '[INFO]: using trash-cli to remove files\n' && trash";

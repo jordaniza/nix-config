@@ -1,9 +1,5 @@
 This is a bit of a primer on the nix stuff. I'm sure there's a lot here that's wrong but we can learn as we go!
 
-- [] Crypto (might want to do manually):
-  - udev rules
-  - Suites
-  - XX Wallet might be best
 - [] Configure user profile
 - [] Background image
   - copy across
@@ -20,15 +16,15 @@ This is a bit of a primer on the nix stuff. I'm sure there's a lot here that's w
   - [x] navigate between windows
   - [] session that actually works
 - [x] Configure VS Code & extensions if needed
-- [] Figure out separate profile for Mixxx
 - [x] Turn off cmp for markdown as it's annoying
 - [x] Hook up to external display
-- [] Have a shell that uses vim motions better
-  - [] zsh - need to set fg
+- [x] Have a shell that uses vim motions better
+  - [x] zsh - need to set fg
   - [x] tmux
-- [] ssh
-  - [] Good local ssh setup
-  - [] Prevent standby
+    - [] Nicer presets for window splits
+- [x] ssh
+  - [x] Good local ssh setup
+  - [x] Prevent standby
   - [] change hostnames to make it a bit easier
 
 ## Ultimate workflow
@@ -91,10 +87,12 @@ On a fresh profile, there are some manual steps you'll need to take:
   - [] There are sample config files in the [Hardware directory](./devices)
   - [] You need to add the /etc/machine_id to flake.nix to dynamically switch
 - [] Sync Brave profiles -> easiest to do this manually and takes a few minutes
-- [] Authorize Bitwarden, Github
+- [] Authorize password managers and logins
 - [] Login to Google accounts where relevant
 - [] Login to copilot using :Copilot
 - [] Install npm globals (TODO: fix [see below](#npm-globals))
+- [] Set ssh config
+- [] Setup and backgrounds or user icons
 
 # NPM Globals
 

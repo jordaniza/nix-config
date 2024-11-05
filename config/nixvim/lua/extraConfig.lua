@@ -1,7 +1,5 @@
 -- extra config that will be imported into nixvim
 
-vim.lsp.set_log_level("debug")
-
 -- lsp for solidity
 local lspconfig = require("lspconfig")
 local configs = require("lspconfig.configs")
