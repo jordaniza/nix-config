@@ -38,6 +38,8 @@
 
       unbind ]
       bind a copy-mode
+
+      bind r command-prompt -I "#W" "rename-window '%%'"
     '';
   };
 }
