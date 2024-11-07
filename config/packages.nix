@@ -10,6 +10,7 @@
       pavucontrol
 
       # cli utils
+      bc
       lf
       trash-cli
       curl
