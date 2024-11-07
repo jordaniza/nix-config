@@ -8,6 +8,7 @@
       inxi
       pciutils
       pavucontrol
+      btop
 
       # cli utils
       lf
