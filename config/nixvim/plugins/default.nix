@@ -74,6 +74,7 @@
     filters = {
       dotfiles = false;
     };
+    updateFocusedFile.enable = true;
   };
 
   # settings are in extraconfig, not sure why it doesn't work for me here
@@ -92,9 +93,6 @@
     ];
     autoSave.enabled = true;
     autoRestore.enabled = true;
-    autoSession = {
-      enableLastSession = true;
-    };
   };
 
   comment = {
