@@ -48,7 +48,7 @@
   networking.search = ["kudu-catla.ts.net"];
 
   # Set your time zone.
-  time.timeZone = "Asia/Bangkok";
+  time.timeZone = "Asia/Dubai";
 
   # Select internationalisation properties.
   i18n.defaultLocale = "en_US.UTF-8";

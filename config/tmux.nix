@@ -40,6 +40,7 @@
       bind a copy-mode
 
       bind r command-prompt -I "#W" "rename-window '%%'"
+      set-window-option -g xterm-keys on
     '';
   };
 }
