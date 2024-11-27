@@ -40,7 +40,6 @@
       bind a copy-mode
 
       bind r command-prompt -I "#W" "rename-window '%%'"
-      set-option -g default-terminal "screen-256color"
     '';
   };
 }
