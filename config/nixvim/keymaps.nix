@@ -47,16 +47,16 @@
 
   # code editing
 
-  {
-    mode = "n";
-    key = "<leader>i";
-    action = "<cmd>lua vim.diagnostic.open_float()<CR>";
-    options = {
-      desc = "Highlight diagnostic";
-      noremap = true;
-      silent = true;
-    };
-  }
+  # {
+  #   mode = "n";
+  #   key = "<leader>i";
+  #   action = "<cmd>lua vim.diagnostic.open_float()<CR>";
+  #   options = {
+  #     desc = "Highlight diagnostic";
+  #     noremap = true;
+  #     silent = true;
+  #   };
+  # }
 
   # tree
   {

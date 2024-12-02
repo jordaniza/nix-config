@@ -115,3 +115,44 @@ vim.api.nvim_create_autocmd("OptionSet", {
 		vim.api.nvim_set_keymap("n", "k", "k", { noremap = true, silent = true })
 	end,
 })
+
+local function show_priority_diagnostic_or_hover()
+	local pos = vim.api.nvim_win_get_cursor(0)
+	local line = pos[1] - 1
+	local col = pos[2]
+
+	-- Get diagnostics for the current line
+	local diagnostics = vim.diagnostic.get(0, { lnum = line })
+
+	if #diagnostics > 0 then
+		-- Sort diagnostics by severity (lower severity number is higher priority)
+		table.sort(diagnostics, function(a, b)
+			return a.severity < b.severity
+		end)
+
+		-- Find the highest-priority diagnostic covering the cursor
+		for _, diag in ipairs(diagnostics) do
+			if col >= diag.col and col <= diag.end_col then
+				-- Sanitize multiline diagnostic messages
+				local sanitized_message = vim.split(diag.message or "", "\n", { plain = true })
+
+				-- Open a float with diagnostic information, retaining colors
+				vim.diagnostic.open_float(0, {
+					scope = "cursor",
+					focusable = false,
+					header = "",
+					prefix = "",
+					source = false,
+					severity_sort = true,
+					close_events = { "CursorMoved", "InsertEnter" },
+				})
+				return
+			end
+		end
+	end
+
+	-- Fallback to LSP hover if no relevant diagnostics are found
+	vim.lsp.buf.hover()
+end
+
+vim.keymap.set("n", "<leader>i", show_priority_diagnostic_or_hover, { noremap = true, silent = true })
