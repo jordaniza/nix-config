@@ -17,6 +17,7 @@
       curl
       wget
       gnumake
+      jq
 
       # manim
       vlc

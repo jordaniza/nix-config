@@ -308,4 +308,14 @@
       desc = "Go to end of line";
     };
   }
+  {
+    mode = "n";
+    key = "<leader>lr";
+    action = ":LspRestart<CR>";
+    options = {
+      noremap = true;
+      silent = true;
+      desc = "Restart LSP";
+    };
+  }
 ]
