@@ -94,6 +94,7 @@
       blur-my-shell
       gtile
       clipboard-history
+      appindicator
     ])
     ++ (
       with pkgs.nodePackages; [

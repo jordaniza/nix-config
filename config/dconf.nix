@@ -63,6 +63,7 @@
           burn-my-windows.extensionUuid
           clipboard-history.extensionUuid
           gtile.extensionUuid
+          appindicator.extensionUuid
         ];
       };
 
