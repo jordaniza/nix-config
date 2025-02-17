@@ -18,9 +18,7 @@
       wget
       gnumake
       jq
-
-      # manim
-      vlc
+      tree
 
       # random
       # fastfetch

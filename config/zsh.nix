@@ -35,7 +35,7 @@
       rm = "echo '[INFO]: using trash-cli to remove files\n' && trash";
       vim = "nvim";
       reload = "source ~/.zshrc";
-      nixup = "sudo nixos-rebuild switch --flake ~/.nix#default --impure";
+      nixup = "sudo nixos-rebuild switch --flake ~/.nix#default --impure && reload";
       nixedit = "cd ~/.nix && nvim";
       dev = "cd ~/Documents/dev/ && ls";
       crypto = "cd ~/Documents/dev/crypto && ls";
