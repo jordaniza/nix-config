@@ -48,8 +48,10 @@
       ga = "git add";
       gaa = "git add .";
       gc = "git commit -m";
-      gpsh = "git push origin";
-      gpll = "git pull origin";
+      gpsho = "git push origin";
+      gpsh = "git push";
+      gpllo = "git pull origin";
+      gpll = "git pull";
       # neofetch = "fastfetch";
     };
 
