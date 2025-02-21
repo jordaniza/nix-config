@@ -44,7 +44,9 @@
       ft = "forge test";
       fs = "forge script";
       fb = "forge build";
-      gs = "git status";
+      gst = "git status";
+      gsw = "git switch";
+      gchb = "git checkout -b";
       ga = "git add";
       gaa = "git add .";
       gc = "git commit -m";

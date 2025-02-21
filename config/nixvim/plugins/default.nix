@@ -45,6 +45,10 @@
     enable = true;
   };
 
+  diffview = {
+    enable = true;
+  };
+
   telescope = {
     enable = true;
     settings = {
