@@ -44,6 +44,12 @@
       ft = "forge test";
       fs = "forge script";
       fb = "forge build";
+      gs = "git status";
+      ga = "git add";
+      gaa = "git add .";
+      gc = "git commit -m";
+      gpsh = "git push origin";
+      gpll = "git pull origin";
       # neofetch = "fastfetch";
     };
 
