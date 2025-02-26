@@ -35,15 +35,15 @@
       rm = "echo '[INFO]: using trash-cli to remove files\n' && trash";
       vim = "nvim";
       reload = "source ~/.zshrc";
+      rl = "reload";
       nixup = "sudo nixos-rebuild switch --flake ~/.nix#default --impure && reload";
-      nixedit = "cd ~/.nix && nvim";
-      dev = "cd ~/Documents/dev/ && ls";
-      crypto = "cd ~/Documents/dev/crypto && ls";
-      aragon = "cd ~/Documents/dev/crypto/aragon/ && ls";
+      nu = "nixup";
       clearswap = "rm -rf ~/.local/state/nvim/swap/*";
+      # forge commands
       ft = "forge test";
       fs = "forge script";
       fb = "forge build";
+      # git commands
       gst = "git status";
       gsw = "git switch";
       gchb = "git checkout -b";
@@ -54,6 +54,7 @@
       gpsh = "git push";
       gpllo = "git pull origin";
       gpll = "git pull";
+      gbr = "git branch";
       # neofetch = "fastfetch";
     };
 
