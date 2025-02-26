@@ -16,27 +16,38 @@
           "/org/gnome/settings-daemon/plugins/media-keys/custom-keybindings/custom1/"
           "/org/gnome/settings-daemon/plugins/media-keys/custom-keybindings/custom2/"
           "/org/gnome/settings-daemon/plugins/media-keys/custom-keybindings/custom3/"
+          "/org/gnome/settings-daemon/plugins/media-keys/custom-keybindings/custom4/"
         ];
       };
+
       "org/gnome/settings-daemon/plugins/media-keys/custom-keybindings/custom0" = {
         name = "Launch Brave";
         command = "brave";
         binding = "<Super>b";
       };
+
       "org/gnome/settings-daemon/plugins/media-keys/custom-keybindings/custom1" = {
-        name = "Launch Terminal";
-        command = "kitty";
+        name = "Launch Terminal With Tmux Enabled";
+        command = "kitty tmux";
         binding = "<Super>t";
       };
+
       "org/gnome/settings-daemon/plugins/media-keys/custom-keybindings/custom2" = {
         name = "Launch Discord";
         command = "discord";
         binding = "<Super>d";
       };
+
       "org/gnome/settings-daemon/plugins/media-keys/custom-keybindings/custom3" = {
-        name = "Launch VSCode";
-        command = "code";
-        binding = "<Super>c";
+        name = "Launch Brave Profile Default (Work)";
+        command = "brave --profile-directory=\"Default\"";
+        binding = "<Super>w";
+      };
+
+      "org/gnome/settings-daemon/plugins/media-keys/custom-keybindings/custom4" = {
+        name = "Launch Brave Profile 1 (Personal)";
+        command = "brave --profile-directory=\"Profile 1\"";
+        binding = "<Super>e";
       };
 
       "org/gnome/desktop/wm/keybindings" = {
