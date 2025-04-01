@@ -19,6 +19,7 @@
       gnumake
       jq
       tree
+      lsof
 
       # random
       # fastfetch

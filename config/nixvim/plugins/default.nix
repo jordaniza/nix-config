@@ -79,6 +79,9 @@
       dotfiles = false;
     };
     updateFocusedFile.enable = true;
+    actions = {
+      openFile.resizeWindow = false;
+    };
   };
 
   # settings are in extraconfig, not sure why it doesn't work for me here
