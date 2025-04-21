@@ -23,7 +23,6 @@
           pkgs.ripgrep
           pkgs.fzf
           pkgs.zsh
-          pkgs.nixvim
         ];
 
         shellHook = ''
