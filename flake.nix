@@ -14,6 +14,8 @@
       url = "github:nix-community/nixvim/nixos-24.05";
       inputs.nixpkgs.follows = "nixpkgs";
     };
+
+    rust-overlay.url = "github:oxalica/rust-overlay";
   };
 
   outputs = {
@@ -21,10 +23,19 @@
     nixpkgs,
     home-manager,
     nixvim,
+    rust-overlay,
     ...
   } @ inputs: let
     system = "x86_64-linux";
-    pkgs = import nixpkgs {inherit system;};
+    pkgs = import nixpkgs {
+      inherit system;
+      overlays = [
+        rust-overlay.overlays.default
+        (final: prev: {
+          foundry-bin = final.callPackage ./foundry-bin {};
+        })
+      ];
+    };
 
     # detect the device for hardware specific stuff
     # Fetch the machine-id from /etc/machine-id
@@ -82,10 +93,10 @@
         foundry-bin
       ];
     };
-
-    overlay = final: prev: {
-      foundry-bin = final.callPackage ./foundry-bin {};
-    };
+    #
+    # overlay = final: prev: {
+    #   foundry-bin = final.callPackage ./foundry-bin {};
+    # };
 
     nixosConfigurations.default = nixpkgs.lib.nixosSystem {
       specialArgs = {inherit inputs device;};
@@ -94,7 +105,10 @@
         ./configuration.nix
         home-manager.nixosModules.default
         {
-          environment.systemPackages = [foundry-bin];
+          environment.systemPackages = [
+            foundry-bin
+            pkgs.rust-bin.stable.latest.default
+          ];
           home-manager.sharedModules = [nixvim.homeManagerModules.nixvim];
         }
       ];

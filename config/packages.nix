@@ -46,8 +46,6 @@
       yarn
       python3
       gcc
-      cargo
-      rustc
 
       # apps
       discord
@@ -70,7 +68,6 @@
       prettierd
       shfmt
       stylua
-      rustfmt
 
       # keyboard
       keyd
