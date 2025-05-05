@@ -25,25 +25,17 @@
         {
           name = "buffer";
         }
+        {
+          name = "luasnip";
+        }
       ];
     };
   };
-
-  cmp-nvim-lsp = {
-    enable = true;
-  };
-
-  cmp-buffer = {
-    enable = true;
-  };
-
-  cmp-path = {
-    enable = true;
-  };
-
-  cmp-cmdline = {
-    enable = true;
-  };
+  # Completion engine
+  cmp-nvim-lsp.enable = true;
+  cmp-path.enable = true;
+  cmp-buffer.enable = true;
+  cmp_luasnip.enable = true;
 
   diffview = {
     enable = true;

@@ -36,6 +36,7 @@ in {
       nvim-web-devicons
       nvim-lspconfig
       nvim-scrollbar
+      luasnip
     ];
 
     extraConfigLua = extraConfig;

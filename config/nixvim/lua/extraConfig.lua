@@ -7,17 +7,6 @@ local configs = require("lspconfig.configs")
 configs.solidity = {
 	default_config = {
 		cmd = { "nomicfoundation-solidity-language-server", "--stdio" },
-		--		experimenting with increaing the max-old-space-size
-		-- cmd = {
-		-- 	"node",
-		-- 	"--max-old-space-size=8912",
-		-- 	"/home/jordan/.npm-packages/lib/node_modules/@nomicfoundation/solidity-language-server",
-		-- 	"--stdio",
-		-- },
-		-- cmd = {
-		-- 	"/home/jordan/Documents/dev/crypto/investigations/hardhat-vscode/server/out/index.js",
-		-- 	"--stdio",
-		-- },
 		filetypes = { "solidity" },
 		root_dir = lspconfig.util.find_git_ancestor,
 		single_file_support = false,
@@ -156,3 +145,16 @@ local function show_priority_diagnostic_or_hover()
 end
 
 vim.keymap.set("n", "<leader>i", show_priority_diagnostic_or_hover, { noremap = true, silent = true })
+
+-- cmp with luasnip
+-- Nixvim snippets don't seem to work without this additonal config
+local cmp = require("cmp")
+local luasnip = require("luasnip")
+
+cmp.setup({
+	snippet = {
+		expand = function(args)
+			luasnip.lsp_expand(args.body)
+		end,
+	},
+})
