@@ -20,6 +20,7 @@
       jq
       tree
       lsof
+      socat
 
       # random
       # fastfetch

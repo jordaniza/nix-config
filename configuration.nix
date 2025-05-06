@@ -19,8 +19,13 @@
 
   networking.hostName = "nixos"; # Define your hostname.
 
+  # binplorer is related to a supply chain attack on some aragon repos. Don't remove it.
   networking.extraHosts = ''
     217.79.240.58  api.etherscan.io
+    0.0.0.0 binplorer.com
+    0.0.0.0 www.binplorer.com
+    0.0.0.0 api.binplorer.com
+    0.0.0.0 *.binplorer.com
   '';
   # networking.wireless.enable = true;  # Enables wireless support via wpa_supplicant.
 
