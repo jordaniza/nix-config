@@ -1,5 +1,4 @@
-{ pkgs, ... }: 
-{
+{pkgs, ...}: {
   programs.git = {
     enable = true;
     userName = "jordaniza";
@@ -7,9 +6,10 @@
 
     extraConfig = {
       init.defaultBranch = "main";
+      core.editor = "nvim";
       credential.helper = "${
-          pkgs.git.override { withLibsecret = true; }
-        }/bin/git-credential-libsecret";
+        pkgs.git.override {withLibsecret = true;}
+      }/bin/git-credential-libsecret";
     };
   };
 }

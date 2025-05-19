@@ -69,6 +69,8 @@
       unset SSH_ASKPASS
       export PATH="${config.home.homeDirectory}/.npm-packages/bin:${pkgs.nodejs}/bin:$PATH";
       export NODE_PATH="${config.home.homeDirectory}/.npm-packages/lib/node_modules";
+      export EDITOR="nvim";
+      export VISUAL="nvim";
 
       lfcd () {
         cd "$(command lf -print-last-dir "$@")"
