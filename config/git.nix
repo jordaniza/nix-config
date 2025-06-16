@@ -10,6 +10,8 @@
       credential.helper = "${
         pkgs.git.override {withLibsecret = true;}
       }/bin/git-credential-libsecret";
+      user.signingKey = "1AEE1145918186ED";
+      commit.gpgsign = true;
     };
   };
 }

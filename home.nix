@@ -18,6 +18,7 @@
     (import ./config/zoxide.nix {inherit config pkgs;})
     ./config/kitty.nix
     ./config/ssh.nix
+    ./config/gpg-agent.nix
   ];
 
   # Home Manager needs a bit of information about you and the paths it should
