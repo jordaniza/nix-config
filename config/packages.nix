@@ -1,4 +1,6 @@
-{pkgs, ...}: {
+{pkgs, ...}: let
+  python-with-pkgs = import ./pythonPkgs.nix {inherit pkgs;};
+in {
   # The home.packages option allows you to install Nix packages into your
   # environment.
   home.packages = with pkgs;
@@ -45,8 +47,10 @@
       nodejs_22
       bun
       yarn
-      python3
       gcc
+
+      # python packages
+      python-with-pkgs
 
       # apps
       discord
