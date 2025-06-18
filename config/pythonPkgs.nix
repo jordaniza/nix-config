@@ -11,5 +11,6 @@
 in
   unstable.python313.withPackages (ps: [
     ps.llm
-    ps."llm-gemini"
+    ps.llm-gemini
+    ps.llm-anthropic
   ])
