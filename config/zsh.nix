@@ -55,7 +55,9 @@
       gpllo = "git pull origin";
       gpll = "git pull";
       gbr = "git branch";
-      # neofetch = "fastfetch";
+
+      # print last llm log in nicely formatted markdown
+      lll = "llm logs -r | cat --language=markdown";
     };
 
     initExtraFirst = ''
