@@ -78,6 +78,8 @@
         cd "$(command lf -print-last-dir "$@")"
       }
 
+      cl() { cat "$@" | wl-copy; }
+
       if [[ -n "$SSH_CONNECTION" ]]; then
         export PROMPT="(ssh) %n@%m %~ ->> "
       else
