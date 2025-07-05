@@ -5,6 +5,9 @@ in {
   # environment.
   home.packages = with pkgs;
     [
+      # w3
+      trezor-suite
+
       # hardware
       lm_sensors
       inxi

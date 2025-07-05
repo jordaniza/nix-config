@@ -94,6 +94,8 @@
     ];
   };
 
+  services.udev.packages = [pkgs.trezor-udev-rules];
+
   # touchpad and mouse
   services.libinput = {
     enable = true;
