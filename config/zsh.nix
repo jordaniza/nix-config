@@ -73,6 +73,7 @@
       export NODE_PATH="${config.home.homeDirectory}/.npm-packages/lib/node_modules";
       export EDITOR="nvim";
       export VISUAL="nvim";
+      export ZSH_AUTOSUGGEST_HISTORY_IGNORE="?(#c100,)";
 
       lfcd () {
         cd "$(command lf -print-last-dir "$@")"
