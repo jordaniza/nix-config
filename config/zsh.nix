@@ -55,6 +55,7 @@
       gpllo = "git pull origin";
       gpll = "git pull";
       gbr = "git branch";
+      x = "exit";
 
       # print last llm log in nicely formatted markdown
       lll = "llm logs -r | cat --language=markdown";
