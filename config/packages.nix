@@ -23,6 +23,7 @@ in {
       tree
       lsof
       socat
+      copyq
 
       # random
       # fastfetch
