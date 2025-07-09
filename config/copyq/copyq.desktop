@@ -1,0 +1,8 @@
+[Desktop Entry]
+Type=Application
+Exec=env QT_QPA_PLATFORM=xcb copyq
+Hidden=false
+NoDisplay=false
+X-GNOME-Autostart-enabled=true
+Name=CopyQ
+Comment=Clipboard Manager
