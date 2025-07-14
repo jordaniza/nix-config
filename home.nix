@@ -7,7 +7,7 @@
   imports = [
     (import ./config/packages.nix {inherit pkgs;})
     (import ./config/git.nix {inherit pkgs;})
-    (import ./config/dconf.nix {inherit pkgs;})
+    (import ./config/dconf.nix {inherit config pkgs;})
     (import ./config/chromium.nix {inherit pkgs;})
     (import ./config/zsh.nix {inherit config pkgs;})
     (import ./config/nixvim {inherit config pkgs;})
@@ -19,7 +19,7 @@
     ./config/kitty.nix
     ./config/ssh.nix
     ./config/gpg-agent.nix
-    ./config/copyq
+    ./config/shell-scripts
   ];
 
   # Home Manager needs a bit of information about you and the paths it should
@@ -37,14 +37,6 @@
   home.stateVersion = "24.05"; # Please read the comment before changing.
   # Home Manager is pretty good at managing dotfiles. The primary way to manage
   # plain files is through 'home.file'.
-  home.file.".config/autostart/copyq.desktop".text = ''
-
-  '';
-
-  home.file.".local/bin/cq" = {
-    executable = true;
-    # text = '';
-  };
 
   nixpkgs.config.allowUnfree = true;
 

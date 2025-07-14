@@ -1,4 +1,8 @@
-{pkgs, ...}: {
+{
+  pkgs,
+  config,
+  ...
+}: {
   dconf = {
     enable = true;
     settings = {
@@ -33,8 +37,8 @@
       };
 
       "org/gnome/settings-daemon/plugins/media-keys/custom-keybindings/custom2" = {
-        name = "Launch Discord";
-        command = "discord";
+        name = "Launch Slack";
+        command = "${config.home.homeDirectory}/.local/bin/open-slack";
         binding = "<Super>d";
       };
 

@@ -24,6 +24,7 @@ in {
       lsof
       socat
       copyq
+      wmctrl
 
       # random
       # fastfetch
