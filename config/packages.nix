@@ -1,10 +1,22 @@
 {pkgs, ...}: let
-  python-with-pkgs = import ./pythonPkgs.nix {inherit pkgs;};
+  unstable =
+    import (builtins.fetchTarball {
+      url = "https://github.com/NixOS/nixpkgs/archive/4206c4cb56751df534751b058295ea61357bbbaa.tar.gz";
+      sha256 = "11qdsgrzaqmmwmll706q005dbfsfb0h1nhswc4pkldm0hxrlvcal";
+    }) {
+      config.allowUnfree = true;
+    };
+
+  python-with-pkgs = import ./pythonPkgs.nix {inherit pkgs unstable;};
 in {
   # The home.packages option allows you to install Nix packages into your
   # environment.
   home.packages = with pkgs;
     [
+      # unstable
+      python-with-pkgs
+      unstable.claude-code
+
       # hardware
       lm_sensors
       inxi
@@ -50,9 +62,6 @@ in {
       bun
       yarn
       gcc
-
-      # python packages
-      python-with-pkgs
 
       # apps
       discord
