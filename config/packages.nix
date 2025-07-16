@@ -37,6 +37,7 @@ in {
       socat
       copyq
       wmctrl
+      glow
 
       # random
       # fastfetch

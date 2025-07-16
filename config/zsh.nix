@@ -28,7 +28,7 @@
     shellAliases = {
       cd = "z";
       cq = "${config.home.homeDirectory}/.local/bin/cq";
-      cat = "bat";
+      cat = "${config.home.homeDirectory}/.local/bin/bat-or-glow";
       ssh-dt = "kitty +kitten ssh jordan@dt";
       ssh-local = "kitten ssh jordan@192.168.1.238";
       whatsapp = "whatsapp-for-linux";
