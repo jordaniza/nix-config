@@ -53,8 +53,9 @@
   networking.search = ["kudu-catla.ts.net"];
 
   # Set your time zone.
-  time.timeZone = "Asia/Dubai";
-  # time.timeZone = "Europe/London";
+  #time.timeZone = "Asia/Dubai";
+  time.timeZone = "Europe/London";
+  # time.timeZone = "Europe/Paris";
 
   # Select internationalisation properties.
   i18n.defaultLocale = "en_US.UTF-8";
@@ -93,6 +94,8 @@
       xterm
     ];
   };
+
+  services.udev.packages = [pkgs.trezor-udev-rules];
 
   # touchpad and mouse
   services.libinput = {
