@@ -68,6 +68,7 @@ in {
       discord
       telegram-desktop
       whatsapp-for-linux
+      slack
 
       # utilities
       wl-clipboard

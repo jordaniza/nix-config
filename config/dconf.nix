@@ -38,7 +38,7 @@
 
       "org/gnome/settings-daemon/plugins/media-keys/custom-keybindings/custom2" = {
         name = "Launch Slack";
-        command = "${config.home.homeDirectory}/.local/bin/open-slack";
+        command = "slack";
         binding = "<Super>d";
       };
 
