@@ -3,7 +3,6 @@
 
   inputs = {
     nixpkgs.url = "github:nixos/nixpkgs/nixos-25.05";
-
     home-manager = {
       url = "github:nix-community/home-manager/release-25.05";
       inputs.nixpkgs.follows = "nixpkgs";
@@ -63,41 +62,40 @@
       if device == "desktop"
       then ./devices/desktop.nix
       else ./devices/laptop.nix;
-
     # import foundry related utilities
-    # foundry-bin = import ./foundry-bin {inherit pkgs;};
+    foundry-bin = import ./foundry-bin {inherit pkgs;};
   in {
     # setup foundry (temporarily disabled)
-    # apps = {
-    #   anvil = {
-    #     type = "app";
-    #     program = "${foundry-bin}/bin/anvil";
-    #   };
-    #   chisel = {
-    #     type = "app";
-    #     program = "${foundry-bin}/bin/chisel";
-    #   };
-    #   cast = {
-    #     type = "app";
-    #     program = "${foundry-bin}/bin/cast";
-    #   };
-    #   forge = {
-    #     type = "app";
-    #     program = "${foundry-bin}/bin/forge";
-    #   };
-    # };
+    apps = {
+      anvil = {
+        type = "app";
+        program = "${foundry-bin}/bin/anvil";
+      };
+      chisel = {
+        type = "app";
+        program = "${foundry-bin}/bin/chisel";
+      };
+      cast = {
+        type = "app";
+        program = "${foundry-bin}/bin/cast";
+      };
+      forge = {
+        type = "app";
+        program = "${foundry-bin}/bin/forge";
+      };
+    };
 
-    # defaultPackage = foundry-bin;
+    defaultPackage = foundry-bin;
 
-    # devShell = pkgs.mkShell {
-    #   buildInputs = [
-    #     foundry-bin
-    #   ];
-    # };
-    #
-    # overlay = final: prev: {
-    #   foundry-bin = final.callPackage ./foundry-bin {};
-    # };
+    devShell = pkgs.mkShell {
+      buildInputs = [
+        foundry-bin
+      ];
+    };
+
+    overlay = final: prev: {
+      foundry-bin = final.callPackage ./foundry-bin {};
+    };
 
     nixosConfigurations.default = nixpkgs.lib.nixosSystem {
       specialArgs = {inherit inputs device;};
@@ -107,7 +105,7 @@
         home-manager.nixosModules.default
         {
           environment.systemPackages = [
-            # foundry-bin # Temporarily disabled for update
+            foundry-bin
             pkgs.rust-bin.stable.latest.default
           ];
           home-manager.sharedModules = [nixvim.homeManagerModules.nixvim];

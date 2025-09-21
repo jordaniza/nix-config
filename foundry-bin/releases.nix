@@ -5,7 +5,7 @@
   sources = {
     "x86_64-linux" = {
       url = "https://github.com/foundry-rs/foundry/releases/download/stable/foundry_stable_linux_amd64.tar.gz";
-      sha256 = "1yvdcln1nqx6kjpj8lx08cnvdmlc97l8y4h5qrqgppmrn8732ip2";
+      sha256 = "0xabjxr0i7izkizcpxgah72123xcyv4w71kzbqn9rvd8468w4gmp";
     };
     "aarch64-linux" = {
       url = "https://github.com/foundry-rs/foundry/releases/download/stable/foundry_stable_linux_arm64.tar.gz";
