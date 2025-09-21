@@ -18,8 +18,10 @@
     typescriptreact = ["prettier"];
     yaml = ["prettierd" "prettier"];
   };
-  formatOnSave = {
-    lspFallback = true;
-    timeoutMs = 2000;
+  settings = {
+    format_on_save = {
+      lsp_fallback = true;
+      timeout_ms = 2000;
+    };
   };
 }

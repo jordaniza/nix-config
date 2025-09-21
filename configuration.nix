@@ -203,31 +203,26 @@
   };
 
   # exclude gnome packages
-  environment.gnome.excludePackages =
-    (
-      with pkgs; [
-        gnome-photos
-        gnome-tour
-        gnome-text-editor
-      ]
-    )
-    ++ (
-      with pkgs.gnome; [
-        gnome-music
-        gnome-calendar
-        gnome-maps
-        yelp
-        totem
-        gnome-weather
-        geary
-        epiphany
-        gnome-calculator
-        gnome-clocks
-        cheese
-        gnome-contacts
-        simple-scan
-      ]
-    );
+  environment.gnome.excludePackages = (
+    with pkgs; [
+      gnome-photos
+      gnome-tour
+      gnome-text-editor
+      gnome-music
+      gnome-calendar
+      gnome-maps
+      gnome-calculator
+      gnome-clocks
+      gnome-contacts
+      gnome-weather
+      yelp
+      totem
+      geary
+      epiphany
+      cheese
+      simple-scan
+    ]
+  );
 
   # set the zsh shell and set it as the default
   programs.zsh.enable = true;
@@ -253,7 +248,7 @@
   # while this seems like a duplication
   # doesn't seem to work otherwise
   # I guess this is TODO
-  fonts.packages = with pkgs; [nerdfonts];
+  fonts.packages = with pkgs; [nerd-fonts.fira-code];
 
   # Some programs need SUID wrappers, can be configured further or are
   # started in user sessions.
@@ -285,5 +280,5 @@
   # this value at the release version of the first install of this system.
   # Before changing this value read the documentation for this option
   # (e.g. man configuration.nix or on https://nixos.org/nixos/options.html).
-  system.stateVersion = "24.05"; # Did you read the comment?
+  system.stateVersion = "25.05"; # Did you read the comment?
 }

@@ -55,8 +55,8 @@ in {
 
       # editors
       vscode
-      gnome.dconf-editor
-      gnome.gnome-tweaks
+      dconf-editor
+      gnome-tweaks
 
       # languages
       nodejs_22
@@ -78,7 +78,7 @@ in {
       # fonts
       fira-code
       fira-code-symbols
-      nerdfonts
+      nerd-fonts.fira-code
 
       # formatters
       alejandra
@@ -89,12 +89,6 @@ in {
 
       # keyboard
       keyd
-
-      # # It is sometimes useful to fine-tune packages, for example, by applying
-      # # overrides. You can do that directly here, just don't forget the
-      # # parentheses. Maybe you want to install Nerd Fonts with a limited number of
-      # # fonts?
-      (pkgs.nerdfonts.override {fonts = ["FiraCode"];})
 
       # # You can also create simple shell scripts directly inside your
       # # configuration. For example, this adds a command 'my-hello' to your
@@ -117,4 +111,6 @@ in {
         pnpm
       ]
     );
+
+  # fonts.packages = [pkgs.nerd-fonts.fira-code];
 }

@@ -9,6 +9,15 @@ in {
   programs.nixvim = {
     enable = true;
 
+    # as of nix 25.05 nixvim defines its own instance of nixpkgs
+    # so we need to define config settings in 2 places.
+    # as of now this seems to be the only setting so it's not too bad
+    nixpkgs = {
+      config = {
+        allowUnfree = true;
+      };
+    };
+
     globals.mapleader = " ";
 
     keymaps = import ./keymaps.nix;
