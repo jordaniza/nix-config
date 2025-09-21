@@ -7,10 +7,17 @@
   device,
   ...
 }: {
-  imports = [
-    # Include the results of the hardware scan.
-    inputs.home-manager.nixosModules.default
-  ] ++ (if builtins.pathExists ./timezone.nix then [ ./timezone.nix ] else []);
+  imports =
+    [
+      # Include the results of the hardware scan.
+      inputs.home-manager.nixosModules.default
+      # set a timezone like {time.timeZone = "Asia/Dubai";}
+    ]
+    ++ (
+      if builtins.pathExists ./timezone.nix
+      then [./timezone.nix]
+      else []
+    );
 
   # Bootloader.
   boot.loader.systemd-boot.enable = true;
