@@ -31,9 +31,10 @@
       inherit system;
       overlays = [
         rust-overlay.overlays.default
-        (final: prev: {
-          foundry-bin = final.callPackage ./foundry-bin {};
-        })
+        # Temporarily disable foundry-bin for update
+        # (final: prev: {
+        #   foundry-bin = final.callPackage ./foundry-bin {};
+        # })
       ];
     };
 
@@ -64,35 +65,35 @@
       else ./devices/laptop.nix;
 
     # import foundry related utilities
-    foundry-bin = import ./foundry-bin {inherit pkgs;};
+    # foundry-bin = import ./foundry-bin {inherit pkgs;};
   in {
-    # setup foundry
-    apps = {
-      anvil = {
-        type = "app";
-        program = "${foundry-bin}/bin/anvil";
-      };
-      chisel = {
-        type = "app";
-        program = "${foundry-bin}/bin/chisel";
-      };
-      cast = {
-        type = "app";
-        program = "${foundry-bin}/bin/cast";
-      };
-      forge = {
-        type = "app";
-        program = "${foundry-bin}/bin/forge";
-      };
-    };
+    # setup foundry (temporarily disabled)
+    # apps = {
+    #   anvil = {
+    #     type = "app";
+    #     program = "${foundry-bin}/bin/anvil";
+    #   };
+    #   chisel = {
+    #     type = "app";
+    #     program = "${foundry-bin}/bin/chisel";
+    #   };
+    #   cast = {
+    #     type = "app";
+    #     program = "${foundry-bin}/bin/cast";
+    #   };
+    #   forge = {
+    #     type = "app";
+    #     program = "${foundry-bin}/bin/forge";
+    #   };
+    # };
 
-    defaultPackage = foundry-bin;
+    # defaultPackage = foundry-bin;
 
-    devShell = pkgs.mkShell {
-      buildInputs = [
-        foundry-bin
-      ];
-    };
+    # devShell = pkgs.mkShell {
+    #   buildInputs = [
+    #     foundry-bin
+    #   ];
+    # };
     #
     # overlay = final: prev: {
     #   foundry-bin = final.callPackage ./foundry-bin {};
@@ -106,7 +107,7 @@
         home-manager.nixosModules.default
         {
           environment.systemPackages = [
-            foundry-bin
+            # foundry-bin # Temporarily disabled for update
             pkgs.rust-bin.stable.latest.default
           ];
           home-manager.sharedModules = [nixvim.homeManagerModules.nixvim];
