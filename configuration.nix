@@ -9,9 +9,8 @@
 }: {
   imports = [
     # Include the results of the hardware scan.
-    #    ./hardware-configuration.nix
     inputs.home-manager.nixosModules.default
-  ];
+  ] ++ (if builtins.pathExists ./timezone.nix then [ ./timezone.nix ] else []);
 
   # Bootloader.
   boot.loader.systemd-boot.enable = true;
@@ -53,9 +52,7 @@
   networking.search = ["kudu-catla.ts.net"];
 
   # Set your time zone.
-  #time.timeZone = "Asia/Dubai";
-  time.timeZone = "Europe/London";
-  # time.timeZone = "Europe/Paris";
+  # Time zone is now configured in timezone.nix (if it exists)
 
   # Select internationalisation properties.
   i18n.defaultLocale = "en_US.UTF-8";
@@ -94,8 +91,6 @@
       xterm
     ];
   };
-
-  services.udev.packages = [pkgs.trezor-udev-rules];
 
   # touchpad and mouse
   services.libinput = {
