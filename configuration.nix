@@ -38,7 +38,7 @@
 
   # tailscale
   services.tailscale = {
-    enable = true;
+    enable = false;
   };
 
   # magic dns with tailscale

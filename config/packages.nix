@@ -54,9 +54,9 @@ in {
       kitty
 
       # editors
-      vscode
       dconf-editor
       gnome-tweaks
+      obsidian
 
       # languages
       nodejs_22

@@ -16,6 +16,7 @@
     (import ./config/bat.nix {inherit config pkgs;})
     (import ./config/fzf.nix {inherit config pkgs;})
     (import ./config/zoxide.nix {inherit config pkgs;})
+    (import ./config/obsidian.nix {inherit config pkgs;})
     ./config/kitty.nix
     ./config/ssh.nix
     ./config/gpg-agent.nix
