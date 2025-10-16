@@ -56,7 +56,6 @@ in {
       # editors
       dconf-editor
       gnome-tweaks
-      obsidian
 
       # languages
       nodejs_22
