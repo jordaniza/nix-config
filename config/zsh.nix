@@ -56,7 +56,7 @@
       gpllo = "git pull origin";
       gpll = "git pull";
       gbr = "git branch";
-      gbrr = ''git branch | grep \* | cut -d "* " -f2'';
+      gbrr = ''git branch | grep \* '';
       x = "exit";
 
       # print last llm log in nicely formatted markdown
