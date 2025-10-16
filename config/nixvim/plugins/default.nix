@@ -43,6 +43,11 @@
 
   telescope = {
     enable = true;
+    extensions.live-grep-args = {
+      enable = true;
+      settings.auto_quoting = true;
+    };
+
     settings = {
       defaults = {
         file_ignore_patterns = [
@@ -57,6 +62,7 @@
       };
     };
   };
+
   harpoon = {
     enable = true;
   };

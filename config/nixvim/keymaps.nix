@@ -83,7 +83,7 @@
   {
     mode = "n";
     key = "<leader>fw";
-    action = "<cmd>lua require('telescope.builtin').live_grep()<CR>";
+    action = "<cmd>lua require('telescope').extensions.live_grep_args.live_grep_args()<CR>";
     options = {
       silent = true;
       desc = "Live grep with Telescope";
