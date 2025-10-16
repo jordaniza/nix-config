@@ -56,42 +56,42 @@
       gpllo = "git pull origin";
       gpll = "git pull";
       gbr = "git branch";
-      gbrr = "git branch | grep \*";
       x = "exit";
 
       # print last llm log in nicely formatted markdown
       lll = "llm logs -r | cat --language=markdown";
     };
 
-    initExtraFirst = ''
-      function zvm_config() {
-        ZVM_READKEY_ENGINE=$ZVM_READKEY_ENGINE_ZLE
-      }
-    '';
+    initContent = pkgs.lib.mkMerge [
+      (pkgs.lib.mkBefore ''
+        function zvm_config() {
+          ZVM_READKEY_ENGINE=$ZVM_READKEY_ENGINE_ZLE
+        }
+      '')
+      ''
+        bindkey '^I' autosuggest-accept
+        unset SSH_ASKPASS
+        export PATH="${config.home.homeDirectory}/.npm-packages/bin:${pkgs.nodejs}/bin:$PATH";
+        export NODE_PATH="${config.home.homeDirectory}/.npm-packages/lib/node_modules";
+        export EDITOR="nvim";
+        export VISUAL="nvim";
+        export ZSH_AUTOSUGGEST_HISTORY_IGNORE="?(#c100,)";
 
-    initExtra = ''
-      bindkey '^I' autosuggest-accept
-      unset SSH_ASKPASS
-      export PATH="${config.home.homeDirectory}/.npm-packages/bin:${pkgs.nodejs}/bin:$PATH";
-      export NODE_PATH="${config.home.homeDirectory}/.npm-packages/lib/node_modules";
-      export EDITOR="nvim";
-      export VISUAL="nvim";
-      export ZSH_AUTOSUGGEST_HISTORY_IGNORE="?(#c100,)";
+        lfcd () {
+          cd "$(command lf -print-last-dir "$@")"
+        }
 
-      lfcd () {
-        cd "$(command lf -print-last-dir "$@")"
-      }
+        cl() { cat "$@" | wl-copy; }
 
-      cl() { cat "$@" | wl-copy; }
+        if [[ -n "$SSH_CONNECTION" ]]; then
+          export PROMPT="(ssh) %n@%m %~ ->> "
+        else
+          export PROMPT="%n@%m %~ ->> "
+        fi
 
-      if [[ -n "$SSH_CONNECTION" ]]; then
-        export PROMPT="(ssh) %n@%m %~ ->> "
-      else
-        export PROMPT="%n@%m %~ ->> "
-      fi
+        zvm_after_init_commands+=('bindkey -M viins "gf" zvm_exit_insert_mode')
 
-      zvm_after_init_commands+=('bindkey -M viins "gf" zvm_exit_insert_mode')
-
-    '';
+      ''
+    ];
   };
 }

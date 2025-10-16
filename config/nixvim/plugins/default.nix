@@ -93,11 +93,13 @@
 
   auto-session = {
     enable = true;
-    bypassSessionSaveFileTypes = [
-      "nvim-tree"
-    ];
-    autoSave.enabled = true;
-    autoRestore.enabled = true;
+    settings = {
+      bypass_save_filetypes = [
+        "nvim-tree"
+      ];
+      auto_save = true;
+      auto_auto_restore = true;
+    };
   };
 
   comment = {
@@ -120,6 +122,10 @@
   };
 
   tmux-navigator = {
+    enable = true;
+  };
+
+  web-devicons = {
     enable = true;
   };
 }

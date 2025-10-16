@@ -2,7 +2,7 @@
   programs.kitty = {
     enable = true;
 
-    theme = "Dracula";
+    themeFile = "Dracula";
 
     # settings are limited to string and ints
     settings = {};
