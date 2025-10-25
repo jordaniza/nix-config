@@ -190,11 +190,10 @@
         # disable gnome and replace with hyprland
         services.xserver.desktopManager.gnome.enable = lib.mkForce false;
         programs.hyprland.enable = true;
+        services.gnome.gnome-keyring.enable = true;
 
-        # bluetooth support
         hardware.bluetooth = {
           enable = true;
-          # powerOnBoot = true;
         };
 
         services.pipewire = {
@@ -202,7 +201,6 @@
           alsa.enable = true;
           alsa.support32Bit = true;
           pulse.enable = true;
-          # bluetooth.enable = true;
           wireplumber.enable = true;
         };
 
@@ -217,6 +215,7 @@
           wireplumber
           libnotify
           bluez
+          nautilus
         ];
       };
     };
