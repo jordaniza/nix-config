@@ -26,9 +26,12 @@
     };
 
     shellAliases = {
+      hyprswitch = "sudo /run/current-system/specialisation/hyprland/bin/switch-to-configuration switch";
       cd = "z";
       cq = "${config.home.homeDirectory}/.local/bin/cq";
       cat = "${config.home.homeDirectory}/.local/bin/bat-or-glow";
+      close-meet = "${config.home.homeDirectory}/.local/bin/close-meet";
+      kitty-rename = "${config.home.homeDirectory}/.local/bin/kitty-rename";
       ssh-dt = "kitty +kitten ssh jordan@dt";
       ssh-local = "kitten ssh jordan@192.168.1.238";
       whatsapp = "whatsapp-for-linux";

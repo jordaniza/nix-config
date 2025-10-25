@@ -18,6 +18,11 @@
       font_family Fira Code
       letter_spacing 1.5
       enable_ligatures always
+      window_title_format {title}
+      allow_remote_control yes
+      enable_shell_integration yes
+      shell_integration enabled
+      listen_on unix:/tmp/kitty-jordan.sock
     '';
   };
 }

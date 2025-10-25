@@ -187,8 +187,25 @@
       configuration = {
         system.nixos.tags = ["hyprland"];
         system.nixos.label = "Hyprland";
+        # disable gnome and replace with hyprland
         services.xserver.desktopManager.gnome.enable = lib.mkForce false;
         programs.hyprland.enable = true;
+
+        # bluetooth support
+        hardware.bluetooth = {
+          enable = true;
+          # powerOnBoot = true;
+        };
+
+        services.pipewire = {
+          enable = true;
+          alsa.enable = true;
+          alsa.support32Bit = true;
+          pulse.enable = true;
+          # bluetooth.enable = true;
+          wireplumber.enable = true;
+        };
+
         environment.systemPackages = with pkgs; [
           xdg-desktop-portal-hyprland
           wofi
@@ -199,6 +216,7 @@
           mako
           wireplumber
           libnotify
+          bluez
         ];
       };
     };

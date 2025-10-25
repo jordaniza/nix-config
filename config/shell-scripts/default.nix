@@ -8,13 +8,18 @@
     executable = true;
   };
 
-  home.file.".local/bin/open-slack" = {
-    source = ./slack.sh;
+  home.file.".local/bin/bat-or-glow" = {
+    source = ./bat-or-glow.sh;
     executable = true;
   };
 
-  home.file.".local/bin/bat-or-glow" = {
-    source = ./bat-or-glow.sh;
+  home.file.".local/bin/close-meet" = {
+    source = ./close-meet.sh;
+    executable = true;
+  };
+
+  home.file.".local/bin/kitty-rename" = {
+    source = ./kitty-rename.sh;
     executable = true;
   };
 }
