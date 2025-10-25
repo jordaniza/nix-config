@@ -54,7 +54,6 @@ in {
       kitty
 
       # editors
-      vscode
       dconf-editor
       gnome-tweaks
 

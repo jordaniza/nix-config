@@ -11,13 +11,13 @@
 
   servers = {
     # nix
-    nil-ls.enable = true;
+    nil_ls.enable = true;
 
     # ts
-    tsserver.enable = true;
+    ts_ls.enable = true;
 
     # rust
-    rust-analyzer = {
+    rust_analyzer = {
       installRustc = false;
       enable = true;
       installCargo = false;
