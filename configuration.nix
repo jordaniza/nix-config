@@ -5,6 +5,7 @@
   pkgs,
   inputs,
   device,
+  lib,
   ...
 }: {
   imports = [
@@ -38,7 +39,7 @@
 
   # tailscale
   services.tailscale = {
-    enable = true;
+    enable = false;
   };
 
   # magic dns with tailscale
@@ -179,6 +180,29 @@
     }
     else {};
 
+  # experimental hyprland support
+  specialisation = {
+    hyprland = {
+      inheritParentConfig = true;
+      configuration = {
+        system.nixos.tags = ["hyprland"];
+        system.nixos.label = "Hyprland";
+        services.xserver.desktopManager.gnome.enable = lib.mkForce false;
+        programs.hyprland.enable = true;
+        environment.systemPackages = with pkgs; [
+          xdg-desktop-portal-hyprland
+          wofi
+          waybar
+          grim
+          slurp
+          hyprpaper
+          mako
+          wireplumber
+          libnotify
+        ];
+      };
+    };
+  };
   # Enable touchpad support (enabled default in most desktopManager).
   # services.xserver.libinput.enable = true;
   users.groups.keyd = {}; # Create the keyd group
@@ -264,6 +288,7 @@
       authorizedKeysFile = "/home/jordan/.ssh/authorized_keys";
     };
   };
+
   # Open ports in the firewall.
   # networking.firewall.alloowedTCPPorts = [ ... ];
   # networking.firewall.allowedUDPPorts = [ ... ];
