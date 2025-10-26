@@ -7,6 +7,7 @@
       javascript = ["prettierd" "prettier"];
       javascriptreact = ["prettier"];
       json = ["prettier"];
+      jsonc = ["prettier"];
       lua = ["stylua"];
       markdown = ["prettier"];
       nix = ["alejandra"];
