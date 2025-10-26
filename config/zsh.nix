@@ -73,6 +73,7 @@
         }
       '')
       ''
+
         bindkey '^I' autosuggest-accept
         unset SSH_ASKPASS
         export PATH="${config.home.homeDirectory}/.npm-packages/bin:${pkgs.nodejs}/bin:$PATH";
@@ -85,12 +86,27 @@
           cd "$(command lf -print-last-dir "$@")"
         }
 
+        git_prompt_info() {
+          if git rev-parse --is-inside-work-tree &>/dev/null; then
+            local branch_name
+            branch_name=$(git symbolic-ref --short HEAD 2>/dev/null || git rev-parse --short HEAD 2>/dev/null)
+            echo " ${"$"}branch_name "
+          fi
+        }
+
+        git_segment=""
+
+        precmd() {
+          git_segment="$(git_prompt_info)"
+        }
+
         cl() { cat "$@" | wl-copy; }
 
+        setopt PROMPT_SUBST
+
+        PROMPT=$'%n@%m %~ %{\033[38;5;245m%}'"${"$"}"'{git_segment}'$'%{\033[0m%}->> '
         if [[ -n "$SSH_CONNECTION" ]]; then
-          export PROMPT="(ssh) %n@%m %~ ->> "
-        else
-          export PROMPT="%n@%m %~ ->> "
+          PROMPT="(ssh) ${"$"}{PROMPT}"
         fi
 
         zvm_after_init_commands+=('bindkey -M viins "gf" zvm_exit_insert_mode')
