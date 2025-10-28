@@ -191,7 +191,6 @@
         services.xserver.desktopManager.gnome.enable = lib.mkForce false;
         programs.hyprland.enable = true;
         services.gnome.gnome-keyring.enable = true;
-        services.blueman.enable = true;
 
         hardware.bluetooth = {
           enable = true;
@@ -217,6 +216,8 @@
           libnotify
           bluez
           nautilus
+          bluetuith
+          pulsemixer
         ];
       };
     };
