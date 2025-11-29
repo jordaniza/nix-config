@@ -218,6 +218,7 @@
           nautilus
           bluetuith
           pulsemixer
+          brightnessctl
         ];
       };
     };
