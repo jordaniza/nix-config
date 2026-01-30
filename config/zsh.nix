@@ -64,6 +64,7 @@
 
       # print last llm log in nicely formatted markdown
       lll = "llm logs -r | cat --language=markdown";
+      llm = "llm -t clarity";
     };
 
     initContent = pkgs.lib.mkMerge [

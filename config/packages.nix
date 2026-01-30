@@ -85,6 +85,7 @@ in {
       prettierd
       shfmt
       stylua
+      sqlfluff
 
       # keyboard
       keyd
