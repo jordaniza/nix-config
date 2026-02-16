@@ -38,6 +38,7 @@ in {
       copyq
       wmctrl
       glow
+      hcloud
 
       # random
       # fastfetch
