@@ -68,10 +68,11 @@
     installNpmPackages = lib.hm.dag.entryAfter ["writeBoundary"] ''
       NM_DIR="${config.home.homeDirectory}/.npm-packages/lib/node_modules/"
 
-      if [ ! -d "$NM_DIR/@nomicfoundation/solidity-language-server" ]; then
+      if [ ! -d "$NM_DIR/@nomicfoundation/solidity-language-server" ] || [ ! -d "$NM_DIR/@openai/codex" ]; then
         mkdir -p $NM_DIR
         echo "prefix=${config.home.homeDirectory}/.npm-packages" > ${config.home.homeDirectory}/.npmrc
         ${pkgs.nodejs}/bin/npm install -g  @nomicfoundation/solidity-language-server prettier-plugin-solidity
+        ${pkgs.nodejs}/bin/npm install -g  @openai/codex
       fi
     '';
   };
