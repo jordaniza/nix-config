@@ -299,6 +299,9 @@
     enableSSHSupport = true;
   };
 
+  # binary stub for things like uv
+  programs.nix-ld.enable = true;
+
   # List services that you want to enable:
 
   # Enable the OpenSSH daemon.

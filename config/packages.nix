@@ -63,6 +63,7 @@ in {
       bun
       yarn
       gcc
+      uv
 
       # apps
       discord
@@ -74,6 +75,7 @@ in {
       wl-clipboard
       ripgrep
       lcov
+      docker
 
       # fonts
       fira-code

@@ -113,7 +113,7 @@
   };
 
   copilot-vim = {
-    enable = true;
+    enable = false;
     settings = {
       filetypes = {
         markdown = false;
