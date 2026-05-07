@@ -35,7 +35,7 @@
       ssh-dt = "kitty +kitten ssh jordan@dt";
       ssh-local = "kitten ssh jordan@192.168.1.238";
       whatsapp = "whatsapp-for-linux";
-      ls = "lfcd";
+      lf = "lfcd";
       rm = "echo '[INFO]: using trash-cli to remove files\n' && trash";
       vim = "nvim";
       reload = "source ~/.zshrc";
@@ -65,6 +65,11 @@
       # print last llm log in nicely formatted markdown
       lll = "llm logs -r | cat --language=markdown";
       llt = "llm -t clarity";
+
+      # vpn
+      vpn = "protonvpni";
+      vpnc = "protonvpn connect";
+      vpnd = "protonvpn disconnect";
     };
 
     initContent = pkgs.lib.mkMerge [

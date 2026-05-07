@@ -1,8 +1,8 @@
 {pkgs, ...}: let
   unstable =
     import (builtins.fetchTarball {
-      url = "https://github.com/NixOS/nixpkgs/archive/4206c4cb56751df534751b058295ea61357bbbaa.tar.gz";
-      sha256 = "11qdsgrzaqmmwmll706q005dbfsfb0h1nhswc4pkldm0hxrlvcal";
+      url = "https://github.com/NixOS/nixpkgs/archive/549bd84d6279f9852cae6225e372cc67fb91a4c1.tar.gz";
+      sha256 = "0dchsfq8czjg8iwr60fxmqnglllchcy64wp60b8wx4wd9mwn0rw4";
     }) {
       config.allowUnfree = true;
     };
@@ -39,6 +39,8 @@ in {
       wmctrl
       glow
       hcloud
+      unstable.proton-vpn-cli
+      protonvpn-gui
 
       # random
       # fastfetch
