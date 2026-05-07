@@ -68,7 +68,7 @@
 
       # vpn
       vpn = "protonvpni";
-      vpnc = "protonvpn connect";
+      vpnc = "protonvp";
       vpnd = "protonvpn disconnect";
     };
 
