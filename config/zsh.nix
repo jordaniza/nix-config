@@ -67,8 +67,8 @@
       llt = "llm -t clarity";
 
       # vpn
-      vpn = "protonvpni";
-      vpnc = "protonvp";
+      vpn = "protonvpn";
+      vpnc = "protonvpn connect --country";
       vpnd = "protonvpn disconnect";
     };
 
