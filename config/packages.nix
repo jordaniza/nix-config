@@ -42,6 +42,11 @@ in {
       unstable.proton-vpn-cli
       protonvpn-gui
 
+      # db
+      supabase-cli
+      sq
+      lazysql
+
       # random
       # fastfetch
       neofetch

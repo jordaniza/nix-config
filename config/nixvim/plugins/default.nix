@@ -110,6 +110,7 @@
     enable = true;
     nixvimInjections = true;
     grammarPackages = pkgs.vimPlugins.nvim-treesitter.allGrammars;
+    settings.highlight.enable = true;
   };
 
   copilot-vim = {
