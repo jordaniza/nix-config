@@ -7,6 +7,10 @@
     enable = true;
     enableCompletion = true;
 
+    autosuggestion.enable = true;
+    envExtra = ''
+      setopt no_global_rcs
+    '';
     syntaxHighlighting.enable = true;
     plugins = [
       {
@@ -15,15 +19,6 @@
         file = "share/zsh-vi-mode/zsh-vi-mode.plugin.zsh";
       }
     ];
-
-    zplug = {
-      enable = true;
-      plugins = [
-        {
-          name = "zsh-users/zsh-autosuggestions";
-        }
-      ];
-    };
 
     shellAliases = {
       hyprswitch = "sudo /run/current-system/specialisation/hyprland/bin/switch-to-configuration switch";

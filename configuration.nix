@@ -143,6 +143,9 @@
   # Enable CUPS to print documents.
   services.printing.enable = true;
 
+  # Enable Docker.
+  virtualisation.docker.enable = true;
+
   # Enable sound with pipewire.
   services.pulseaudio.enable = false;
   security.rtkit.enable = true;
@@ -231,7 +234,7 @@
   users.users.jordan = {
     isNormalUser = true;
     description = "Jordan";
-    extraGroups = ["networkmanager" "wheel"];
+    extraGroups = ["networkmanager" "wheel" "docker"];
   };
 
   # home manager
