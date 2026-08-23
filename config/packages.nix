@@ -46,6 +46,7 @@ in {
       supabase-cli
       sq
       lazysql
+      postgresql
 
       # random
       # fastfetch

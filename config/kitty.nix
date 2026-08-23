@@ -12,6 +12,7 @@
       disambiguate_escape_codes yes
       map space begin-selection
       map enter copy-to-clipboard
+      map super+v paste_from_clipboard
       background_opacity 0.9
       hide_window_decorations yes
       font_size 13.0
