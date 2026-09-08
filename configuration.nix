@@ -12,6 +12,7 @@
     # Include the results of the hardware scan.
     inputs.home-manager.nixosModules.default
     ./timezone.nix
+    ./config/brave/nixos.nix
   ];
 
   # Bootloader.
@@ -247,11 +248,6 @@
   home-manager = {
     extraSpecialArgs = {
       inherit inputs;
-      # Use XWayland for Brave: native Wayland corrupts rendering on the desktop RX580.
-      # Keep GPU selection automatic so this package also works on the laptop.
-      bravePackage = inputs.brave-nixpkgs.legacyPackages.${pkgs.system}.brave.override {
-        commandLineArgs = "--ozone-platform=x11 --gtk-version=3";
-      };
     };
     users = {
       "jordan" = import ./home.nix;

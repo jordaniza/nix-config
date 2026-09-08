@@ -1,4 +1,4 @@
-{pkgs, bravePackage, ...}: let
+{pkgs, ...}: let
   unstable =
     import (builtins.fetchTarball {
       url = "https://github.com/NixOS/nixpkgs/archive/549bd84d6279f9852cae6225e372cc67fb91a4c1.tar.gz";
@@ -52,9 +52,6 @@ in {
       # git
       gh
       git
-
-      # browser
-      bravePackage
 
       # terminal
       kitty

@@ -2,14 +2,13 @@
   lib,
   config,
   pkgs,
-  bravePackage,
   ...
 }: {
   imports = [
-    (import ./config/packages.nix {inherit pkgs bravePackage;})
+    (import ./config/packages.nix {inherit pkgs;})
     (import ./config/git.nix {inherit pkgs;})
     (import ./config/dconf.nix {inherit config pkgs;})
-    (import ./config/chromium.nix {inherit pkgs bravePackage;})
+    ./config/brave
     (import ./config/zsh.nix {inherit config pkgs;})
     (import ./config/nixvim {inherit config pkgs;})
     (import ./config/vscode {inherit config pkgs;})
