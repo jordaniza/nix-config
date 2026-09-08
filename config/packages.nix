@@ -1,4 +1,4 @@
-{pkgs, ...}: let
+{pkgs, bravePackage, ...}: let
   unstable =
     import (builtins.fetchTarball {
       url = "https://github.com/NixOS/nixpkgs/archive/549bd84d6279f9852cae6225e372cc67fb91a4c1.tar.gz";
@@ -39,8 +39,6 @@ in {
       wmctrl
       glow
       hcloud
-      unstable.proton-vpn-cli
-      protonvpn-gui
 
       # db
       supabase-cli
@@ -49,7 +47,6 @@ in {
       postgresql
 
       # random
-      # fastfetch
       neofetch
 
       # git
@@ -57,7 +54,7 @@ in {
       git
 
       # browser
-      brave
+      bravePackage
 
       # terminal
       kitty

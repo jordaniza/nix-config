@@ -62,9 +62,10 @@
       llt = "llm -t clarity";
 
       # vpn
-      vpn = "protonvpn";
-      vpnc = "protonvpn connect --country";
-      vpnd = "protonvpn disconnect";
+      vpn = "mullvad";
+      vpnc = "mullvad connect";
+      vpnset = "mullvad relay set location";
+      vpnd = "mullvad disconnect";
     };
 
     initContent = pkgs.lib.mkMerge [

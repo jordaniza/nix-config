@@ -4,6 +4,17 @@
   ...
 }: let
   extraConfig = builtins.readFile ./lua/extraConfig.lua;
+  image-nvim = pkgs.vimUtils.buildVimPlugin {
+    pname = "image.nvim";
+    version = "1.5.1";
+    nvimSkipModules = ["minimal-setup"];
+    src = pkgs.fetchFromGitHub {
+      owner = "3rd";
+      repo = "image.nvim";
+      rev = "v1.5.1";
+      hash = "sha256-brDtVYD3O+7N2RdQPIx2+6P+faXafoJDUITy0z0cIuA=";
+    };
+  };
 in {
   # neovim w. nixvim
   programs.nixvim = {
@@ -46,7 +57,10 @@ in {
       nvim-lspconfig
       nvim-scrollbar
       luasnip
+      image-nvim
     ];
+
+    extraPackages = [pkgs.imagemagick];
 
     extraConfigLua = extraConfig;
   };

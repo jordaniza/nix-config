@@ -42,6 +42,12 @@
     enable = true;
   };
 
+  # Mullvad VPN daemon and desktop client
+  services.mullvad-vpn = {
+    enable = true;
+    package = pkgs.mullvad-vpn;
+  };
+
   # magic dns with tailscale
   # https://tailscale.com/kb/1063/install-nixos
   networking.nameservers = [
@@ -239,7 +245,14 @@
 
   # home manager
   home-manager = {
-    extraSpecialArgs = {inherit inputs;};
+    extraSpecialArgs = {
+      inherit inputs;
+      # Use XWayland for Brave: native Wayland corrupts rendering on the desktop RX580.
+      # Keep GPU selection automatic so this package also works on the laptop.
+      bravePackage = inputs.brave-nixpkgs.legacyPackages.${pkgs.system}.brave.override {
+        commandLineArgs = "--ozone-platform=x11 --gtk-version=3";
+      };
+    };
     users = {
       "jordan" = import ./home.nix;
     };
