@@ -34,6 +34,7 @@ Goal: keep Nix's declarative, shared-machine configuration and the Hyprland + tm
 | 18  | Declarative desktop RX580 selection for Brave                      | M      | M   | P2                                    |
 | 19  | Isolate RX580 suspend/runtime-power-management failure             | H      | H   | P1 diagnosis; fixes gated by evidence |
 | 20  | Consult on and apply a light, ergonomic visual theme               | M      | M   | P3 implementation; consult early      |
+| 21  | Fix freezes/crashes when pasting from Slack into another app       | M      | H   | P0                                    |
 
 P0: immediate reliability/security. P1: core functionality and foundations. P2: workflow improvements. P3: final polish. Priority also accounts for dependencies, not just effort.
 
@@ -118,6 +119,12 @@ P0: immediate reliability/security. P1: core functionality and foundations. P2: 
 - [ ] Verify versions, an existing project's `forge build`/`forge test`, local Anvil startup and required Solidity compiler resolution. Remove obsolete custom packaging only after confirming nothing references it.
 
 ## Clipboard and LLM tools
+
+### 21 — Slack → other-app clipboard freeze/crash
+
+- [ ] Diagnose the reported freeze/crash when copying from Slack and pasting into a different application (not Slack). Confirm which process freezes or crashes and record affected destination apps; the cause is not yet established.
+- [ ] Reproduce with non-sensitive plain text versus rich content, compare native Wayland and XWayland destinations, and isolate CopyQ's involvement. Do not assume this shares the cause of the repaired Slack sign-in handoff.
+- [ ] Acceptance: repeated Slack-to-other-app copy/paste succeeds without hangs or crashes, including after suspend. Keep clipboard contents and credentials out of diagnostic logs.
 
 ### 09 — CopyQ and `cq` integration
 
