@@ -7,6 +7,10 @@
     enable = true;
     enableCompletion = true;
 
+    autosuggestion.enable = true;
+    envExtra = ''
+      setopt no_global_rcs
+    '';
     syntaxHighlighting.enable = true;
     plugins = [
       {
@@ -16,23 +20,17 @@
       }
     ];
 
-    zplug = {
-      enable = true;
-      plugins = [
-        {
-          name = "zsh-users/zsh-autosuggestions";
-        }
-      ];
-    };
-
     shellAliases = {
+      hyprswitch = "sudo /run/current-system/specialisation/hyprland/bin/switch-to-configuration switch";
       cd = "z";
       cq = "${config.home.homeDirectory}/.local/bin/cq";
       cat = "${config.home.homeDirectory}/.local/bin/bat-or-glow";
+      close-meet = "${config.home.homeDirectory}/.local/bin/close-meet";
+      kitty-rename = "${config.home.homeDirectory}/.local/bin/kitty-rename";
       ssh-dt = "kitty +kitten ssh jordan@dt";
       ssh-local = "kitten ssh jordan@192.168.1.238";
       whatsapp = "whatsapp-for-linux";
-      ls = "lfcd";
+      lf = "lfcd";
       rm = "echo '[INFO]: using trash-cli to remove files\n' && trash";
       vim = "nvim";
       reload = "source ~/.zshrc";
@@ -61,6 +59,13 @@
 
       # print last llm log in nicely formatted markdown
       lll = "llm logs -r | cat --language=markdown";
+      llt = "llm -t clarity";
+
+      # vpn
+      vpn = "mullvad";
+      vpnc = "mullvad connect";
+      vpnset = "mullvad relay set location";
+      vpnd = "mullvad disconnect";
     };
 
     initContent = pkgs.lib.mkMerge [
@@ -70,27 +75,44 @@
         }
       '')
       ''
-        bindkey '^I' autosuggest-accept
-        unset SSH_ASKPASS
-        export PATH="${config.home.homeDirectory}/.npm-packages/bin:${pkgs.nodejs}/bin:$PATH";
-        export NODE_PATH="${config.home.homeDirectory}/.npm-packages/lib/node_modules";
-        export EDITOR="nvim";
-        export VISUAL="nvim";
-        export ZSH_AUTOSUGGEST_HISTORY_IGNORE="?(#c100,)";
 
-        lfcd () {
-          cd "$(command lf -print-last-dir "$@")"
-        }
+               bindkey '^I' autosuggest-accept
+               unset SSH_ASKPASS
+               export PATH="${config.home.homeDirectory}/.npm-packages/bin:${pkgs.nodejs}/bin:$PATH";
+               export NODE_PATH="${config.home.homeDirectory}/.npm-packages/lib/node_modules";
+               export EDITOR="nvim";
+               export VISUAL="nvim";
+               export ZSH_AUTOSUGGEST_HISTORY_IGNORE="?(#c100,)";
+        export BROWSER=brave
 
-        cl() { cat "$@" | wl-copy; }
+               lfcd () {
+                 cd "$(command lf -print-last-dir "$@")"
+               }
 
-        if [[ -n "$SSH_CONNECTION" ]]; then
-          export PROMPT="(ssh) %n@%m %~ ->> "
-        else
-          export PROMPT="%n@%m %~ ->> "
-        fi
+               git_prompt_info() {
+                 if git rev-parse --is-inside-work-tree &>/dev/null; then
+                   local branch_name
+                   branch_name=$(git symbolic-ref --short HEAD 2>/dev/null || git rev-parse --short HEAD 2>/dev/null)
+                   echo " ${"$"}branch_name "
+                 fi
+               }
 
-        zvm_after_init_commands+=('bindkey -M viins "gf" zvm_exit_insert_mode')
+               git_segment=""
+
+               precmd() {
+                 git_segment="$(git_prompt_info)"
+               }
+
+               cl() { cat "$@" | wl-copy; }
+
+               setopt PROMPT_SUBST
+
+               PROMPT=$'%n@%m %~ %{\033[38;5;245m%}'"${"$"}"'{git_segment}'$'%{\033[0m%}->> '
+               if [[ -n "$SSH_CONNECTION" ]]; then
+                 PROMPT="(ssh) ${"$"}{PROMPT}"
+               fi
+
+               zvm_after_init_commands+=('bindkey -M viins "gf" zvm_exit_insert_mode')
 
       ''
     ];

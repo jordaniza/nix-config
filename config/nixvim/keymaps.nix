@@ -44,6 +44,24 @@
       desc = "Clear search highlight";
     };
   }
+  {
+    mode = "n";
+    key = "j";
+    action = "gj";
+    options = {
+      noremap = true;
+      silent = true;
+    };
+  }
+  {
+    mode = "n";
+    key = "k";
+    action = "gk";
+    options = {
+      noremap = true;
+      silent = true;
+    };
+  }
 
   # code editing
 

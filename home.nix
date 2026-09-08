@@ -8,7 +8,7 @@
     (import ./config/packages.nix {inherit pkgs;})
     (import ./config/git.nix {inherit pkgs;})
     (import ./config/dconf.nix {inherit config pkgs;})
-    (import ./config/chromium.nix {inherit pkgs;})
+    ./config/brave
     (import ./config/zsh.nix {inherit config pkgs;})
     (import ./config/nixvim {inherit config pkgs;})
     (import ./config/vscode {inherit config pkgs;})
@@ -16,6 +16,7 @@
     (import ./config/bat.nix {inherit config pkgs;})
     (import ./config/fzf.nix {inherit config pkgs;})
     (import ./config/zoxide.nix {inherit config pkgs;})
+    (import ./config/gtk.nix {inherit config pkgs;})
     ./config/kitty.nix
     ./config/ssh.nix
     ./config/gpg-agent.nix
@@ -67,10 +68,11 @@
     installNpmPackages = lib.hm.dag.entryAfter ["writeBoundary"] ''
       NM_DIR="${config.home.homeDirectory}/.npm-packages/lib/node_modules/"
 
-      if [ ! -d "$NM_DIR/@nomicfoundation/solidity-language-server" ]; then
+      if [ ! -d "$NM_DIR/@nomicfoundation/solidity-language-server" ] || [ ! -d "$NM_DIR/@openai/codex" ]; then
         mkdir -p $NM_DIR
         echo "prefix=${config.home.homeDirectory}/.npm-packages" > ${config.home.homeDirectory}/.npmrc
         ${pkgs.nodejs}/bin/npm install -g  @nomicfoundation/solidity-language-server prettier-plugin-solidity
+        ${pkgs.nodejs}/bin/npm install -g  @openai/codex
       fi
     '';
   };
