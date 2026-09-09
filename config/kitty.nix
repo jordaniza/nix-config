@@ -13,6 +13,8 @@
       map space begin-selection
       map enter copy-to-clipboard
       map super+v paste_from_clipboard
+      # Show URL hints, including while using tmux inside Kitty.
+      map alt+l kitten hints --type=url
       background_opacity 0.9
       hide_window_decorations yes
       font_size 13.0
