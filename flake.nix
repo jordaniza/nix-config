@@ -61,8 +61,8 @@
 
     hardwareConfig =
       if device == "desktop"
-      then ./devices/desktop.nix
-      else ./devices/laptop.nix;
+      then ./hardware/desktop.nix
+      else ./hardware/laptop.nix;
     # import foundry related utilities
     foundry-bin = import ./foundry-bin {inherit pkgs;};
   in {

@@ -5,6 +5,7 @@
   pkgs,
   inputs,
   device,
+  customHardware,
   lib,
   ...
 }: {
@@ -13,6 +14,7 @@
     inputs.home-manager.nixosModules.default
     ./timezone.nix
     ./config/brave/nixos.nix
+    ./config/audio-realtime.nix
   ];
 
   # Bootloader.
@@ -247,7 +249,7 @@
   # home manager
   home-manager = {
     extraSpecialArgs = {
-      inherit inputs;
+      inherit inputs device customHardware;
     };
     users = {
       "jordan" = import ./home.nix;
