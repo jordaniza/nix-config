@@ -9,7 +9,7 @@ case "$1" in
 	echo "A simple CLI to manage CopyQ."
 	echo ""
 	echo "Commands:"
-	echo "  list | ls     Show a searchable history menu with fzf."
+	echo "  list | ls     Browse history with j/k; press / to search."
 	echo "  clear         Clear all items from the clipboard history."
 	echo "  rm [numbers]  Remove specific items from the clipboard history."
 	echo "  [numbers]     Print the content of one or more items by index."
@@ -18,7 +18,7 @@ case "$1" in
 list | ls)
 	# Use a "here document" (<< 'EOF') to pass the script safely to CopyQ
 	selection=$(
-		copyq eval - <<'EOF' | fzf | awk -F. '{print $1}'
+		copyq eval - <<'EOF' |
 if (size() > 0) {
     var l = [];
     for (var i = 0; i < size(); ++i) {
@@ -27,6 +27,18 @@ if (size() > 0) {
     print(l.join("\n"));
 }
 EOF
+			fzf --layout=reverse --no-sort --exact --no-extended --ignore-case \
+				--no-input --prompt='/ ' \
+				--header='j/k move | / search | Enter select | Esc close' \
+				--bind='j:down,k:up' \
+				--bind='/:show-input+unbind(j,k,/)+change-header(Type to search | Esc browse | Enter select)' \
+				--bind='esc:transform:
+					if [ "$FZF_INPUT_STATE" = enabled ]; then
+						echo "hide-input+rebind(j,k,/)+change-header(j/k move | / search | Enter select | Esc close)"
+					else
+						echo abort
+					fi' |
+				awk -F. '{print $1}'
 	)
 
 	if [ -n "$selection" ]; then
