@@ -12,7 +12,7 @@
       disambiguate_escape_codes yes
       map space begin-selection
       map enter copy-to-clipboard
-      map super+v paste_from_clipboard
+      map alt+v paste_from_clipboard
       map alt+l kitten hints --type=url
       background_opacity 0.9
       hide_window_decorations yes

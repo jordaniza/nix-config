@@ -75,10 +75,10 @@ P0: immediate reliability/security. P1: core functionality and foundations. P2: 
 
 ### 04 — ChatGPT voice / patchy microphone support
 
-- [ ] Reproduce and distinguish ChatGPT voice conversation, dictation, microphone capture and output playback. Firefox working is the control, not proof that Brave's permissions or device routing are correct.
-- [ ] Compare the same microphone/output in Firefox, a clean Brave profile and the normal Brave profile. Check site permissions, selected input, per-site Shields/extension effects, mute/gain, PipeWire/WirePlumber routing, and wired versus Bluetooth profiles where relevant.
-- [ ] Inspect browser WebRTC diagnostics and user-service logs during failure, including after suspend/device reconnect. Change one variable at a time; do not disable browser security globally or assume the missing portal explains all microphone faults.
-- [ ] Acceptance: a real voice conversation and dictation test work repeatedly, including after reconnect/resume, without changing the working GPU baseline.
+- [ ] Continue from the [canonical Brave audio investigation](investigations/brave-audio/README.md): four-app grid, ranked hypotheses, completed experiments, primary sources and decision log. The September 10 trace demonstrated per-stream burst delivery and processing-FIFO loss; its server-versus-client origin remains unresolved.
+- [ ] Resolve the September 17 old-tab/new-tab distinction: an existing Wispr tab can remain good while new/reloaded captures fail across sites; terminating Brave restores operation. Clarify whether the reported new-profile test had independent browser/audio-service processes before considering the bounded P01 comparison. Do not repeat the broad website/profile/native-recording matrix.
+- [ ] Preserve the working RTKit/GPU configuration and keep the September 16 missing-Samson incident separate unless it recurs during the measured fault. No private call audio or full diagnostic payloads by default.
+- [ ] Acceptance after a candidate fix: validate Wispr Flow demo, Webcam Mic Test, Google Meet and ChatGPT dictation, including existing versus newly acquired captures and use beyond the observed onset time. Specify durations and results; reconnect/resume reliability is a separate validation claim.
 - Documentation boundary: the [official OpenAI product documentation](https://learn.chatgpt.com/docs/use-chatgpt) checked for this planning pass does not establish the cause of this Brave/Linux failure. Keep it an open diagnostic item, not a promised configuration fix.
 
 ### 05 — Screen-sharing echo
@@ -99,6 +99,7 @@ P0: immediate reliability/security. P1: core functionality and foundations. P2: 
 
 ### 07 — Hyprland as the real desktop, Home Manager as config owner
 
+- [ ] As part of the merge and specialisation removal, replace the tracked `hypr` symlink with actual configuration files in this repository and have Home Manager deploy them. Preserve the working desktop RX580 GPU ordering and DP-1 3440x1440@144 Hz setting; verify subsequent Hyprland edits appear in this repository's `git diff`.
 - [ ] Move Hyprland enablement, portals, PipeWire/WirePlumber, Bluetooth and required session services into the normal NixOS configuration. Remove GNOME-as-base and the Hyprland specialisation after validating the replacement.
 - [ ] Choose the login/session arrangement explicitly. Keeping a display manager does not require running the GNOME desktop; preserve keyring unlock and authentication services that are actually needed.
 - [ ] Migrate the external `~/.config/hypr` repository and related Waybar/launcher/notification/wallpaper settings into Home Manager, preserving existing scripts and uncommitted changes. Avoid competing autostarts and competing file owners.
@@ -121,6 +122,8 @@ P0: immediate reliability/security. P1: core functionality and foundations. P2: 
 ## Clipboard and LLM tools
 
 ### 21 — Slack → other-app clipboard freeze/crash
+
+- September 29 clipboard investigation: X11 → Wayland text delivery timed out while the reverse direction worked; later three fresh Brave → Firefox markers succeeded with all observers off. Recovered, cause unresolved; no fix or extra bridge applied. Continue from the [evidence ledger and recurrence plan](investigations/clipboard/README.md), keeping this delivery failure distinct from the earlier reported freeze/crash.
 
 - [ ] Diagnose the reported freeze/crash when copying from Slack and pasting into a different application (not Slack). Confirm which process freezes or crashes and record affected destination apps; the cause is not yet established.
 - [ ] Reproduce with non-sensitive plain text versus rich content, compare native Wayland and XWayland destinations, and isolate CopyQ's involvement. Do not assume this shares the cause of the repaired Slack sign-in handoff.
