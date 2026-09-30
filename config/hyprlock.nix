@@ -3,6 +3,7 @@
     enable = osConfig.programs.hyprland.enable;
     settings = {
       general.grace = 0;
+      animations.animation = [ "fadeIn, 0" ];
 
       background = [{
         monitor = "";
@@ -43,17 +44,20 @@
         position = "0, -30";
         halign = "center";
         valign = "center";
-        fade_on_empty = false;
-        placeholder_text = "Password";
+        fade_on_empty = true;
+        placeholder_text = "";
         font_family = "sans-serif";
-        rounding = 16;
-        outline_thickness = 2;
+        outline_thickness = 0;
         dots_center = true;
-        inner_color = "rgba(1e1e2eaa)";
-        outer_color = "rgba(b4befea0)";
+        dots_size = 0.16;
+        dots_spacing = 0.5;
+        inner_color = "rgba(00000000)";
+        outer_color = "rgba(00000000)";
         font_color = "rgb(cdd6f4)";
-        check_color = "rgb(a6e3a1)";
+        swap_font_color = true;
+        check_color = "rgb(bac2de)";
         fail_color = "rgb(f38ba8)";
+        fail_text = "Try again";
       }];
     };
   };
