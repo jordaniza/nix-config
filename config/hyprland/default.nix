@@ -1,5 +1,19 @@
-{device, lib, ...}: {
+{device, lib, pkgs, ...}: {
   imports = [ (./devices + "/${device}.nix") ];
+
+  home.packages = with pkgs; [
+    wofi
+    waybar
+    grim
+    slurp
+    hyprpaper
+    mako
+    libnotify
+    nautilus
+    bluetuith
+    pulsemixer
+    brightnessctl
+  ];
 
   xdg.configFile = {
     "hypr/hyprland.conf".text = lib.mkBefore (builtins.readFile ./hyprland.conf);

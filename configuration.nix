@@ -6,7 +6,6 @@
   inputs,
   device,
   customHardware,
-  lib,
   ...
 }: {
   imports = [
@@ -91,7 +90,7 @@
     # check with `dconf read /org/gnome/desktop/interface/cursor-theme`
     # and if it's wrong reset by using `dconf rest (same path as above)`
     displayManager.gdm.enable = true;
-    desktopManager.gnome.enable = true;
+    desktopManager.gnome.enable = false;
     # Configure keymap in X11
     xkb = {
       layout = "us";
@@ -168,6 +167,7 @@
     alsa.enable = true;
     alsa.support32Bit = true;
     pulse.enable = true;
+    wireplumber.enable = true;
     # If you want to use JACK applications, uncomment this
     #jack.enable = true;
 
@@ -192,50 +192,13 @@
     }
     else {};
 
-  # experimental hyprland support
-  specialisation = {
-    hyprland = {
-      inheritParentConfig = true;
-      configuration = {
-        system.nixos.tags = ["hyprland"];
-        system.nixos.label = "Hyprland";
-        # disable gnome and replace with hyprland
-        services.xserver.desktopManager.gnome.enable = lib.mkForce false;
-        programs.hyprland.enable = true;
-        security.pam.services.hyprlock = {};
-        services.gnome.gnome-keyring.enable = true;
+  # Hyprland is the default desktop; retain GDM and keyring.
+  programs.hyprland.enable = true;
+  services.displayManager.defaultSession = "hyprland";
+  security.pam.services.hyprlock = {};
+  services.gnome.gnome-keyring.enable = true;
+  hardware.bluetooth.enable = true;
 
-        hardware.bluetooth = {
-          enable = true;
-        };
-
-        services.pipewire = {
-          enable = true;
-          alsa.enable = true;
-          alsa.support32Bit = true;
-          pulse.enable = true;
-          wireplumber.enable = true;
-        };
-
-        environment.systemPackages = with pkgs; [
-          xdg-desktop-portal-hyprland
-          wofi
-          waybar
-          grim
-          slurp
-          hyprpaper
-          mako
-          wireplumber
-          libnotify
-          bluez
-          nautilus
-          bluetuith
-          pulsemixer
-          brightnessctl
-        ];
-      };
-    };
-  };
   # Enable touchpad support (enabled default in most desktopManager).
   # services.xserver.libinput.enable = true;
   users.groups.keyd = {}; # Create the keyd group
