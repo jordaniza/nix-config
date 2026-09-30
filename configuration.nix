@@ -220,28 +220,6 @@
     };
   };
 
-  # exclude gnome packages
-  environment.gnome.excludePackages = (
-    with pkgs; [
-      gnome-photos
-      gnome-tour
-      gnome-text-editor
-      gnome-music
-      gnome-calendar
-      gnome-maps
-      gnome-calculator
-      gnome-clocks
-      gnome-contacts
-      gnome-weather
-      yelp
-      totem
-      geary
-      epiphany
-      cheese
-      simple-scan
-    ]
-  );
-
   # set the zsh shell and set it as the default
   programs.zsh.enable = true;
   users.defaultUserShell = pkgs.zsh;
