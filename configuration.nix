@@ -183,7 +183,7 @@
       extraConfig = ''
         IdleAction=ignore
          IdleActionSec=0
-         InhibitDelayMaxSec=0
+         InhibitDelayMaxSec=5
          HandleLidSwitch=ignore
          HandleLidSwitchDocked=ignore
          HandleSuspendKey=ignore
