@@ -1,4 +1,6 @@
 {lib, ...}: {
+  imports = [ ./desktop/hypridle.nix ];
+
   xdg.configFile."waybar/config.jsonc".source = ../../waybar/desktop.jsonc;
 
   xdg.configFile."hypr/hyprland.conf".text = lib.mkAfter ''
