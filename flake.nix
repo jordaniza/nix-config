@@ -3,6 +3,7 @@
 
   inputs = {
     nixpkgs.url = "github:nixos/nixpkgs/nixos-25.05";
+    brave-nixpkgs.url = "github:nixos/nixpkgs/nixos-unstable";
     home-manager = {
       url = "github:nix-community/home-manager/release-25.05";
       inputs.nixpkgs.follows = "nixpkgs";
@@ -60,8 +61,8 @@
 
     hardwareConfig =
       if device == "desktop"
-      then ./devices/desktop.nix
-      else ./devices/laptop.nix;
+      then ./hardware/desktop.nix
+      else ./hardware/laptop.nix;
     # import foundry related utilities
     foundry-bin = import ./foundry-bin {inherit pkgs;};
   in {

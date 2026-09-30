@@ -12,12 +12,19 @@
       disambiguate_escape_codes yes
       map space begin-selection
       map enter copy-to-clipboard
+      map alt+v paste_from_clipboard
+      map alt+m kitten hints --type=url
       background_opacity 0.9
       hide_window_decorations yes
       font_size 13.0
       font_family Fira Code
       letter_spacing 1.5
       enable_ligatures always
+      window_title_format {title}
+      allow_remote_control yes
+      enable_shell_integration yes
+      shell_integration enabled
+      listen_on unix:/tmp/kitty-jordan.sock
     '';
   };
 }

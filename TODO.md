@@ -1,0 +1,44 @@
+# TODO
+
+Updated: 2026-09-30. Backlog only; implementation changes still require approval.
+
+## Next
+
+- [ ] Verify desktop idle behaviour: displays off at 15 minutes, lock at 30, and locked resume after manual suspend. Startup is verified; never automatically sleep the desktop.
+- [ ] Make Hyprland the base desktop, initially keeping GDM/keyring; retire the specialisation and `hyprswitch` after validation.
+- [ ] Audit the laptop's existing Hyprland/Waybar/Wofi/Mako files before enabling its device overlay.
+- [ ] Define laptop locking and lid-close behaviour, including docked use and AC versus battery.
+
+## Reliability
+
+- [ ] Continue the [Brave microphone investigation](investigations/brave-audio/README.md) from its existing evidence and test ledger.
+- [ ] Diagnose screen-sharing echo and fix picker behaviour; resolve the recorded GTK4 theme import problem.
+- [ ] Recheck the repaired Brave → Slack handoff across profiles and after resume.
+- [ ] Restore an explicit Brave profile chooser alongside direct profile shortcuts.
+- [ ] Consolidate CopyQ startup; verify the Super+V picker and `cq` CLI edge cases.
+
+## Maintenance
+
+- [ ] Upgrade NixOS/Home Manager/Nixvim together in a separate change from desktop migration; preserve the working GPU configuration and required pins.
+- [ ] Make `llm`/`llt` package upgrades explicit; verify availability and compatibility of the requested Sonnet 5 target. The stale clarity-template model is already repaired.
+- [ ] Replace custom Foundry packaging with nixpkgs Foundry across packages, apps and the dev shell.
+
+## Nice-to-haves
+
+- [ ] Laptop low/critical battery notifications, with configurable thresholds and no repeated-alert spam.
+- [ ] Both machines: check this Nix repo's upstream branch in the background; notify on newly detected commits and remind every 12 hours while unmerged. Consider a Waybar indicator; no automatic pull or rebuild.
+- [ ] Investigate hibernation per machine: swap/encryption/resume requirements and locked session recovery. Enable menu actions only after testing.
+- [ ] Improve Waybar: restrained layout, correct network labels, laptop-aware battery, microphone state, notification visibility and update status.
+- [ ] Add a keyboard-friendly power menu shared by Waybar and a hotkey, with confirmation for session-ending actions.
+- [ ] Add a compact calendar to the bar clock.
+- [ ] Make Waybar's Bluetooth/audio/network TUIs consistent: Vim navigation, sensible floating size and clean exit.
+- [ ] Improve pane presets: reliable thirds and the requested mixed-width layout, with predictable behaviour for different window counts.
+- [ ] Add a reversible fullscreen focus-mode shortcut.
+- [ ] Agree and apply a subtle shared theme across the bar, launcher, locker and dialogs.
+
+## Reference
+
+Desktop config ownership, manual locking and idle startup are implemented; their remaining tests are listed above.
+
+GPU and clipboard recurrence notes belong in [known issues](README.md#known-desktop-issues-and-fixes).
+The [archived detailed backlog](TODO.archive-2026-09-30.md) is historical context, not the current task list.

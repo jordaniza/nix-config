@@ -1,6 +1,28 @@
 [
   # general
   {
+    mode = "n";
+    key = "<leader>q";
+    action = "<cmd>wq<CR>";
+    options = {
+      noremap = true;
+      silent = true;
+      desc = "Save and quit";
+    };
+  }
+
+  {
+    mode = "n";
+    key = "<leader>Q";
+    action = "<cmd>qa!<CR>";
+    options = {
+      noremap = true;
+      silent = true;
+      desc = "Force Quit all windows";
+    };
+  }
+
+  {
     mode = "i";
     key = "gf";
     action = "<Esc>";
@@ -42,6 +64,24 @@
       noremap = true;
       silent = true;
       desc = "Clear search highlight";
+    };
+  }
+  {
+    mode = "n";
+    key = "j";
+    action = "gj";
+    options = {
+      noremap = true;
+      silent = true;
+    };
+  }
+  {
+    mode = "n";
+    key = "k";
+    action = "gk";
+    options = {
+      noremap = true;
+      silent = true;
     };
   }
 

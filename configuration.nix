@@ -5,12 +5,16 @@
   pkgs,
   inputs,
   device,
+  customHardware,
+  lib,
   ...
 }: {
   imports = [
     # Include the results of the hardware scan.
     inputs.home-manager.nixosModules.default
     ./timezone.nix
+    ./config/brave/nixos.nix
+    ./config/audio-realtime.nix
   ];
 
   # Bootloader.
@@ -38,7 +42,13 @@
 
   # tailscale
   services.tailscale = {
-    enable = false;
+    enable = true;
+  };
+
+  # Mullvad VPN daemon and desktop client
+  services.mullvad-vpn = {
+    enable = true;
+    package = pkgs.mullvad-vpn;
   };
 
   # magic dns with tailscale
@@ -142,6 +152,9 @@
   # Enable CUPS to print documents.
   services.printing.enable = true;
 
+  # Enable Docker.
+  virtualisation.docker.enable = true;
+
   # Enable sound with pipewire.
   services.pulseaudio.enable = false;
   security.rtkit.enable = true;
@@ -170,7 +183,7 @@
       extraConfig = ''
         IdleAction=ignore
          IdleActionSec=0
-         InhibitDelayMaxSec=0
+         InhibitDelayMaxSec=5
          HandleLidSwitch=ignore
          HandleLidSwitchDocked=ignore
          HandleSuspendKey=ignore
@@ -179,6 +192,50 @@
     }
     else {};
 
+  # experimental hyprland support
+  specialisation = {
+    hyprland = {
+      inheritParentConfig = true;
+      configuration = {
+        system.nixos.tags = ["hyprland"];
+        system.nixos.label = "Hyprland";
+        # disable gnome and replace with hyprland
+        services.xserver.desktopManager.gnome.enable = lib.mkForce false;
+        programs.hyprland.enable = true;
+        security.pam.services.hyprlock = {};
+        services.gnome.gnome-keyring.enable = true;
+
+        hardware.bluetooth = {
+          enable = true;
+        };
+
+        services.pipewire = {
+          enable = true;
+          alsa.enable = true;
+          alsa.support32Bit = true;
+          pulse.enable = true;
+          wireplumber.enable = true;
+        };
+
+        environment.systemPackages = with pkgs; [
+          xdg-desktop-portal-hyprland
+          wofi
+          waybar
+          grim
+          slurp
+          hyprpaper
+          mako
+          wireplumber
+          libnotify
+          bluez
+          nautilus
+          bluetuith
+          pulsemixer
+          brightnessctl
+        ];
+      };
+    };
+  };
   # Enable touchpad support (enabled default in most desktopManager).
   # services.xserver.libinput.enable = true;
   users.groups.keyd = {}; # Create the keyd group
@@ -187,12 +244,14 @@
   users.users.jordan = {
     isNormalUser = true;
     description = "Jordan";
-    extraGroups = ["networkmanager" "wheel"];
+    extraGroups = ["networkmanager" "wheel" "docker"];
   };
 
   # home manager
   home-manager = {
-    extraSpecialArgs = {inherit inputs;};
+    extraSpecialArgs = {
+      inherit inputs device customHardware;
+    };
     users = {
       "jordan" = import ./home.nix;
     };
@@ -255,6 +314,9 @@
     enableSSHSupport = true;
   };
 
+  # binary stub for things like uv
+  programs.nix-ld.enable = true;
+
   # List services that you want to enable:
 
   # Enable the OpenSSH daemon.
@@ -264,6 +326,7 @@
       authorizedKeysFile = "/home/jordan/.ssh/authorized_keys";
     };
   };
+
   # Open ports in the firewall.
   # networking.firewall.alloowedTCPPorts = [ ... ];
   # networking.firewall.allowedUDPPorts = [ ... ];

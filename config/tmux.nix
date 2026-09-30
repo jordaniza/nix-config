@@ -14,15 +14,22 @@
       {
         plugin = dracula;
         extraConfig = ''
-                 set -g @dracula-show-battery true
-                 set -g @dracula-show-powerline true
+          set -g @dracula-show-battery false
+          set -g @dracula-show-powerline true
           set -g @dracula-show-weather false
-          set -g @dracula-show-border-contrast true
+          set -g @dracula-show-network false
+          set -g @dracula-show-time false
+          set -g @dracula-show-date falseset
+          set -g @dracula-show-left-icon " "
+          set -g status-right ""
         '';
       }
       yank
     ];
     extraConfig = ''
+      # Allow Kitty graphics commands from applications such as image.nvim.
+      set -g allow-passthrough on
+
       set-window-option -g mode-keys vi
       bind-key -T copy-mode-vi v send-keys -X begin-selection
       bind-key -T copy-mode-vi y send-keys -X copy-selection-and-cancel
@@ -40,6 +47,16 @@
       bind a copy-mode
 
       bind r command-prompt -I "#W" "rename-window '%%'"
+
+      set -g @dracula-show-battery false
+      set -g @dracula-show-powerline true
+      set -g @dracula-show-weather false
+      set -g @dracula-show-network false
+      set -g @dracula-show-time false
+      set -g @dracula-show-date falseset
+      set -g @dracula-show-left-icon " "
+      set -g status-right ""
+
     '';
   };
 }

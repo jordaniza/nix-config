@@ -19,7 +19,6 @@
       ft = "forge test";
       fs = "forge script";
       fb = "forge build";
-      # neofetch = "fastfetch";
     };
     bashrcExtra = ''
            neofetch
