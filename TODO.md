@@ -1,6 +1,6 @@
 # NixOS desktop and laptop TODO
 
-Updated: 2026-09-08. Planning backlog, not authorization to implement everything at once.
+Updated: 2026-09-29. Planning backlog, not authorization to implement everything at once. Completed implementation and remaining runtime validation are tracked separately below.
 
 Goal: keep Nix's declarative, shared-machine configuration and the Hyprland + tmux workflow, while making everyday desktop interactions reliable and pleasant. Prefer small, understandable modules over a wholesale desktop replacement.
 
@@ -12,40 +12,41 @@ Goal: keep Nix's declarative, shared-machine configuration and the Hyprland + tm
 - ROI **H**: resolves a frequent blocker, security gap, or substantial maintenance burden. **M**: meaningful convenience or narrower reliability improvement. **L**: mostly cosmetic or occasional benefit.
 - Estimates include validation, but intermittent failures can require longer observation. ROI is qualitative, not a calculated financial return.
 
-| ID  | Work item                                                          | Effort | ROI | Priority                              |
-| --- | ------------------------------------------------------------------ | ------ | --- | ------------------------------------- |
-| 01  | Reliable Brave → Slack sign-in/link handoff                        | L      | H   | P0                                    |
-| 02  | Restore explicit Brave profile chooser and profile shortcuts       | L      | H   | P0                                    |
-| 03  | Reliable lock screen, idle and laptop lid/suspend handling         | M      | H   | P0                                    |
-| 04  | Diagnose ChatGPT voice and patchy microphone use in Brave/apps     | M      | H   | P1                                    |
-| 05  | Fix screen-sharing echo in Brave                                   | H      | H   | P1                                    |
-| 06  | Predictable, better-looking screen-share selection dialog          | M      | H   | P1                                    |
-| 07  | Make Hyprland the normal desktop; migrate config into Home Manager | H      | H   | P1                                    |
-| 08  | Controlled NixOS/Home Manager/graphics-stack update                | M      | H   | P1                                    |
-| 09  | Reliable CopyQ + pipe-friendly `cq` terminal workflow              | M      | H   | P1                                    |
-| 10  | Repair `llm` / `llt` support for Claude Sonnet 5                   | M      | H   | P1                                    |
-| 11  | Finish exact pane-layout presets                                   | M      | H   | P2                                    |
-| 12  | Reversible fullscreen focus-mode preset                            | L      | H   | P2                                    |
-| 13  | Consistent Vim navigation and `q` exit for Waybar TUIs             | M      | H   | P2                                    |
-| 14  | Minimal, more usable Waybar                                        | M      | M   | P2                                    |
-| 15  | Better keyboard-friendly power menu                                | L      | M   | P2                                    |
-| 16  | Inline calendar attached to the bar clock                          | L      | M   | P2                                    |
-| 17  | Replace custom Foundry packaging/overlay with nixpkgs Foundry      | M      | M   | P2                                    |
-| 18  | Declarative desktop RX580 selection for Brave                      | M      | M   | P2                                    |
-| 19  | Isolate RX580 suspend/runtime-power-management failure             | H      | H   | P1 diagnosis; fixes gated by evidence |
-| 20  | Consult on and apply a light, ergonomic visual theme               | M      | M   | P3 implementation; consult early      |
-| 21  | Fix freezes/crashes when pasting from Slack into another app       | M      | H   | P0                                    |
+| ID  | Work item                                                          | Effort | ROI | Priority                         |
+| --- | ------------------------------------------------------------------ | ------ | --- | -------------------------------- |
+| 01  | Finish Brave → Slack handoff validation after the portal repair    | L      | H   | P0                               |
+| 02  | Restore explicit Brave profile chooser and profile shortcuts       | L      | H   | P0                               |
+| 03  | Reliable lock screen, idle and laptop lid/suspend handling         | M      | H   | P0                               |
+| 04  | Diagnose ChatGPT voice and patchy microphone use in Brave/apps     | M      | H   | P1                               |
+| 05  | Fix screen-sharing echo in Brave                                   | H      | H   | P1                               |
+| 06  | Predictable, better-looking screen-share selection dialog          | M      | H   | P1                               |
+| 07  | Make Hyprland the normal desktop; migrate config into Home Manager | H      | H   | P1                               |
+| 08  | Controlled NixOS/Home Manager/graphics-stack update                | M      | H   | P1                               |
+| 09  | Finish CopyQ startup consolidation and `cq` validation             | M      | H   | P1                               |
+| 10  | Upgrade `llm` / `llt` to Sonnet 5; Sonnet 4.6 template repair done | M      | H   | P1                               |
+| 11  | Finish exact pane-layout presets                                   | M      | H   | P2                               |
+| 12  | Reversible fullscreen focus-mode preset                            | L      | H   | P2                               |
+| 13  | Consistent Vim navigation and `q` exit for Waybar TUIs             | M      | H   | P2                               |
+| 14  | Minimal, more usable Waybar                                        | M      | M   | P2                               |
+| 15  | Better keyboard-friendly power menu                                | L      | M   | P2                               |
+| 16  | Inline calendar attached to the bar clock                          | L      | M   | P2                               |
+| 17  | Replace custom Foundry packaging/overlay with nixpkgs Foundry      | M      | M   | P2                               |
+| 20  | Consult on and apply a light, ergonomic visual theme               | M      | M   | P3 implementation; consult early |
 
 P0: immediate reliability/security. P1: core functionality and foundations. P2: workflow improvements. P3: final polish. Priority also accounts for dependencies, not just effort.
 
+Former item 21 is tracked under [README known clipboard issues](README.md#clipboard-boundary-failure-2026-09-29): delivery recovered, cause unresolved. It is on recurrence watch rather than an active repair task; this does not mark it fixed.
+
+GPU policy (18) is implemented and the user reports the GPU working well on September 29. Historical RX580 suspend/native-Wayland faults (19) are on [recurrence watch](README.md#gpu-status-and-recurrence-watch-2026-09-29), not active diagnostic tasks.
+
 ## Current baseline: preserve what works
 
-- Brave's shared package now defaults to `--ozone-platform=x11 --gtk-version=3` in `configuration.nix`. Its normal launchers therefore use XWayland, without requiring an X11 desktop.
+- Brave's shared package uses `--ozone-platform=x11 --gtk-version=3` in `config/brave/default.nix`. Its normal launchers therefore use XWayland, without requiring an X11 desktop.
 - Hyprland's browser shortcuts no longer force native Wayland or use `--use-fake-ui-for-media-stream`. Keep ordinary media permission prompts; do not restore automatic camera/microphone approval as a workaround.
-- Persistent GPU selection is still automatic. Normal Brave selected the integrated Radeon; manually forcing the RX580 under XWayland also worked with hardware acceleration.
+- Desktop Brave persistently selects the GPU defined in `hardware/desktop.nix` through its application wrapper; laptop selection remains automatic. The user reports the GPU working well as of September 29. Preserve this setup.
 - Native Wayland with the RX580 render node selected reproduced the familiar severe corruption. XWayland on the confirmed RX580 rendered correctly and survived both a short and an overnight suspend cycle.
 - A separate suspend cycle left the RX580 in runtime PM `error`, with UVD initialization timeouts. Subsequent successful cycles do not close this issue or certify the hardware.
-- As of the latest connector check, the monitor is still on integrated-GPU `DP-4`; the direct-to-RX580 cable test has not happened. Cross-GPU handoff is a hypothesis, not a proven root cause.
+- Earlier graphics diagnostics observed integrated-GPU `DP-4`; that historical topology is not a fresh statement about the working setup. Cross-GPU handoff was a hypothesis, not a proven root cause.
 - Keep the working generation and GPU test results as a baseline. Do not combine a graphics update, GPU routing changes, and compositor migration in one diagnostic experiment.
 - Existing dirty worktree changes belong to the user. Do not reset them. Preserve the intentional machine-ID/`--impure` workflow and justified unstable inputs; purity and swap cleanup are not priorities here.
 
@@ -53,10 +54,10 @@ P0: immediate reliability/security. P1: core functionality and foundations. P2: 
 
 ### 01 — Brave → Slack handoff
 
-- [ ] Remove the stale user mask on `xdg-desktop-portal-gtk.service` and verify the fallback backend starts. The mask still points to `/dev/null`; previous inspection found the Slack URI handler already correctly associated with `slack.desktop`.
-- [ ] Declare portal backend ownership explicitly: Hyprland for supported capture interfaces, a working fallback for OpenURI/FileChooser/Settings as appropriate to the installed versions. Resolve any remaining GNOME session-environment conflicts.
-- [ ] Test a complete Slack browser sign-in, a `slack://` handoff, and an ordinary external link from each relevant Brave profile, after login and after suspend. Do not publish authentication callback URLs in logs.
-- [ ] Treat successful handoff as the acceptance test, rather than merely having portal processes running. Portal restarts can interrupt screen-sharing sessions; schedule them accordingly.
+- [x] Remove the user mask on `xdg-desktop-portal-gtk.service`, start the GTK backend and restore the main portal's OpenURI interface. The September 29 inventory found the backend still unmasked and active.
+- [x] Verify a token-free `slack://` browser link and actual Slack browser sign-in after the repair. See the [confirmed fix and evidence](README.md#confirmed-fix-brave-could-not-hand-off-slack-sign-in).
+- [ ] Finish the cross-profile, fresh-login and suspend/resume handoff checks, including ordinary external links. Successful sign-in during diagnosis does not establish all of these cases. Keep callback URLs out of logs.
+- [ ] Preserve the working `hyprland;gtk` portal ownership during the Home Manager/session migration in 07; resolve any remaining GNOME session-environment conflicts there. Portal restarts can interrupt screen sharing.
 
 ### 02 — Brave profile chooser
 
@@ -121,24 +122,21 @@ P0: immediate reliability/security. P1: core functionality and foundations. P2: 
 
 ## Clipboard and LLM tools
 
-### 21 — Slack → other-app clipboard freeze/crash
-
-- September 29 clipboard investigation: X11 → Wayland text delivery timed out while the reverse direction worked; later three fresh Brave → Firefox markers succeeded with all observers off. Recovered, cause unresolved; no fix or extra bridge applied. Continue from the [evidence ledger and recurrence plan](investigations/clipboard/README.md), keeping this delivery failure distinct from the earlier reported freeze/crash.
-
-- [ ] Diagnose the reported freeze/crash when copying from Slack and pasting into a different application (not Slack). Confirm which process freezes or crashes and record affected destination apps; the cause is not yet established.
-- [ ] Reproduce with non-sensitive plain text versus rich content, compare native Wayland and XWayland destinations, and isolate CopyQ's involvement. Do not assume this shares the cause of the repaired Slack sign-in handoff.
-- [ ] Acceptance: repeated Slack-to-other-app copy/paste succeeds without hangs or crashes, including after suspend. Keep clipboard contents and credentials out of diagnostic logs.
-
 ### 09 — CopyQ and `cq` integration
 
-- [ ] Repair and consolidate the existing integration rather than replace it: `config/shell-scripts/cq.sh` already implements indexed reads, and `cq 0` reaches `copyq read 0`.
+- [x] Keep CopyQ and the existing indexed CLI (`cq 0` calls `copyq read 0`); no replacement clipboard manager was installed.
+- [x] Add Super+V to open `cq ls` in a centered floating Kitty window, sized to 50% of the monitor in each dimension with a 900-pixel width cap. Enter selects and closes; cancellation closes; no automatic paste. The live Hyprland binding loaded without configuration errors. Kitty's paste shortcut is configured as Alt+V.
+- [x] Implement newest-first `j`/`k` browsing, `/` to enter literal case-insensitive search, Escape to return to filtered navigation, and Escape again to close. Synthetic interaction tests, shell syntax and whitespace checks passed.
+- [ ] Confirm the Nix-managed `cq` and Kitty changes are activated and the complete Super+V → select → manual-paste workflow works interactively. The configuration work and synthetic checks do not establish activation or end-to-end desktop behaviour.
 - [ ] Reconcile the XDG autostart entry (`QT_QPA_PLATFORM=xcb copyq`) with Hyprland's separate `copyq --start-server`; use one session-owned startup path and verify capture from both native Wayland and XWayland applications.
-- [ ] Make `cq 0` output only the selected text to stdout; keep errors on stderr and return useful status codes. Check multiline text, empty history, invalid indices, Unicode and `cq 0 | another-command` using synthetic data.
-- [ ] Preserve the `cq ls` searchable workflow, provide a GUI toggle hotkey, document persistence/clear behaviour, and consider secret/password exclusions and history limits. Clipboard contents should not leak into diagnostic logs.
+- [ ] Verify stdout, stderr and exit-status behaviour for multiline text, empty history, invalid indices, Unicode and `cq 0 | another-command`, using synthetic data.
+- [ ] Document persistence/clear behaviour and consider secret/password exclusions and history limits. Clipboard contents should not leak into diagnostic logs. Delivery failures and the earlier Slack freeze/crash report are tracked in [known issues](README.md#clipboard-boundary-failure-2026-09-29).
 
 ### 10 — `llm` / `llt` → Claude Sonnet 5
 
-- [ ] Audit the existing `llt = "llm -t clarity"` alias, saved `clarity` template and the installed `llm-anthropic` plugin/model registry. Packages currently come from the separate unstable tarball through `config/pythonPkgs.nix`; this is not necessarily a standalone script bug.
+- [x] Audit `llt = "llm -t clarity"`, the template and plugin registry: installed `llm` 0.30 and `llm-anthropic` 0.24 already support Sonnet 4.6, and the global default was already `anthropic/claude-sonnet-4-6`. The template still explicitly selected retired Sonnet 4.0.
+- [x] With user approval, change only the model in `~/.config/io.datasette.llm/templates/clarity.yaml` to `anthropic/claude-sonnet-4-6`. Template validation and local model resolution passed; no API request was sent. This is the immediate repair, not completion of the separate Sonnet 5 migration.
+- [ ] Make LLM package upgrades explicit and maintainable. They currently use the hardcoded unstable tarball in `config/packages.nix`, shared with Claude Code, through `config/pythonPkgs.nix`; `nix flake update` does not move that tarball pin. A dedicated LLM flake input was proposed but has not been implemented or approved.
 - [ ] Update/pin compatible `llm`, Anthropic plugin and SDK versions; use the exact requested API model `claude-sonnet-5`, rather than silently substituting another Sonnet model.
 - [ ] Check templates/options for unsupported manual thinking budgets and non-default sampling parameters; account for adaptive thinking and parse streamed content appropriately. These are documented Sonnet 5 migration considerations. [Anthropic migration guide](https://platform.claude.com/docs/en/models/sonnet-5/migration-guide)
 - [ ] Acceptance: model discovery recognizes Sonnet 5, `llt` retains the clarity prompt, stdin piping and streaming work, and errors are legible. Keep API keys outside the Nix store; get approval before a paid API smoke test.
@@ -181,22 +179,12 @@ P0: immediate reliability/security. P1: core functionality and foundations. P2: 
 - [ ] Add a compact month calendar to the Waybar clock tooltip/popover, with today's date highlighted and useful month navigation.
 - [ ] Confirm preferred week start, date format, week numbers and timezone display. This is a date calendar initially; account/event integration is a separate scope decision.
 
-## GPU policy and remaining investigation
+## Completed GPU policy and historical issues
 
-### 18 — Force the desktop GPU when wanted
+- [x] Implement desktop-only Brave GPU selection through the existing hardware configuration and application wrapper, using the PCI by-path render node and an explicit missing-device error. Laptop selection remains automatic.
+- [x] Record the user's September 29 report that the GPU is working well. Preserve the working setup; no further GPU experiment is scheduled.
 
-- [ ] Decide whether normal desktop Brave should always use the RX580 or expose a separate RX580 launcher while leaving the default automatic. Current working manual launch uses `DRI_PRIME=pci-0000_01_00_0` and `--render-node-override=/dev/dri/by-path/pci-0000:01:00.0-render` with X11/GTK3.
-- [ ] If made persistent, gate it on the existing desktop/laptop detection and scope the environment to Brave, not every application. Prefer the verified PCI by-path link over unstable `renderD128` numbering; handle a missing device explicitly.
-- [ ] Verify cold launches from Wofi, hotkeys and external links, and that browser relaunches preserve the policy. Confirm actual `GL_RENDERER`, not merely requested flags. Test laptop portability and sleep/wake before declaring reliable.
-- [ ] Do not treat GPU pinning as a fix for 19 or change the monitor cable/compositor GPU at the same time.
-
-### 19 — RX580 suspend and cross-GPU diagnosis
-
-- [ ] Compare suspend with the RX580 idle versus holding an active browser context, recording runtime PM state and kernel logs before/after. Current evidence is mixed: one failed cycle and subsequent clean cycles, including overnight.
-- [ ] From a clean boot, test whether avoiding runtime autosuspend changes the failure rate; select a scoped, reversible method and document power-consumption implications. Do not apply broad AMD kernel flags indiscriminately.
-- [ ] Separately test direct monitor connection to the RX580, verify Hyprland and Brave GPU ownership, adapt the connector rule if necessary, and repeat native Wayland rendering. Current monitor rule targets integrated-GPU `DP-4`.
-- [ ] Re-test after the controlled graphics-stack update. Escalate to firmware or hardware isolation only as evidence warrants; neither successful browsing nor a runtime PM `error` alone proves hardware health/failure.
-- [ ] Keep the working XWayland path available throughout; do not conclude that software workarounds have fixed the underlying native-Wayland issue.
+Former items 18–19 now live in [README's GPU status and recurrence watch](README.md#gpu-status-and-recurrence-watch-2026-09-29). The report establishes current usability, not a newly measured graphics-stack root cause or completion of every historical suspend/laptop test.
 
 ## Design consultation
 
@@ -209,11 +197,11 @@ P0: immediate reliability/security. P1: core functionality and foundations. P2: 
 
 ## Suggested execution order
 
-1. Repair Slack handoff and the profile chooser; establish secure laptop locking (01–03).
+1. Finish Slack handoff validation, restore the profile chooser and establish secure laptop locking (01–03).
 2. Diagnose voice, echo and capture behaviour on the working browser baseline (04–06). Consult on layout/theme preferences now without undertaking the full styling pass.
-3. Plan the version target and migration together, but execute the system update and Hyprland migration in separate validated steps (08, 07). Continue GPU diagnosis as its own experiment track (19).
+3. Plan the version target and migration together, but execute the system update and Hyprland migration in separate validated steps (08, 07). Preserve the working GPU setup; reopen diagnosis only if symptoms return.
 4. Finish daily tools: clipboard, Sonnet 5, focus/layout presets and TUI consistency (09–13). Small independent wins can happen before the migration.
-5. Polish Waybar, calendar and power menu; consolidate Foundry and any chosen desktop GPU policy (14–18), then finish the agreed visual theme (20).
+5. Polish Waybar, calendar and power menu; consolidate Foundry (14–17), then finish the agreed visual theme (20).
 
 ## Acceptance checklist for each significant change
 

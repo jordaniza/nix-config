@@ -11,13 +11,13 @@
     ./config/brave
     (import ./config/zsh.nix {inherit config pkgs;})
     (import ./config/nixvim {inherit config pkgs;})
-    (import ./config/vscode {inherit config pkgs;})
     (import ./config/tmux.nix {inherit config pkgs;})
     (import ./config/bat.nix {inherit config pkgs;})
     (import ./config/fzf.nix {inherit config pkgs;})
     (import ./config/zoxide.nix {inherit config pkgs;})
     (import ./config/gtk.nix {inherit config pkgs;})
     ./config/kitty.nix
+    ./config/hyprlock.nix
     ./config/ssh.nix
     ./config/gpg-agent.nix
     ./config/shell-scripts

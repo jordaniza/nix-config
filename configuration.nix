@@ -202,6 +202,7 @@
         # disable gnome and replace with hyprland
         services.xserver.desktopManager.gnome.enable = lib.mkForce false;
         programs.hyprland.enable = true;
+        security.pam.services.hyprlock = {};
         services.gnome.gnome-keyring.enable = true;
 
         hardware.bluetooth = {
