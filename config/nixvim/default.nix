@@ -60,7 +60,7 @@ in {
       image-nvim
     ];
 
-    extraPackages = [pkgs.imagemagick];
+    extraPackages = [pkgs.imagemagick pkgs.terraform];
 
     extraConfigLua = extraConfig;
   };

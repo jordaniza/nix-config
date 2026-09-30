@@ -1,4 +1,9 @@
 {...}: {
+  home.file.".local/bin/screenshot" = {
+    source = ./screenshot.sh;
+    executable = true;
+  };
+
   home.file.".config/autostart/copyq.desktop" = {
     source = ./copyq.desktop;
   };

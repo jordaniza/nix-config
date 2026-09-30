@@ -17,6 +17,8 @@
       solidity = ["prettier"];
       sh = ["shfmt"];
       sql = ["sqlfluff"];
+      terraform = ["terraform_fmt"];
+      tfvars = ["terraform_fmt"];
       typescript = ["prettierd" "prettier"];
       typescriptreact = ["prettier"];
       yaml = ["prettierd" "prettier"];

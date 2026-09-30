@@ -91,7 +91,7 @@
   },
 
   "network": {
-    "interface": ["enp12s0", "wlp13s0"],
+    "interface": "wlo1",
     "format-ethernet": "󱘖  wlan  |",
     "format-wifi": "{essid} {signalStrength}%     |",
     "format-disconnected": "⚠",

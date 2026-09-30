@@ -13,7 +13,7 @@
       map space begin-selection
       map enter copy-to-clipboard
       map alt+v paste_from_clipboard
-      map alt+l kitten hints --type=url
+      map alt+m kitten hints --type=url
       background_opacity 0.9
       hide_window_decorations yes
       font_size 13.0
