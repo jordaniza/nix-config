@@ -58,7 +58,6 @@ in {
 
       # editors
       dconf-editor
-      gnome-tweaks
 
       # languages
       nodejs_22
@@ -102,13 +101,6 @@ in {
       #   echo "Hello, ${config.home.username}!"
       # '')
     ]
-    ++ (with pkgs.gnomeExtensions; [
-      burn-my-windows
-      blur-my-shell
-      gtile
-      clipboard-history
-      appindicator
-    ])
     ++ (
       with pkgs.nodePackages; [
         prettier

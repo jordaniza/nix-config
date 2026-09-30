@@ -21,7 +21,6 @@
     ];
 
     shellAliases = {
-      hyprswitch = "sudo /run/current-system/specialisation/hyprland/bin/switch-to-configuration switch";
       cd = "z";
       cq = "${config.home.homeDirectory}/.local/bin/cq";
       cat = "${config.home.homeDirectory}/.local/bin/bat-or-glow";
