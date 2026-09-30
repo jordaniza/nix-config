@@ -18,6 +18,7 @@
     (import ./config/gtk.nix {inherit config pkgs;})
     ./config/kitty.nix
     ./config/hyprlock.nix
+    ./config/hyprland
     ./config/ssh.nix
     ./config/gpg-agent.nix
     ./config/shell-scripts

@@ -1,0 +1,114 @@
+// -*- mode: jsonc -*-
+{
+  // "layer": "top", // Waybar at top layer
+  // "position": "bottom", // Waybar position (top|bottom|left|right)
+  "height": 30, // Waybar height (to be removed for auto height)
+  // "width": 1280, // Waybar width
+  "spacing": 4, // Gaps between modules (4px)
+  // Choose the order of the modules
+  "modules-left": ["hyprland/workspaces"],
+  "modules-center": ["clock"],
+  "modules-right": [
+    "battery",
+    // "power-profiles-daemon",
+    "bluetooth",
+    "pulseaudio",
+    "network",
+    "custom/power",
+  ],
+  "tray": {
+    // "icon-size": 21,
+    "spacing": 10,
+    //   "blueman": "bluetooth",
+    //   "TelegramDesktop": "$HOME/.local/share/icons/hicolor/16x16/apps/telegram.png"
+    // }
+  },
+
+  // left
+  "hyprland/workspaces": {
+    "disable-scroll": true,
+    "persistent-workspaces": {
+      "*": 4,
+    },
+  },
+
+  // center
+  "clock": {
+    "format": "{:%H:%M:%S}",
+    "interval": 1,
+    "format-alt": "{:%d/%m/%y %H:%M:%S}",
+  },
+
+  // right
+  "battery": {
+    "states": {
+      // "good": 95,
+      "warning": 30,
+      "critical": 15,
+    },
+    "format": "{capacity}% {icon} |",
+    "format-full": "{capacity}% {icon} |",
+    "format-charging": "{capacity}%   |",
+    "format-plugged": "{capacity}%   |",
+    "format-alt": "{time} {icon} |",
+    // "format-good": "", // An empty format will hide the module
+    // "format-full": "",
+    "format-icons": ["", "", "", "", ""],
+  },
+
+  "power-profiles-daemon": {
+    "format": "{icon}",
+    "tooltip-format": "Power profile: {profile}\nDriver: {driver}",
+    "tooltip": true,
+    "format-icons": {
+      "default": "",
+      "performance": "",
+      "balanced": "",
+      "power-saver": "",
+    },
+  },
+
+  "bluetooth": {
+    "format": "  |",
+    "format-connected": " {device_battery_percentage}%  |",
+    "format-off": "󰂲  |",
+    "tooltip": "{device_name}\nBattery: {device_battery_percentage}%",
+    "on-click": "kitty -T bluetuith -e bluetuith",
+  },
+
+  "pulseaudio": {
+    "format": " {volume}% {icon}  | {format_source} |",
+    "format-bluetooth": "{volume}% {icon} | {format_source} |",
+    "format-bluetooth-muted": "  {icon} | {format_source} |",
+    "format-muted": "  {format_source} |",
+    "format-source": "{volume}%  ",
+    "format-source-muted": "  |",
+    "format-icons": {
+      "headphone": "",
+      "default": ["", "", ""],
+    },
+    "on-click": "kitty -T pulsemixer -e pulsemixer",
+  },
+
+  "network": {
+    "interface": ["enp12s0", "wlp13s0"],
+    "format-ethernet": "󱘖  wlan  |",
+    "format-wifi": "{essid} {signalStrength}%     |",
+    "format-disconnected": "⚠",
+    "tooltip-format": "{ifname} → {ipaddr}",
+    "on-click": "kitty -T nmtui -e nmtui",
+  },
+
+  "custom/power": {
+    "format": "⏻  ",
+    "tooltip": false,
+    "menu": "on-click",
+    "menu-file": "$HOME/.config/waybar/power_menu.xml",
+    "menu-actions": {
+      "shutdown": "shutdown now",
+      "reboot": "reboot now",
+      "suspend": "systemctl suspend",
+      "hibernate": "systemctl hibernate",
+    },
+  },
+}

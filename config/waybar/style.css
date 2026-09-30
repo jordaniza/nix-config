@@ -1,0 +1,36 @@
+window#waybar {
+  background-color: #1f1f1f;
+  color: #ffffff;
+  border: none;
+}
+
+#clock {
+  padding: 0 10px;
+}
+
+#battery {
+  padding: 0 8px;
+}
+
+#network {
+  padding: 0 8px;
+}
+
+/* All workspace buttons */
+#workspaces button {
+  color: #aaaaaa; /* grey for inactive */
+  background: transparent; /* no background */
+  border: none;
+  transition: color 0.25s ease; /* smooth color transition */
+}
+
+/* Active workspace */
+#workspaces button.active {
+  color: #ffffff; /* white for active */
+}
+
+/* Optional: remove focus ring when clicking */
+#workspaces button:focus {
+  outline: none;
+  box-shadow: none;
+}
