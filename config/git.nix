@@ -1,10 +1,9 @@
 {pkgs, ...}: {
   programs.git = {
     enable = true;
-    userName = "jordaniza";
-    userEmail = "j@jordaniza.com";
-
-    extraConfig = {
+    settings = {
+      user.name = "jordaniza";
+      user.email = "j@jordaniza.com";
       init.defaultBranch = "main";
       core.editor = "nvim";
       credential.helper = "${

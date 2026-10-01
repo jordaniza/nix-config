@@ -1,6 +1,6 @@
 {inputs, pkgs, lib, device, customHardware, ...}: let
   isDesktop = device == "desktop";
-  bravePackage = inputs.brave-nixpkgs.legacyPackages.${pkgs.system}.brave;
+  bravePackage = inputs.brave-nixpkgs.legacyPackages.${pkgs.stdenv.hostPlatform.system}.brave;
 in {
   # Home Manager installs and wraps Brave through its Chromium module.
   programs.chromium = {

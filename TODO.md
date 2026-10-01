@@ -1,6 +1,6 @@
 # TODO
 
-Updated: 2026-09-30. Backlog only; implementation changes still require approval.
+Updated: 2026-10-01. Backlog only; implementation changes still require approval.
 
 ## Next
 
@@ -19,9 +19,12 @@ Updated: 2026-09-30. Backlog only; implementation changes still require approval
 
 ## Maintenance
 
+- [ ] Choose a replacement for the removed whatsapp-for-linux package; assess Karere before installing a replacement.
+- [ ] Review and explain the explicitly preserved SSH defaults before changing agent forwarding, connection sharing, keepalives, or known-host behavior.
+
 - [ ] Upgrade NixOS/Home Manager/Nixvim together in a separate change from desktop migration; preserve the working GPU configuration and required pins.
 - [ ] Make `llm`/`llt` package upgrades explicit; verify availability and compatibility of the requested Sonnet 5 target. The stale clarity-template model is already repaired.
-- [ ] Replace custom Foundry packaging with nixpkgs Foundry across packages, apps and the dev shell.
+- [ ] Validate stable Foundry 1.7.1 after activation: check forge/cast/anvil/chisel and run representative project tests.
 
 ## Nice-to-haves
 

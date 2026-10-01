@@ -2,16 +2,16 @@
   description = "Nixos config flake";
 
   inputs = {
-    nixpkgs.url = "github:nixos/nixpkgs/nixos-25.05";
+    nixpkgs.url = "github:nixos/nixpkgs/nixos-26.05";
     brave-nixpkgs.url = "github:nixos/nixpkgs/nixos-unstable";
     home-manager = {
-      url = "github:nix-community/home-manager/release-25.05";
+      url = "github:nix-community/home-manager/release-26.05";
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
     # nixvim should be declared here
     nixvim = {
-      url = "github:nix-community/nixvim/nixos-25.05";
+      url = "github:nix-community/nixvim/nixos-26.05";
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
@@ -30,11 +30,18 @@
     pkgs = import nixpkgs {
       inherit system;
       overlays = [
-        rust-overlay.overlays.default
-        # Temporarily disable foundry-bin for update
-        # (final: prev: {
-        #   foundry-bin = final.callPackage ./foundry-bin {};
-        # })
+        # The pinned overlay uses "" where newer fetchurl expects null.
+        (final: prev:
+          rust-overlay.overlays.default
+            (final // {
+              fetchurl = args:
+                prev.fetchurl (args // (
+                  if (args.name or null) == ""
+                  then {name = null;}
+                  else {}
+                ));
+            })
+            prev)
       ];
     };
 
@@ -63,41 +70,7 @@
       if device == "desktop"
       then ./hardware/desktop.nix
       else ./hardware/laptop.nix;
-    # import foundry related utilities
-    foundry-bin = import ./foundry-bin {inherit pkgs;};
   in {
-    # setup foundry (temporarily disabled)
-    apps = {
-      anvil = {
-        type = "app";
-        program = "${foundry-bin}/bin/anvil";
-      };
-      chisel = {
-        type = "app";
-        program = "${foundry-bin}/bin/chisel";
-      };
-      cast = {
-        type = "app";
-        program = "${foundry-bin}/bin/cast";
-      };
-      forge = {
-        type = "app";
-        program = "${foundry-bin}/bin/forge";
-      };
-    };
-
-    defaultPackage = foundry-bin;
-
-    devShell = pkgs.mkShell {
-      buildInputs = [
-        foundry-bin
-      ];
-    };
-
-    overlay = final: prev: {
-      foundry-bin = final.callPackage ./foundry-bin {};
-    };
-
     nixosConfigurations.default = nixpkgs.lib.nixosSystem {
       specialArgs = {inherit inputs device;};
       modules = [
@@ -106,10 +79,9 @@
         home-manager.nixosModules.default
         {
           environment.systemPackages = [
-            foundry-bin
             pkgs.rust-bin.stable.latest.default
           ];
-          home-manager.sharedModules = [nixvim.homeManagerModules.nixvim];
+          home-manager.sharedModules = [nixvim.homeModules.nixvim];
         }
       ];
     };

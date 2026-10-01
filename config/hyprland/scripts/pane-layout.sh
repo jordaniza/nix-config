@@ -148,7 +148,7 @@ set_parent_ratio() {
 	hyprctl dispatch focuswindow "address:$address" >/dev/null ||
 		fail "Could not focus pane $address."
 
-	hyprctl dispatch splitratio exact "$ratio" >/dev/null ||
+	hyprctl dispatch layoutmsg "splitratio $ratio exact" >/dev/null ||
 		fail "Could not set the pane ratio."
 }
 

@@ -1,11 +1,12 @@
 {
   lib,
   config,
+  inputs,
   pkgs,
   ...
 }: {
   imports = [
-    (import ./config/packages.nix {inherit pkgs;})
+    (import ./config/packages.nix {inherit pkgs inputs;})
     (import ./config/git.nix {inherit pkgs;})
     (import ./config/dconf.nix {inherit config pkgs;})
     ./config/brave

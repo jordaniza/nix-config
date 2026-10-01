@@ -19,19 +19,13 @@ require("image").setup({
 })
 
 -- lsp for solidity
-local lspconfig = require("lspconfig")
-local configs = require("lspconfig.configs")
-
-configs.solidity = {
-	default_config = {
-		cmd = { "nomicfoundation-solidity-language-server", "--stdio" },
-		filetypes = { "solidity" },
-		root_dir = lspconfig.util.find_git_ancestor,
-		single_file_support = false,
-	},
-}
-
-lspconfig.solidity.setup({})
+vim.lsp.config("solidity", {
+	cmd = { "nomicfoundation-solidity-language-server", "--stdio" },
+	filetypes = { "solidity" },
+	root_markers = { ".git" },
+	workspace_required = true,
+})
+vim.lsp.enable("solidity")
 
 -- remove cmp for markdown
 require("cmp").setup({

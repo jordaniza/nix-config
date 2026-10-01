@@ -6,7 +6,7 @@
   modulesPath,
   ...
 }: let
-  btrfsUUID = "e151ec67-e360-4039-9549-d4c367fa7d4c";
+  rootDevice = "/dev/mapper/luks-288f3d0b-d963-4649-bba2-dab419f89373";
   swapFileSizeMB = 32 * 1024;
 in {
   _module.args.customHardware.gpu = null;
@@ -15,6 +15,7 @@ in {
     (modulesPath + "/installer/scan/not-detected.nix")
   ];
 
+  boot.initrd.systemd.enable = true;
   boot.initrd.availableKernelModules = ["xhci_pci" "nvme" "usb_storage" "sd_mod" "rtsx_pci_sdmmc"];
   boot.initrd.kernelModules = [];
   boot.kernelModules = ["kvm-intel"];
@@ -26,19 +27,19 @@ in {
   # create the btrfs subvolumes at sudo btrfs subvolume create /mnt/@whatever
   # unmount /mnt
   fileSystems."/" = {
-    device = "/dev/disk/by-uuid/${btrfsUUID}";
+    device = rootDevice;
     fsType = "btrfs";
     options = ["subvol=@"];
   };
 
   fileSystems."/home" = {
-    device = "/dev/disk/by-uuid/${btrfsUUID}";
+    device = rootDevice;
     fsType = "btrfs";
     options = ["subvol=@home"];
   };
 
   fileSystems."/swap" = {
-    device = "/dev/disk/by-uuid/${btrfsUUID}";
+    device = rootDevice;
     fsType = "btrfs";
     options = ["subvol=@swap"];
   };
@@ -66,7 +67,7 @@ in {
 
   system.activationScripts.createSwapFile.text = ''
     if ! mountpoint -q /swap; then
-      mount -o subvol=@swap /dev/disk/by-uuid/${btrfsUUID} /swap
+      mount -o subvol=@swap ${rootDevice} /swap
     fi
     if [ ! -f /swap/swapfile ]; then
       dd if=/dev/zero of=/swap/swapfile bs=1M count=${toString swapFileSizeMB}

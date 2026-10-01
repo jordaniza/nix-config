@@ -69,16 +69,18 @@
 
   nvim-tree = {
     enable = true;
-    git = {
-      enable = true;
-      ignore = false;
-    };
-    filters = {
-      dotfiles = false;
-    };
-    updateFocusedFile.enable = true;
-    actions = {
-      openFile.resizeWindow = false;
+    settings = {
+      git = {
+        enable = true;
+        ignore = false;
+      };
+      filters = {
+        dotfiles = false;
+      };
+      update_focused_file.enable = true;
+      actions = {
+        open_file.resize_window = false;
+      };
     };
   };
 

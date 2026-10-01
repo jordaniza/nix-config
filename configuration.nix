@@ -89,8 +89,6 @@
 
     # check with `dconf read /org/gnome/desktop/interface/cursor-theme`
     # and if it's wrong reset by using `dconf rest (same path as above)`
-    displayManager.gdm.enable = true;
-    desktopManager.gnome.enable = false;
     # Configure keymap in X11
     xkb = {
       layout = "us";
@@ -101,6 +99,9 @@
       xterm
     ];
   };
+
+  services.displayManager.gdm.enable = true;
+  services.desktopManager.gnome.enable = false;
 
   # touchpad and mouse
   services.libinput = {
@@ -180,15 +181,15 @@
   services.logind =
     if device == "desktop"
     then {
-      extraConfig = ''
-        IdleAction=ignore
-         IdleActionSec=0
-         InhibitDelayMaxSec=5
-         HandleLidSwitch=ignore
-         HandleLidSwitchDocked=ignore
-         HandleSuspendKey=ignore
-         HandleHibernateKey=ignore
-      '';
+      settings.Login = {
+        IdleAction = "ignore";
+        IdleActionSec = 0;
+        InhibitDelayMaxSec = 5;
+        HandleLidSwitch = "ignore";
+        HandleLidSwitchDocked = "ignore";
+        HandleSuspendKey = "ignore";
+        HandleHibernateKey = "ignore";
+      };
     }
     else {};
 

@@ -1,21 +1,17 @@
-{pkgs, ...}: let
-  unstable =
-    import (builtins.fetchTarball {
-      url = "https://github.com/NixOS/nixpkgs/archive/549bd84d6279f9852cae6225e372cc67fb91a4c1.tar.gz";
-      sha256 = "0dchsfq8czjg8iwr60fxmqnglllchcy64wp60b8wx4wd9mwn0rw4";
-    }) {
-      config.allowUnfree = true;
-    };
-
-  python-with-pkgs = import ./pythonPkgs.nix {inherit pkgs unstable;};
+{pkgs, inputs, ...}: let
+  python-with-pkgs = import ./pythonPkgs.nix {inherit pkgs;};
+  # Preserve the Node implementation; stable pkgs.live-server is unrelated.
+  live-server-node =
+    inputs.rust-overlay.inputs.nixpkgs
+    .legacyPackages.${pkgs.stdenv.hostPlatform.system}
+    .nodePackages.live-server;
 in {
   # The home.packages option allows you to install Nix packages into your
   # environment.
   home.packages = with pkgs;
     [
-      # unstable
       python-with-pkgs
-      unstable.claude-code
+      claude-code
 
       # hardware
       lm_sensors
@@ -46,9 +42,6 @@ in {
       lazysql
       postgresql
 
-      # random
-      neofetch
-
       # git
       gh
       git
@@ -63,13 +56,15 @@ in {
       nodejs_22
       bun
       yarn
+      pnpm
+      live-server-node
       gcc
       uv
+      foundry
 
       # apps
       discord
       telegram-desktop
-      whatsapp-for-linux
       slack
 
       # utilities
@@ -86,6 +81,7 @@ in {
       # formatters
       alejandra
       black
+      prettier
       prettierd
       shfmt
       stylua
@@ -100,14 +96,7 @@ in {
       # (pkgs.writeShellScriptBin "my-hello" ''
       #   echo "Hello, ${config.home.username}!"
       # '')
-    ]
-    ++ (
-      with pkgs.nodePackages; [
-        prettier
-        live-server
-        pnpm
-      ]
-    );
+    ];
 
   # fonts.packages = [pkgs.nerd-fonts.fira-code];
 }
