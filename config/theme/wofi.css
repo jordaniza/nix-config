@@ -1,0 +1,58 @@
+@import "@gtkColors@";
+
+* {
+  font-family: "@uiFont@";
+  font-size: 14px;
+}
+
+window {
+  margin: 0;
+  border: 1px solid @rice_accent;
+  border-radius: @cornerRadius@px;
+  background-color: @rice_background;
+}
+
+#outer-box {
+  margin: 12px;
+  background-color: @rice_background;
+}
+
+#input {
+  margin: 0 0 8px;
+  padding: 8px 10px;
+  border: 1px solid @rice_selection;
+  box-shadow: none;
+  border-radius: @cornerRadius@px;
+  color: @rice_foreground;
+  background-color: @rice_selection;
+}
+
+#input:focus {
+  border-color: @rice_accent;
+}
+
+#inner-box,
+#scroll {
+  margin: 0;
+  border: none;
+  background-color: @rice_background;
+}
+
+#entry {
+  padding: 6px 8px;
+  border-radius: @cornerRadius@px;
+}
+
+#text {
+  margin: 0 6px;
+  color: @rice_foreground;
+}
+
+#entry:selected {
+  background-color: @rice_selection;
+}
+
+#entry:selected #text {
+  color: @rice_foreground;
+  font-weight: bold;
+}

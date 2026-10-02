@@ -23,11 +23,9 @@
       executable = true;
     };
 
-    "waybar/style.css".source = ../waybar/style.css;
     "waybar/power_menu.xml".source = ../waybar/power_menu.xml;
 
     "wofi/config".source = ../wofi/config;
-    "wofi/style.css".source = ../wofi/style.css;
 
     "mako/config".source = ../mako/config;
   };

@@ -3,3 +3,10 @@
 /result
 *.archive*
 .codex
+
+# Keep the synthetic rice design report alongside its Markdown concept notes.
+!/reports/
+/reports/*
+!/reports/rice-design/
+design
+reports

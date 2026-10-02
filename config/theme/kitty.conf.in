@@ -1,0 +1,42 @@
+# Dracula ANSI colors, shared with the rest of the desktop.
+foreground #@foreground@
+background #@background@
+selection_foreground #@white@
+selection_background #@selection@
+url_color #@cyan@
+cursor #@foreground@
+cursor_text_color background
+
+color0 #@terminalBlack@
+color1 #@critical@
+color2 #@green@
+color3 #@yellow@
+color4 #@accent@
+color5 #@pink@
+color6 #@cyan@
+color7 #@foreground@
+color8 #@comment@
+color9 #@brightRed@
+color10 #@brightGreen@
+color11 #@brightYellow@
+color12 #@brightPurple@
+color13 #@brightPink@
+color14 #@brightCyan@
+color15 #@white@
+
+font_family @monoFont@
+font_size 13.0
+disable_ligatures never
+background_opacity 0.9
+hide_window_decorations yes
+window_padding_width 6
+
+# Keep tab information, without decorative segments.
+tab_bar_style separator
+tab_separator "  "
+active_tab_foreground #@accent@
+active_tab_background #@background@
+inactive_tab_foreground #@muted@
+inactive_tab_background #@background@
+mark1_foreground #@background@
+mark1_background #@critical@

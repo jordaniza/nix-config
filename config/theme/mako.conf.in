@@ -1,0 +1,19 @@
+font=@uiFont@ 12
+width=360
+height=160
+padding=14
+margin=12
+border-radius=@cornerRadius@
+border-size=1
+anchor=top-right
+layer=overlay
+background-color=#@background@
+text-color=#@foreground@
+border-color=#@accent@
+progress-color=#@green@cc
+icons=1
+icon-location=left
+max-icon-size=32
+
+[urgency=critical]
+border-color=#@critical@

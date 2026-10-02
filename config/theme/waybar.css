@@ -1,0 +1,128 @@
+@import "@gtkColors@";
+
+* {
+  font-family: "@monoFont@";
+  font-size: 14px;
+}
+
+window#waybar {
+  background-color: @rice_background;
+  color: @rice_foreground;
+  border: none;
+}
+
+window#waybar > box {
+  padding: 4px 0;
+}
+
+.modules-right {
+  padding-right: 12px;
+}
+
+#clock {
+  padding: 0 10px;
+}
+
+#network,
+#bluetooth,
+#pulseaudio,
+#battery,
+#custom-tmux,
+#custom-notifications,
+#custom-updates,
+#custom-power {
+  padding: 0 6px;
+}
+
+#bluetooth,
+#pulseaudio,
+#custom-power {
+  color: @rice_muted;
+}
+
+#bluetooth.connected {
+  color: @rice_accent;
+}
+
+#network.disconnected,
+#battery.warning:not(.charging):not(.plugged) {
+  color: @rice_warning;
+}
+
+#battery.critical:not(.charging):not(.plugged) {
+  color: @rice_critical;
+}
+
+#network:hover,
+#bluetooth:hover,
+#pulseaudio:hover {
+  color: @rice_foreground;
+}
+
+#custom-power:hover {
+  color: @rice_critical;
+}
+
+#workspaces button {
+  color: @rice_muted;
+  background: transparent;
+  border: none;
+  border-bottom: 2px solid transparent;
+  border-radius: 0;
+  padding: 0 8px;
+  transition: color 0.25s ease;
+}
+
+#workspaces button.active {
+  color: @rice_accent;
+  border-bottom-color: @rice_accent;
+}
+
+#workspaces button:hover {
+  background: @rice_selection;
+  box-shadow: none;
+}
+
+#workspaces button:focus {
+  outline: none;
+  box-shadow: none;
+}
+
+tooltip {
+  background-color: @rice_background;
+  color: @rice_foreground;
+  border: 1px solid @rice_selection;
+}
+
+/* Placeholders: no live state or actions yet. */
+#custom-tmux,
+#custom-notifications,
+#custom-updates {
+  color: @rice_muted;
+}
+
+menu {
+  background-color: @rice_background;
+  color: @rice_foreground;
+  border: 1px solid @rice_selection;
+  border-radius: @cornerRadius@px;
+  padding: 4px;
+}
+
+menuitem {
+  padding: 8px 12px;
+  border-radius: @cornerRadius@px;
+}
+
+menuitem label {
+  color: @rice_foreground;
+}
+
+menuitem:hover {
+  background-color: @rice_selection;
+}
+
+menu separator {
+  background-color: @rice_selection;
+  min-height: 1px;
+}

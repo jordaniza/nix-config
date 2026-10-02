@@ -8,12 +8,15 @@
   // Choose the order of the modules
   "modules-left": ["hyprland/workspaces"],
   "modules-center": ["clock"],
+  "fixed-center": true,
   "modules-right": [
-    "battery",
-    // "power-profiles-daemon",
+    "network",
     "bluetooth",
     "pulseaudio",
-    "network",
+    "battery",
+    "custom/tmux",
+    "custom/notifications",
+    "custom/updates",
     "custom/power",
   ],
   "tray": {
@@ -34,9 +37,9 @@
 
   // center
   "clock": {
-    "format": "{:%H:%M:%S}",
+    "format": "{:%a %d %b  %H:%M:%S}",
     "interval": 1,
-    "format-alt": "{:%d/%m/%y %H:%M:%S}",
+    "format-alt": "{:%d/%m/%Y  %H:%M:%S}",
   },
 
   // right
@@ -46,11 +49,11 @@
       "warning": 30,
       "critical": 15,
     },
-    "format": "{capacity}% {icon} |",
-    "format-full": "{capacity}% {icon} |",
-    "format-charging": "{capacity}%   |",
-    "format-plugged": "{capacity}%   |",
-    "format-alt": "{time} {icon} |",
+    "format": "{capacity}% {icon}",
+    "format-full": "{capacity}% {icon}",
+    "format-charging": "{capacity}% ",
+    "format-plugged": "{capacity}% ",
+    "format-alt": "{time} {icon}",
     // "format-good": "", // An empty format will hide the module
     // "format-full": "",
     "format-icons": ["", "", "", "", ""],
@@ -69,20 +72,21 @@
   },
 
   "bluetooth": {
-    "format": "  |",
-    "format-connected": " {device_battery_percentage}%  |",
-    "format-off": "󰂲  |",
-    "tooltip": "{device_name}\nBattery: {device_battery_percentage}%",
+    "format": "",
+    "format-connected": "",
+    "format-off": "󰂲",
+    "tooltip-format": "Bluetooth: {status}",
+    "tooltip-format-connected": "{device_enumerate}",
+    "tooltip-format-enumerate-connected": "{device_alias}",
+    "tooltip-format-enumerate-connected-battery": "{device_alias} · {device_battery_percentage}%",
     "on-click": "kitty -T bluetuith -e bluetuith",
   },
 
   "pulseaudio": {
-    "format": " {volume}% {icon}  | {format_source} |",
-    "format-bluetooth": "{volume}% {icon} | {format_source} |",
-    "format-bluetooth-muted": "  {icon} | {format_source} |",
-    "format-muted": "  {format_source} |",
-    "format-source": "{volume}%  ",
-    "format-source-muted": "  |",
+    "format": "{icon}",
+    "format-bluetooth": "{icon}",
+    "format-bluetooth-muted": "󰝟",
+    "format-muted": "󰝟",
     "format-icons": {
       "headphone": "",
       "default": ["", "", ""],
@@ -92,15 +96,33 @@
 
   "network": {
     "interface": "wlo1",
-    "format-ethernet": "󱘖  wlan  |",
-    "format-wifi": "{essid} {signalStrength}%     |",
+    "format-ethernet": "Wired",
+    "format-wifi": "{essid}",
     "format-disconnected": "⚠",
+    "max-length": 24,
     "tooltip-format": "{ifname} → {ipaddr}",
+    "tooltip-format-wifi": "{essid} · {signalStrength}%\n{ifname} → {ipaddr}",
+    "tooltip-format-disconnected": "Disconnected",
     "on-click": "kitty -T nmtui -e nmtui",
   },
 
+  "custom/tmux": {
+    "format": "",
+    "tooltip-format": "tmux · not connected",
+  },
+
+  "custom/notifications": {
+    "format": "",
+    "tooltip-format": "Notifications · not connected",
+  },
+
+  "custom/updates": {
+    "format": "",
+    "tooltip-format": "Updates · not connected",
+  },
+
   "custom/power": {
-    "format": "⏻  ",
+    "format": "⏻",
     "tooltip": false,
     "menu": "on-click",
     "menu-file": "$HOME/.config/waybar/power_menu.xml",

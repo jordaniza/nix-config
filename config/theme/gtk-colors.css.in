@@ -1,0 +1,7 @@
+@define-color rice_background #@background@;
+@define-color rice_foreground #@foreground@;
+@define-color rice_selection #@selection@;
+@define-color rice_accent #@accent@;
+@define-color rice_muted #@muted@;
+@define-color rice_warning #@warning@;
+@define-color rice_critical #@critical@;
