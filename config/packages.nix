@@ -66,6 +66,7 @@ in {
       discord
       telegram-desktop
       slack
+      zapzap
 
       # utilities
       wl-clipboard
