@@ -6,6 +6,7 @@ import "VimNavigation.js" as Navigation
 ListView {
     id: list
     property var icons: ({})
+    property var keyAtIndex: index => model[index].key
     property bool actionsEnabled: true
     property bool editing: false
     property bool wrapNavigation: true
@@ -25,7 +26,7 @@ ListView {
             return;
         }
         if (actionsEnabled)
-            activated(model[index].key);
+            activated(keyAtIndex(index));
     }
 
     Keys.onPressed: event => {

@@ -19,6 +19,9 @@ in {
     "theme/quickshell/MenuRow.qml".source = ./quickshell/MenuRow.qml;
     "theme/quickshell/MenuError.qml".source = ./quickshell/MenuError.qml;
     "theme/quickshell/PowerAppearance.qml".source = ./quickshell/PowerAppearance.qml;
+    "theme/quickshell/ScreenshotAppearance.qml".source = ./quickshell/ScreenshotAppearance.qml;
+    "theme/quickshell/ScreenshotRow.qml".source = ./quickshell/ScreenshotRow.qml;
+    "theme/quickshell/ListMessage.qml".source = ./quickshell/ListMessage.qml;
     "theme/quickshell/Icons.qml".source = ./quickshell/Icons.qml;
     "theme/hyprland.conf".source = files.hyprland;
     "theme/mako.conf".source = files.mako;

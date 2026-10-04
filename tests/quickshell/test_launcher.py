@@ -22,7 +22,7 @@ import os, pathlib, sys, time
 runtime = pathlib.Path(os.environ["XDG_RUNTIME_DIR"])
 for fd in pathlib.Path("/proc/self/fd").iterdir():
     try:
-        assert not os.readlink(fd).endswith("power.lock"), "Inherited lock"
+        assert not os.readlink(fd).endswith("quickshell-menu.lock"), "Inherited lock"
     except FileNotFoundError:
         pass
 with (runtime / "calls").open("a") as log:
@@ -55,7 +55,9 @@ sys.exit(9 if os.environ.get("TEST_FAIL_NOTIFY") else 0)
 set -euo pipefail
 readonly quickshell="$TEST_QS"
 readonly shell_config="$TEST_CONFIG"
-''' + (REPO / "config/quickshell/open-power.sh").read_text())
+readonly menu_target="${TEST_MENU_TARGET:-power}"
+readonly menu_title="${TEST_MENU_TITLE:-Power menu}"
+''' + (REPO / "config/quickshell/open-menu.sh").read_text())
         self.launcher.chmod(0o700)
         self.env = {**os.environ, "XDG_RUNTIME_DIR": str(self.directory),
                     "PATH": str(self.directory) + os.pathsep + os.environ["PATH"],
@@ -84,13 +86,22 @@ readonly shell_config="$TEST_CONFIG"
         self.assertEqual(self.notifications(), [])
 
     def test_concurrent_requests(self):
-        processes = [subprocess.Popen([str(self.launcher)], env=self.env,
-                     stdout=subprocess.PIPE, stderr=subprocess.PIPE) for _ in range(4)]
+        processes = [subprocess.Popen([str(self.launcher)],
+                     env={**self.env, "TEST_MENU_TARGET": "power" if i % 2 else "screenshots"},
+                     stdout=subprocess.PIPE, stderr=subprocess.PIPE) for i in range(4)]
         for process in processes:
             process.communicate(timeout=8)
             self.assertEqual(process.returncode, 0)
         self.assertEqual(self.launches(), 1)
         self.assertEqual(self.notifications(), [])
+
+    def test_screenshot_target_and_error_notification(self):
+        extra = {"TEST_MENU_TARGET": "screenshots", "TEST_MENU_TITLE": "Screenshots"}
+        self.assertEqual(self.run_launcher(**extra).returncode, 0)
+        self.assertIn("call screenshots open", (self.directory / "calls").read_text())
+        self.assertEqual(self.run_launcher(**extra, TEST_REJECT_OPEN="1").returncode, 1)
+        self.assertEqual(self.notifications(), [["--app-name=Screenshots", "--icon=dialog-error",
+                                                "Screenshots could not open"]])
 
     def test_failed_start_and_retry(self):
         self.assertEqual(self.run_launcher(TEST_FAIL_START="1").returncode, 7)

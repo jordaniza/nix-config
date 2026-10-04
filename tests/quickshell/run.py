@@ -6,6 +6,8 @@ import os
 import re
 from pathlib import Path
 import shutil
+import struct
+import zlib
 import subprocess
 import tempfile
 
@@ -96,7 +98,25 @@ with tempfile.TemporaryDirectory(prefix="quickshell-test-") as temporary:
                     raise SystemExit(f"Unresolvable import {relative!r} from {qml.relative_to(fixture)}")
     tests = fixture / "tests/quickshell"
     tests.mkdir(parents=True)
-    shutil.copy(repo / "tests/quickshell/tst_power.qml", tests)
+    for test_name in ["tst_power.qml", "tst_screenshots.qml"]:
+        shutil.copy(repo / "tests/quickshell" / test_name, tests)
+    # Small synthetic PNGs and distinct mtimes; never read the user's captures.
+    fixtures = tests / "fixtures"
+    fixtures.mkdir()
+    (tests / "empty-fixtures").mkdir()
+    def chunk(kind, data):
+        return (struct.pack(">I", len(data)) + kind + data
+                + struct.pack(">I", zlib.crc32(kind + data)))
+    png = (b"\x89PNG\r\n\x1a\n"
+           + chunk(b"IHDR", struct.pack(">IIBBBBB", 1, 1, 8, 2, 0, 0, 0))
+           + chunk(b"IDAT", zlib.compress(b"\x00\x80\x80\x80")) + chunk(b"IEND", b""))
+    for index in range(40):
+        name = "newest # &.png" if index == 39 else f"capture-{index:02}.png"
+        capture = fixtures / name
+        capture.write_bytes(png)
+        os.utime(capture, (1700000000 + index, 1700000000 + index))
+    (fixtures / "ignore.txt").write_text("Not an image")
+    (fixtures / "ignore.png").mkdir()
     runtime = fixture / "runtime"
     runtime.mkdir(mode=0o700)
     env = {**os.environ, "QT_QPA_PLATFORM": "offscreen", "QT_QUICK_BACKEND": "software",
@@ -110,8 +130,9 @@ with tempfile.TemporaryDirectory(prefix="quickshell-test-") as temporary:
     native_env = {**env, "XDG_CACHE_HOME": str(fixture / "cache"),
                   "XDG_STATE_HOME": str(fixture / "state"),
                   "DBUS_SESSION_BUS_ADDRESS": "unix:path=" + str(fixture / "no-bus"),
-                  "QS_DISABLE_FILE_WATCHER": "1"}
-    for key in ["DISPLAY", "WAYLAND_DISPLAY", "HYPRLAND_INSTANCE_SIGNATURE", "POWER_ACTION"]:
+                  "QS_DISABLE_FILE_WATCHER": "1",
+                  "TEST_SCREENSHOT_FOLDER": fixtures.as_uri()}
+    for key in ["DISPLAY", "WAYLAND_DISPLAY", "HYPRLAND_INSTANCE_SIGNATURE", "POWER_ACTION", "SCREENSHOT_COPY", "SCREENSHOT_DIRECTORY"]:
         native_env.pop(key, None)
     result = subprocess.run([args.quickshell, "--path", str(smoke), "--no-color"],
                             env=native_env, capture_output=True, text=True, timeout=10)

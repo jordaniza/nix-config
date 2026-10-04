@@ -4,3 +4,6 @@ MenuSurface 1.0 MenuSurface.qml
 MenuRow 1.0 MenuRow.qml
 MenuError 1.0 MenuError.qml
 PowerAppearance 1.0 PowerAppearance.qml
+ScreenshotAppearance 1.0 ScreenshotAppearance.qml
+ScreenshotRow 1.0 ScreenshotRow.qml
+ListMessage 1.0 ListMessage.qml

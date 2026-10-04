@@ -3,20 +3,21 @@
 These are repository tests: commit this directory with the power-menu implementation.
 They exercise production components and scripts, rather than report-only copies.
 
-From the repository root, run both suites with the existing flake's pinned tools:
+From the repository root, run the suites with the existing flake's pinned tools:
 
 ```sh
 nix-shell --impure tests/quickshell/shell.nix --run \
-  'python3 tests/quickshell/run.py && python3 tests/quickshell/test_launcher.py && python3 tests/quickshell/test_power_status.py'
+  'python3 tests/quickshell/run.py && python3 tests/quickshell/test_launcher.py && python3 tests/quickshell/test_power_status.py && python3 tests/quickshell/test_screenshot_copy.py'
 ```
 
-Or enter the environment and run either suite independently:
+Or enter the environment and run each suite independently:
 
 ```sh
 nix-shell --impure tests/quickshell/shell.nix
 python3 tests/quickshell/run.py
 python3 tests/quickshell/test_launcher.py
 python3 tests/quickshell/test_power_status.py
+python3 tests/quickshell/test_screenshot_copy.py
 ```
 
 The environment supplies Python, Nix, Bash, coreutils, util-linux and Qt 6 tools,
@@ -31,12 +32,13 @@ build test dependencies; it does not activate the desktop configuration.
 | `tst_power.qml` | Eight Qt test cases covering action selection, Vim keys, auto-repeat, duplicate dispatch, start/exit failure recovery, invalid inputs, row growth and surface padding |
 | `run.py` | Stages declared file/link layout, checks local imports, and runs QtTest plus native Quickshell theme loading offscreen |
 | `tst_theme.qml` | Instantiates all theme component types through Quickshell's import resolver without creating a window |
-| `test_launcher.py` | Eight Python cases covering startup/reuse, concurrency, startup/IPC failures, deadlines, missing runtime directory and error notifications, using fake Quickshell and notify-send executables |
+| `test_launcher.py` | Nine Python cases covering startup/reuse, concurrency, startup/IPC failures, deadlines, missing runtime directory and error notifications, using fake Quickshell and notify-send executables; screenshot IPC routing and error notification |
 | `test_power_status.py` | Five cases covering active/inactive state, failed/invalid IPC, timeouts and the user-scoped Waybar refresh signal, using fake Quickshell/pkill |
+| `tst_screenshots.qml` | Six cases covering PNG filtering/order, virtualized rows, scrolling/Vim navigation, copy completion/failures, duplicate Enter and empty folders |
+| `test_screenshot_copy.py` | Four cases verifying exact image bytes/MIME type, missing files, clipboard failures and timeout, with fake wl-copy |
 | `shell.nix` | Pinned tools and Qt paths for reproducible execution |
 
-Both commands return nonzero on failure. QtTest also counts setup and teardown,
-so its summary is ten passes for eight behavioral cases. Failure cases intentionally emit diagnostics while checking recovery. The launcher deadline
+Each command returns nonzero on failure. QtTest also counts setup and teardown. Failure cases intentionally emit diagnostics while checking recovery. The launcher deadline
 case deliberately takes approximately five seconds.
 
 The tests never call shutdown, restart, suspend, lock or live desktop IPC. They
@@ -61,3 +63,8 @@ command variables are removed; the session-bus address points to an absent socke
 It never opens the production menu or executes a power action. It catches imports
 that exist on disk but leave Quickshell's virtual configuration root. This check
 does not exercise the native PanelWindow backend, focus or rendering on Hyprland.
+
+Screenshot fixtures are generated in the temporary test directory. Copy tests never
+read or write the live clipboard. After activation, manually verify drawer height,
+focus, image preview sizing, and pasting into an application. No performance
+benchmark or native Hyprland window acceptance is implied by these tests.

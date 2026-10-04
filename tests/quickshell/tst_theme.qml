@@ -2,8 +2,13 @@ import QtQuick
 import Quickshell
 import "theme"
 import "shared"
+import "components/screenshots"
 
 ShellRoot {
+    property ScreenshotAppearance screenshotAppearance: ScreenshotAppearance {}
+    ScreenshotList { width: 380; height: 400; folder: Quickshell.env("TEST_SCREENSHOT_FOLDER") }
+    ScreenshotRow { imageSource: ""; timestamp: "Synthetic date"; text: "capture.png" }
+    ListMessage { text: "No screenshots" }
     property PowerAppearance appearance: PowerAppearance {}
     ActionList { model: [{key: "lock", label: "Lock"}]; icons: Icons }
     MenuSurface {

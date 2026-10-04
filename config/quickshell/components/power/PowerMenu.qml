@@ -7,6 +7,7 @@ import "../../theme"
 
 PopupWindow {
     id: menu
+    required property string actionCommand
     preferredWidth: appearance.preferredWidth
     focusTarget: list
     WlrLayershell.namespace: "power"
@@ -14,7 +15,7 @@ PopupWindow {
 
     property PowerAppearance appearance: PowerAppearance {}
     property PowerController controller: PowerController {
-        command: Quickshell.env("POWER_ACTION")
+        command: menu.actionCommand
         process: Process {
             stderr: SplitParser {
                 onRead: data => console.error("[power]", data)

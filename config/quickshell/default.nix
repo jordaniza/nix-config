@@ -21,18 +21,29 @@
       readonly shell_config=${lib.escapeShellArg shellConfig}
     '' + builtins.readFile ./power-status.sh;
   };
-  powerMenu = pkgs.writeShellApplication {
-    name = "power-menu";
+  screenshotCopy = pkgs.writeShellApplication {
+    name = "screenshot-copy";
+    runtimeInputs = [pkgs.coreutils pkgs.wl-clipboard];
+    text = builtins.readFile ./copy-screenshot.sh;
+  };
+  makeMenu = name: target: title: pkgs.writeShellApplication {
+    inherit name;
     runtimeInputs = [pkgs.coreutils pkgs.util-linux pkgs.libnotify];
     text = ''
       readonly quickshell=${lib.escapeShellArg quickshell}
       readonly shell_config=${lib.escapeShellArg shellConfig}
+      readonly menu_target=${lib.escapeShellArg target}
+      readonly menu_title=${lib.escapeShellArg title}
+      export SCREENSHOT_DIRECTORY=${lib.escapeShellArg "${config.home.homeDirectory}/Pictures/Screenshots"}
+      export SCREENSHOT_COPY=${lib.escapeShellArg (lib.getExe screenshotCopy)}
       export POWER_ACTION=${lib.escapeShellArg (lib.getExe powerAction)}
-    '' + builtins.readFile ./open-power.sh;
+    '' + builtins.readFile ./open-menu.sh;
   };
+  powerMenu = makeMenu "power-menu" "power" "Power menu";
+  screenshotHistory = makeMenu "screenshot-history" "screenshots" "Screenshots";
 in {
   programs.quickshell.enable = true;
-  home.packages = [powerMenu powerStatus];
+  home.packages = [powerMenu powerStatus screenshotHistory];
   xdg.configFile = {
     "quickshell/shell.qml".source = ./shell.qml;
     "quickshell/shared" = {
