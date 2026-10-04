@@ -23,8 +23,6 @@
       executable = true;
     };
 
-    "waybar/power_menu.xml".source = ../waybar/power_menu.xml;
-
     "wofi/config".source = ../wofi/config;
 
     "mako/config".source = ../mako/config;

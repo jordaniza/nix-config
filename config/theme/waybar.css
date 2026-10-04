@@ -24,14 +24,28 @@ window#waybar > box {
 }
 
 #network,
+#battery {
+  padding: 0 6px;
+}
+
+/* One icon family, centered in equal-width slots. */
+#network.ethernet,
+#network.disconnected,
 #bluetooth,
 #pulseaudio,
-#battery,
 #custom-tmux,
 #custom-notifications,
 #custom-updates,
 #custom-power {
-  padding: 0 6px;
+  font-size: 16px;
+  min-width: 20px;
+  padding: 0 4px;
+}
+
+/* Separate connection controls, utilities and power with space. */
+#custom-tmux,
+#custom-power {
+  margin-left: 8px;
 }
 
 #bluetooth,
@@ -61,6 +75,12 @@ window#waybar > box {
 
 #custom-power:hover {
   color: @rice_critical;
+}
+
+#custom-power.active,
+#custom-power.active:hover {
+  color: @rice_accent;
+  box-shadow: inset 0 -2px @rice_accent;
 }
 
 #workspaces button {
@@ -101,28 +121,3 @@ tooltip {
   color: @rice_muted;
 }
 
-menu {
-  background-color: @rice_background;
-  color: @rice_foreground;
-  border: 1px solid @rice_selection;
-  border-radius: @cornerRadius@px;
-  padding: 4px;
-}
-
-menuitem {
-  padding: 8px 12px;
-  border-radius: @cornerRadius@px;
-}
-
-menuitem label {
-  color: @rice_foreground;
-}
-
-menuitem:hover {
-  background-color: @rice_selection;
-}
-
-menu separator {
-  background-color: @rice_selection;
-  min-height: 1px;
-}

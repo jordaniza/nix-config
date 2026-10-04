@@ -21,6 +21,7 @@
     ./config/hyprlock.nix
     ./config/hyprland
     ./config/theme
+    ./config/quickshell
     ./config/ssh.nix
     ./config/gpg-agent.nix
     ./config/shell-scripts

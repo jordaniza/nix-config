@@ -4,9 +4,12 @@
     inherit (palette) background foreground selection accent muted warning critical;
   };
 in {
+  quickshell = pkgs.replaceVars ./quickshell/Theme.qml.in {
+    inherit (palette) background foreground selection accent critical uiFont monoFont cornerRadius;
+  };
   waybar = pkgs.replaceVars ./waybar.css {
     inherit gtkColors;
-    inherit (palette) monoFont cornerRadius;
+    inherit (palette) monoFont;
   };
   wofi = pkgs.replaceVars ./wofi.css {
     inherit gtkColors;
