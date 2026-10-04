@@ -10,13 +10,13 @@
   "modules-center": ["clock"],
   "fixed-center": true,
   "modules-right": [
-    "network",
+    "battery",
     "bluetooth",
     "pulseaudio",
-    "battery",
     "custom/tmux",
     "custom/notifications",
     "custom/updates",
+    "network",
     "custom/power",
   ],
   "tray": {
@@ -45,9 +45,9 @@
   // right
   "battery": {
     "states": {
-      // "good": 95,
-      "warning": 30,
-      "critical": 15,
+      "normal": 89,
+      "warning": 19,
+      "critical": 9,
     },
     "format": "{capacity}% {icon}",
     "format-full": "{capacity}% {icon}",
@@ -100,7 +100,7 @@
     "align": 0.5,
     "interface": "wlo1",
     "format-ethernet": "󰌗",
-    "format-wifi": "{essid}",
+    "format-wifi": "󰖩 {essid}",
     "format-disconnected": "󰌙",
     "max-length": 24,
     "tooltip-format": "{ifname} → {ipaddr}",

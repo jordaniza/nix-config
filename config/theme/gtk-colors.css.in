@@ -5,3 +5,6 @@
 @define-color rice_muted #@muted@;
 @define-color rice_warning #@warning@;
 @define-color rice_critical #@critical@;
+@define-color rice_yellow #@yellow@;
+@define-color rice_green #@green@;
+@define-color rice_white #@white@;

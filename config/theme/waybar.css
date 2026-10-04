@@ -58,12 +58,25 @@ window#waybar > box {
   color: @rice_accent;
 }
 
-#network.disconnected,
-#battery.warning:not(.charging):not(.plugged) {
+#network.disconnected {
   color: @rice_warning;
 }
 
-#battery.critical:not(.charging):not(.plugged) {
+/* State thresholds are inclusive: 9, 19 and 89 percent. */
+#battery {
+  color: @rice_green;
+}
+
+#battery.normal {
+  color: @rice_white;
+}
+
+#battery.warning,
+#battery.critical {
+  color: @rice_yellow;
+}
+
+#battery.critical.discharging {
   color: @rice_critical;
 }
 
@@ -120,4 +133,3 @@ tooltip {
 #custom-updates {
   color: @rice_muted;
 }
-

@@ -19,6 +19,7 @@ Updated: 2026-10-04. Backlog only; implementation changes still require approval
 
 ## Maintenance
 
+- [ ] Remove the word "rice" from all theming identifiers and documentation, updating shared color declarations and every consumer together without changing appearance.
 - [ ] Investigate a gradual move to Quickshell as the shared desktop UI, potentially replacing Waybar and Mako. Assess shared state, theming and keyboard navigation against feature parity, durable notification history, failure recovery and maintenance cost; retain existing components until replacements are ready.
 - [ ] Review Quickshell's native APIs and D-Bus integrations as replacements for Bash adapters, starting with power actions and menu-state integration with Waybar. Prefer native, event-driven integration where supported; retain shell adapters where needed.
 - [ ] Choose a replacement for the removed whatsapp-for-linux package; assess Karere before installing a replacement.

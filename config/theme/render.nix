@@ -1,7 +1,7 @@
 {pkgs}: let
   palette = import ./palette.nix;
   gtkColors = pkgs.replaceVars ./gtk-colors.css.in {
-    inherit (palette) background foreground selection accent muted warning critical;
+    inherit (palette) background foreground selection accent muted warning critical yellow green white;
   };
 in {
   quickshell = pkgs.replaceVars ./quickshell/Theme.qml.in {
