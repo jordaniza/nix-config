@@ -28,21 +28,42 @@
   };
   makeMenu = name: target: title: pkgs.writeShellApplication {
     inherit name;
-    runtimeInputs = [pkgs.coreutils pkgs.util-linux pkgs.libnotify];
+    runtimeInputs = [pkgs.coreutils pkgs.libnotify];
     text = ''
       readonly quickshell=${lib.escapeShellArg quickshell}
       readonly shell_config=${lib.escapeShellArg shellConfig}
       readonly menu_target=${lib.escapeShellArg target}
       readonly menu_title=${lib.escapeShellArg title}
-      export SCREENSHOT_DIRECTORY=${lib.escapeShellArg "${config.home.homeDirectory}/Pictures/Screenshots"}
-      export SCREENSHOT_COPY=${lib.escapeShellArg (lib.getExe screenshotCopy)}
-      export POWER_ACTION=${lib.escapeShellArg (lib.getExe powerAction)}
     '' + builtins.readFile ./open-menu.sh;
   };
   powerMenu = makeMenu "power-menu" "power" "Power menu";
   screenshotHistory = makeMenu "screenshot-history" "screenshots" "Screenshots";
 in {
-  programs.quickshell.enable = true;
+  programs.quickshell = {
+    enable = true;
+    systemd.enable = true;
+  };
+  systemd.user.services.quickshell = {
+    # This desktop starts Hyprland directly, without a systemd session target.
+    # Hyprland's login/logout hooks own when this service runs.
+    Install.WantedBy = lib.mkForce [];
+    Unit = {
+      ConditionEnvironment = ["WAYLAND_DISPLAY" "HYPRLAND_INSTANCE_SIGNATURE"];
+      StartLimitIntervalSec = 30;
+      StartLimitBurst = 3;
+    };
+    Service = {
+      ExecStart = lib.mkForce "${quickshell} --path ${lib.escapeShellArg shellConfig} --no-duplicate";
+      RestartSec = 2;
+      # Restart=on-failure is supplied by the Home Manager module.
+      Environment = [
+        "POWER_ACTION=${lib.getExe powerAction}"
+        "SCREENSHOT_COPY=${lib.getExe screenshotCopy}"
+        "SCREENSHOT_DIRECTORY=${config.home.homeDirectory}/Pictures/Screenshots"
+        "PATH=${lib.makeBinPath [powerStatus]}:/run/current-system/sw/bin"
+      ];
+    };
+  };
   home.packages = [powerMenu powerStatus screenshotHistory];
   xdg.configFile = {
     "quickshell/shell.qml".source = ./shell.qml;

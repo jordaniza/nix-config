@@ -8,7 +8,6 @@ in pkgs.mkShellNoCC {
     pkgs.nix
     pkgs.bash
     pkgs.coreutils
-    pkgs.util-linux
     pkgs.qt6.qtdeclarative
     pkgs.quickshell
   ];

@@ -1,4 +1,4 @@
-{device, lib, pkgs, ...}: {
+{config, device, lib, pkgs, ...}: {
   imports = [ (./devices + "/${device}.nix") ];
 
   home.packages = with pkgs; [
@@ -16,7 +16,14 @@
   ];
 
   xdg.configFile = {
-    "hypr/hyprland.conf".text = lib.mkBefore (builtins.readFile ./hyprland.conf);
+    "hypr/hyprland.conf".text = lib.mkBefore (
+      builtins.readFile ./hyprland.conf + lib.optionalString config.programs.quickshell.systemd.enable ''
+
+        # Supply this session's display details before starting the managed shell.
+        exec-once = ${pkgs.systemd}/bin/systemctl --user import-environment WAYLAND_DISPLAY DISPLAY HYPRLAND_INSTANCE_SIGNATURE XDG_CURRENT_DESKTOP XDG_SESSION_TYPE && ${pkgs.systemd}/bin/systemctl --user restart quickshell.service
+        exec-shutdown = ${pkgs.systemd}/bin/systemctl --user stop quickshell.service
+      ''
+    );
     "hypr/hyprpaper.conf".source = ./hyprpaper.conf;
     "hypr/scripts/pane-layout.sh" = {
       source = ./scripts/pane-layout.sh;

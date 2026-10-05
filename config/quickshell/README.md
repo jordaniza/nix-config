@@ -29,7 +29,8 @@ last icon state remains until the next refresh or Waybar reload.
 | `shared/ActionList.qml` | Selection and activation |
 | `shared/VimNavigation.js` | Keyboard navigation |
 | `shared/CommandRunner.qml` | Process lifecycle |
-| `open-menu.sh` | Serialized launch/reuse under a five-second deadline |
+| `open-menu.sh` | Bounded IPC request and failure notification |
+| `default.nix` | Managed service, its environment and packaged commands |
 
 `~/.config/quickshell/` contains behavior; `~/.config/theme/quickshell/` contains
 appearance. The theme module provides a `quickshell/theme` link to that central
@@ -39,23 +40,40 @@ root. Home Manager installs `shared/` and `components/` with
 imports stay within the installed configuration tree. Edit appearance in
 `config/theme/quickshell/`.
 
-The launcher uses flock's command mode. Its five-second deadline includes lock
-waiting, startup and IPC, with a one-second forced-kill grace. A timed-out detached
-instance may finish starting hidden and be reused on the next invocation.
+## Service lifecycle
+
+Hyprland's login hook imports its display/session environment into the user
+systemd manager, then restarts `quickshell.service`. Its logout hook stops the
+service. This configuration does not currently use a systemd desktop-session
+target, so the service has no automatic WantedBy target. Home Manager supplies
+`Restart=on-failure`; retries wait two seconds and are limited to three starts in
+30 seconds. An intentional service stop stays stopped. A compositor crash may
+bypass the logout hook; display failures can then exhaust the restart limit.
+
+The service supplies the command paths and screenshot directory. `shell.qml`
+reads these once per shell-root creation. Menu commands send one IPC request,
+with a three-second deadline and one-second kill grace. They never start or
+restart Quickshell. Failures, including a QML `false` response, return exit 1 and
+send a bounded error notification.
+
+After `nixup`, restart the running shell with
+`systemctl --user restart quickshell.service`. Future logins start it automatically.
 
 ## Debugging
 
 Launcher failures send “Power menu could not open” through notify-send. Delivery
 has a two-second timeout plus a one-second forced-kill grace; it preserves the
-original failure status. Action failures appear in the popup. QML errors, action exit codes and action
+failure result (exit 1). Action failures appear in the popup. QML errors, action exit codes and action
 stderr go to Quickshell's logs. Read the running instance's recent messages:
 
 ```sh
-quickshell log --path "${XDG_CONFIG_HOME:-$HOME/.config}/quickshell" --tail 100
+systemctl --user status quickshell.service
+journalctl --user -u quickshell.service -n 100
 ```
 
-Add `--follow` to watch new messages. If startup fails, run `power-menu` in a
-terminal to see its startup/IPC diagnostics. Opening without an identifiable
+Use `journalctl --user -u quickshell.service -f` to follow messages.
+After fixing a startup failure that hit the retry limit, run
+`systemctl --user reset-failed quickshell.service`, then restart the service. Opening without an identifiable
 monitor returns failure and logs the reason.
 
 ## Tests and follow-up
@@ -64,7 +82,7 @@ See [tests/quickshell/README.md](../../tests/quickshell/README.md) for the comma
 and coverage. Hyprland focus, monitor placement and actual lock/suspend behavior
 need manual acceptance after build/activation.
 
-TODO: hotkey assignment; cancellable restart/shutdown countdown with Cancel and
+TODO: cancellable restart/shutdown countdown with Cancel and
 Run now. Restart/shutdown currently execute immediately.
 
 ## Screenshot history
@@ -81,12 +99,9 @@ Qt's FolderListModel reads metadata and tracks directory changes only while the
 drawer is open. ListView creates rows near the viewport; previews load
 asynchronously at thumbnail size with image caching disabled. Closing destroys
 the list/model/previews. There is no index, pagination, custom watcher or daemon.
-Opening either menu closes the other. Hotkey assignment remains a follow-up.
+Opening either menu closes the other. Super+P opens power; Super+Shift+V opens screenshots.
 
-Both launcher commands share `open-menu.sh`, one startup lock, and the environment
-needed by both menus, so either may start Quickshell first. `shell.qml` reads the
-three environment values into one startup object when the shell root is created
-and passes them into the menus as properties. Opening the drawer does not reread
-the environment. After `nixup`, restart the existing Quickshell instance before
-testing `screenshot-history`; changing installed files does not update a running
-instance's environment.
+A Nix-generated configuration file will replace the service's environment values
+in a separate change. Power actions, screenshot copying and the Waybar status
+adapter remain as they are; this migration changes process ownership and menu
+requests, not those integrations.

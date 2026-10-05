@@ -20,7 +20,7 @@ python3 tests/quickshell/test_power_status.py
 python3 tests/quickshell/test_screenshot_copy.py
 ```
 
-The environment supplies Python, Nix, Bash, coreutils, util-linux and Qt 6 tools,
+The environment supplies Python, Nix, Bash, coreutils and Qt 6 tools,
 including the matching QML import and Qt plugin paths. It reuses `flake.lock` and
 the repository's existing machine-ID/impure evaluation. Entering it may fetch or
 build test dependencies; it does not activate the desktop configuration.
@@ -32,14 +32,14 @@ build test dependencies; it does not activate the desktop configuration.
 | `tst_power.qml` | Eight Qt test cases covering action selection, Vim keys, auto-repeat, duplicate dispatch, start/exit failure recovery, invalid inputs, row growth and surface padding |
 | `run.py` | Stages declared file/link layout, checks local imports, and runs QtTest plus native Quickshell theme loading offscreen |
 | `tst_theme.qml` | Instantiates all theme component types through Quickshell's import resolver without creating a window |
-| `test_launcher.py` | Nine Python cases covering startup/reuse, concurrency, startup/IPC failures, deadlines, missing runtime directory and error notifications, using fake Quickshell and notify-send executables; screenshot IPC routing and error notification |
+| `test_launcher.py` | Seven cases covering exact IPC routing, failed/false/invalid responses, no startup attempts, request timeout and error notifications, using fake Quickshell and notify-send |
 | `test_power_status.py` | Five cases covering active/inactive state, failed/invalid IPC, timeouts and the user-scoped Waybar refresh signal, using fake Quickshell/pkill |
 | `tst_screenshots.qml` | Six cases covering PNG filtering/order, virtualized rows, scrolling/Vim navigation, copy completion/failures, duplicate Enter and empty folders |
 | `test_screenshot_copy.py` | Four cases verifying exact image bytes/MIME type, missing files, clipboard failures and timeout, with fake wl-copy |
 | `shell.nix` | Pinned tools and Qt paths for reproducible execution |
 
 Each command returns nonzero on failure. QtTest also counts setup and teardown. Failure cases intentionally emit diagnostics while checking recovery. The launcher deadline
-case deliberately takes approximately five seconds.
+case deliberately takes approximately three seconds.
 
 The tests never call shutdown, restart, suspend, lock or live desktop IPC. They
 use temporary directories which are removed afterwards; no generated fixtures
@@ -53,8 +53,8 @@ that redirect imports outside the configuration. Setting either shared/component
 directory back to non-recursive deployment makes this check fail.
 
 Launcher failures must emit one generic notification per failed invocation and
-preserve the original exit status, even if notification delivery fails or times
-out. Successful launches/reuse emit none. These assertions use a fake
+return failure (exit 1), even if notification delivery fails or times out.
+Successful requests emit none. Menu commands must never start Quickshell. These assertions use a fake
 `notify-send`; the tests never contact the real notification service.
 
 The native theme check uses the pinned Quickshell binary, an isolated runtime,
