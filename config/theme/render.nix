@@ -4,8 +4,11 @@
     inherit (palette) background foreground selection accent muted warning critical yellow green white;
   };
 in {
+  waybarTmuxCounts = pkgs.replaceVars ./waybar-tmux-counts.txt.in {
+    inherit (palette) white accent;
+  };
   quickshell = pkgs.replaceVars ./quickshell/Theme.qml.in {
-    inherit (palette) background foreground selection accent critical uiFont monoFont cornerRadius;
+    inherit (palette) background foreground selection accent muted critical uiFont monoFont cornerRadius;
   };
   waybar = pkgs.replaceVars ./waybar.css {
     inherit gtkColors;

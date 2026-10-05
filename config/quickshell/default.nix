@@ -1,6 +1,7 @@
 {config, lib, pkgs, ...}: let
   quickshell = lib.getExe config.programs.quickshell.package;
   shellConfig = "${config.xdg.configHome}/quickshell";
+  themeFiles = import ../theme/render.nix {inherit pkgs;};
   powerAction = pkgs.writeShellApplication {
     name = "power-action";
     text = ''
@@ -38,6 +39,17 @@
   };
   powerMenu = makeMenu "power-menu" "power" "Power menu";
   screenshotHistory = makeMenu "screenshot-history" "screenshots" "Screenshots";
+  tmuxMenu = makeMenu "tmux-menu" "tmux" "tmux";
+  tmuxStatus = pkgs.writeShellApplication {
+    name = "tmux-status";
+    runtimeInputs = [pkgs.coreutils pkgs.procps pkgs.jq];
+    text = ''
+      readonly tmux=${lib.escapeShellArg (lib.getExe pkgs.tmux)}
+      readonly counts_format_file=${lib.escapeShellArg "${themeFiles.waybarTmuxCounts}"}
+      readonly quickshell=${lib.escapeShellArg quickshell}
+      readonly shell_config=${lib.escapeShellArg shellConfig}
+    '' + builtins.readFile ./tmux-status.sh;
+  };
 in {
   programs.quickshell = {
     enable = true;
@@ -57,14 +69,15 @@ in {
       RestartSec = 2;
       # Restart=on-failure is supplied by the Home Manager module.
       Environment = [
-        "PATH=${lib.makeBinPath [powerStatus]}:/run/current-system/sw/bin"
+        "PATH=${lib.makeBinPath [powerStatus tmuxStatus]}:/run/current-system/sw/bin"
       ];
     };
   };
-  home.packages = [powerMenu powerStatus screenshotHistory];
+  home.packages = [powerMenu powerStatus screenshotHistory tmuxMenu tmuxStatus];
   xdg.configFile = {
     "quickshell/config.json".text = builtins.toJSON {
       powerAction = lib.getExe powerAction;
+      tmux = lib.getExe pkgs.tmux;
       screenshotCopy = lib.getExe screenshotCopy;
       screenshotDirectory = "${config.home.homeDirectory}/Pictures/Screenshots";
     };

@@ -1,0 +1,1 @@
+tmux: <span foreground="#@white@">%s session%s</span> · <span foreground="#@accent@">%s attached</span>

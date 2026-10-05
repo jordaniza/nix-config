@@ -6,6 +6,7 @@ QtObject {
     readonly property color foreground: "#@foreground@"
     readonly property color selection: "#@selection@"
     readonly property color accent: "#@accent@"
+    readonly property color muted: "#@muted@"
     readonly property color critical: "#@critical@"
     readonly property color transparent: "transparent"
     readonly property string uiFont: "@uiFont@"

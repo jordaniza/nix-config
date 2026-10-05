@@ -127,8 +127,22 @@ tooltip {
   border: 1px solid @rice_selection;
 }
 
+#custom-tmux {
+  font-size: 14px;
+  color: @rice_muted;
+}
+
+#custom-tmux.error {
+  color: @rice_warning;
+}
+
+#custom-tmux.active,
+#custom-tmux.active:hover {
+  color: @rice_accent;
+  box-shadow: inset 0 -2px @rice_accent;
+}
+
 /* Placeholders: no live state or actions yet. */
-#custom-tmux,
 #custom-notifications,
 #custom-updates {
   color: @rice_muted;

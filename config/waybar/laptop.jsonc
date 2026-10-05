@@ -112,8 +112,13 @@
 
   "custom/tmux": {
     "align": 0.5,
-    "format": "󰆍",
-    "tooltip-format": "tmux · not connected",
+    "exec": "tmux-status",
+    "return-type": "json",
+    "signal": 9,
+    "interval": 10,
+    "exec-on-event": false,
+    "format": "󰆍 {}",
+    "on-click": "tmux-menu",
   },
 
   "custom/notifications": {

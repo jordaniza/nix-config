@@ -42,6 +42,7 @@ builtins.mapAttrs (_: file:
   config.home.homeDirectory = "/synthetic home/#captures";
   lib.getExe = package: "/fake bin/" + package.name;
   pkgs.writeShellApplication = args: { inherit (args) name; };
+  pkgs.tmux.name = "tmux";
 }).xdg.configFile
 """ % repo
 deployment = json.loads(subprocess.check_output(
@@ -78,8 +79,34 @@ with tempfile.TemporaryDirectory(prefix="quickshell-test-") as temporary:
             shutil.copyfile(source, backing)
             target.symlink_to(backing)
     theme = fixture / "config/theme/quickshell"
-    shutil.copytree(repo / "config/theme/quickshell", theme)
-    (theme / "Theme.qml").write_text(rendered)
+    # Install only declared theme files; copying the source tree hides omissions.
+    theme_expression = """
+    builtins.mapAttrs (_: file: toString file.source)
+      (import %s/config/theme/default.nix {
+        config = {
+          xdg.configHome = "/synthetic-config";
+          lib.file.mkOutOfStoreSymlink = path: path;
+        };
+        lib = {};
+        pkgs.replaceVars = path: values: path;
+      }).xdg.configFile
+    """ % repo
+    theme_deployment = json.loads(subprocess.check_output(
+        ["nix-instantiate", "--eval", "--strict", "--json", "--expr", theme_expression], text=True))
+    theme.mkdir(parents=True)
+    for name, source in theme_deployment.items():
+        if not name.startswith("theme/quickshell/"):
+            continue
+        target = fixture / "config" / name
+        if target.name == "Theme.qml":
+            target.write_text(rendered)
+        else:
+            shutil.copyfile(source, target)
+    # Every registered QML type must be part of the installed theme.
+    for line in (theme / "qmldir").read_text().splitlines():
+        fields = line.split()
+        if fields and fields[-1].endswith(".qml") and not (theme / fields[-1]).is_file():
+            raise SystemExit(f"Theme type not deployed: {fields[-1]}")
     # Evaluate the theme module's consumer link, retaining its central location.
     alias_expression = """
     (import %s/config/theme/default.nix {
@@ -107,7 +134,7 @@ with tempfile.TemporaryDirectory(prefix="quickshell-test-") as temporary:
                     raise SystemExit(f"Unresolvable import {relative!r} from {qml.relative_to(fixture)}")
     tests = fixture / "tests/quickshell"
     tests.mkdir(parents=True)
-    for test_name in ["tst_power.qml", "tst_screenshots.qml"]:
+    for test_name in ["tst_power.qml", "tst_screenshots.qml", "tst_tmux.qml"]:
         shutil.copy(repo / "tests/quickshell" / test_name, tests)
     # Small synthetic PNGs and distinct mtimes; never read the user's captures.
     fixtures = tests / "fixtures"

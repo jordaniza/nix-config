@@ -3,6 +3,7 @@ import Quickshell
 import "theme"
 import "shared"
 import "components/screenshots"
+import "components/tmux"
 
 ShellRoot {
     StartupConfig {
@@ -14,6 +15,7 @@ ShellRoot {
     ScreenshotRow { imageSource: ""; timestamp: "Synthetic date"; text: "capture.png" }
     ListMessage { text: "No screenshots" }
     property PowerAppearance appearance: PowerAppearance {}
+    TmuxList { width: 320; height: 200; model: [{created: 100, attached: true, windows: [{index: 0, name: "editor"}]}]; sampledAt: 200 }
     ActionList { model: [{key: "lock", label: "Lock"}]; icons: Icons }
     MenuSurface {
         width: 200
@@ -24,6 +26,7 @@ ShellRoot {
     }
     Component.onCompleted: Qt.callLater(() => {
         if (startup.powerAction !== "/fake bin/power-action"
+                || startup.tmux !== "/fake bin/tmux"
                 || startup.screenshotCopy !== "/fake bin/screenshot-copy"
                 || startup.screenshotDirectory !== "/synthetic home/#captures/Pictures/Screenshots"
                 || startup.screenshotFolder.toString() !== "file:///synthetic home/%23captures/Pictures/Screenshots"

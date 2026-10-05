@@ -21,6 +21,8 @@ in {
     "theme/quickshell/PowerAppearance.qml".source = ./quickshell/PowerAppearance.qml;
     "theme/quickshell/ScreenshotAppearance.qml".source = ./quickshell/ScreenshotAppearance.qml;
     "theme/quickshell/ScreenshotRow.qml".source = ./quickshell/ScreenshotRow.qml;
+    "theme/quickshell/TmuxAppearance.qml".source = ./quickshell/TmuxAppearance.qml;
+    "theme/quickshell/TmuxSessionRow.qml".source = ./quickshell/TmuxSessionRow.qml;
     "theme/quickshell/ListMessage.qml".source = ./quickshell/ListMessage.qml;
     "theme/quickshell/Icons.qml".source = ./quickshell/Icons.qml;
     "theme/hyprland.conf".source = files.hyprland;

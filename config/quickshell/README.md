@@ -52,7 +52,7 @@ target, so the service has no automatic WantedBy target. Home Manager supplies
 bypass the logout hook; display failures can then exhaust the restart limit.
 
 Nix generates `~/.config/quickshell/config.json` with the power action command,
-screenshot copy command and screenshot directory. `StartupConfig.qml` reads it
+screenshot copy command, screenshot directory and tmux executable. `StartupConfig.qml` reads it
 at shell startup and passes the values to the menus. File watching is disabled;
 restart Quickshell after activation to use new values. Edit the Nix declaration,
 not the generated file. Read/parse errors appear in the journal. Menu commands send one IPC request,
@@ -103,8 +103,38 @@ Qt's FolderListModel reads metadata and tracks directory changes only while the
 drawer is open. ListView creates rows near the viewport; previews load
 asynchronously at thumbnail size with image caching disabled. Closing destroys
 the list/model/previews. There is no index, pagination, custom watcher or daemon.
-Opening either menu closes the other. Super+P opens power; Super+Shift+V opens screenshots.
+Opening any menu closes the others. Super+P opens power; Super+Shift+V opens screenshots.
 
 The service still inherits the display/session environment and supplies PATH for
 the Waybar status helper. Application command paths and the screenshot directory
 come from the generated JSON; themes remain under `config/theme/`.
+
+## tmux viewer
+
+`tmux-menu` opens a read-only popup. Each session shows its window count,
+age since creation and a vertical list of window names. A purple filled circle
+means attached; a muted hollow circle means detached. Session names are omitted.
+Attached sessions come first, then oldest first; windows retain tmux index order.
+j/k and arrows scroll, q/Escape closes. Enter has no action in this version.
+
+Opening takes one snapshot with a direct Quickshell Process call to tmux.
+Only the local default socket is queried, with server startup disabled. No session,
+window or pane is created, attached, switched or closed. Linked windows appear
+under each session containing them. Reopen to refresh; there is no menu polling.
+
+Waybar uses `tmux-status` every ten seconds and displays total/attached sessions
+beside the icon, for example `tmux: 4 sessions · 2 attached`. A session with several clients counts once.
+Click or Super+Ctrl+T opens `tmux-menu` through the existing IPC launcher.
+Super+T and Super+Shift+T retain their terminal bindings.
+An absent server shows `tmux: 0 sessions · 0 attached` and an empty list. Other query failures show an unknown
+count or a short menu error. Queries have bounded deadlines. Control characters in
+window names display as spaces; long names elide at the right edge.
+
+The tmux-specific exclusive-focus override and list focus declaration have been
+removed. It uses the shared popup's existing focus/dismissal behavior. Automatic
+focus investigation is deferred while the viewer remains read-only.
+Waybar shows total sessions in white and attached sessions in the accent colour;
+the count markup lives in `config/theme/waybar-tmux-counts.txt.in` and uses the shared
+palette. The icon itself gains accent colour and the workspace-style underline
+while the menu is open. Visibility changes signal the tmux module with RTMIN+9;
+the existing ten-second refresh also clears stale state after a shell crash.

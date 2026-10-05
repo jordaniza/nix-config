@@ -1,9 +1,12 @@
 # TODO
 
-Updated: 2026-10-04. Backlog only; implementation changes still require approval.
+Updated: 2026-10-05. Backlog only; implementation changes still require approval.
 
 ## Next
 
+- [ ] Make Super+F refocus an open, unfocused Quickshell menu and cycle through other floating windows, so returning to a menu never requires the mouse. Include Quickshell layer surfaces explicitly in the focus flow.
+- [x] Add Super+Ctrl+T → `tmux-menu`; approved and configured on 2026-10-05, awaiting user-managed activation. Super+T opens tmux; Super+Shift+T opens a plain terminal.
+- [ ] Revisit tmux menu keyboard focus before adding interactive actions. The exclusive-focus attempt did not resolve it and its tmux-specific changes were removed at the user's request; defer investigation while the viewer is read-only.
 - [ ] Verify desktop idle behaviour: displays off at 15 minutes, lock at 30, and locked resume after manual suspend. Startup is verified; never automatically sleep the desktop.
 - [ ] Make Hyprland the base desktop, initially keeping GDM/keyring; retire the specialisation and `hyprswitch` after validation.
 - [ ] Audit the laptop's existing Hyprland/Waybar/Wofi/Mako files before enabling its device overlay.

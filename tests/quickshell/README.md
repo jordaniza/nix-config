@@ -7,7 +7,7 @@ From the repository root, run the suites with the existing flake's pinned tools:
 
 ```sh
 nix-shell --impure tests/quickshell/shell.nix --run \
-  'python3 tests/quickshell/run.py && python3 tests/quickshell/test_launcher.py && python3 tests/quickshell/test_power_status.py && python3 tests/quickshell/test_screenshot_copy.py'
+  'python3 tests/quickshell/run.py && python3 tests/quickshell/test_launcher.py && python3 tests/quickshell/test_power_status.py && python3 tests/quickshell/test_screenshot_copy.py && python3 tests/quickshell/test_tmux_status.py'
 ```
 
 Or enter the environment and run each suite independently:
@@ -18,9 +18,10 @@ python3 tests/quickshell/run.py
 python3 tests/quickshell/test_launcher.py
 python3 tests/quickshell/test_power_status.py
 python3 tests/quickshell/test_screenshot_copy.py
+python3 tests/quickshell/test_tmux_status.py
 ```
 
-The environment supplies Python, Nix, Bash, coreutils and Qt 6 tools,
+The environment supplies Python, Nix, Bash, coreutils, jq and Qt 6 tools,
 including the matching QML import and Qt plugin paths. It reuses `flake.lock` and
 the repository's existing machine-ID/impure evaluation. Entering it may fetch or
 build test dependencies; it does not activate the desktop configuration.
@@ -37,6 +38,8 @@ build test dependencies; it does not activate the desktop configuration.
 | `tst_screenshots.qml` | Six cases covering PNG filtering/order, virtualized rows, scrolling/Vim navigation, copy completion/failures, duplicate Enter and empty folders |
 | `test_screenshot_copy.py` | Four cases verifying exact image bytes/MIME type, missing files, clipboard failures and timeout, with fake wl-copy |
 | `shell.nix` | Pinned tools and Qt paths for reproducible execution |
+| `tst_tmux.qml` | Grouping/window order, literal names, ages, refresh, failed queries, deadlines and read-only scrolling/dismissal with a fake process |
+| `test_tmux_status.py` | Counts and theme colours, menu visibility, IPC failures/timeouts, empty server, query failures/timeouts and user-scoped refresh with fake tmux/Quickshell/pkill |
 
 Each command returns nonzero on failure. QtTest also counts setup and teardown. Failure cases intentionally emit diagnostics while checking recovery. The launcher deadline
 case deliberately takes approximately three seconds.
@@ -51,6 +54,11 @@ Before QtTest starts, the runner checks every local QML import against the stage
 filesystem without collapsing `..` across symlinks. This catches directory links
 that redirect imports outside the configuration. Setting either shared/component
 directory back to non-recursive deployment makes this check fail.
+
+Theme fixtures use the theme module's actual file declarations, rather than copying
+the source directory. Every QML file registered in `qmldir` must be deployed. This
+catches a new theme component that exists in the repository but is missing from
+Home Manager's install declarations, before Qt starts.
 
 Launcher failures must emit one generic notification per failed invocation and
 return failure (exit 1), even if notification delivery fails or times out.
@@ -72,3 +80,14 @@ Screenshot fixtures are generated in the temporary test directory. Copy tests ne
 read or write the live clipboard. After activation, manually verify drawer height,
 focus, image preview sizing, and pasting into an application. No performance
 benchmark or native Hyprland window acceptance is implied by these tests.
+
+The tmux tests never read the user's sessions or start a server. After activation,
+check the Waybar total/attached count, vertical window names, session ages, scrolling
+and reopening to refresh. V1 queries only the default local socket; custom sockets
+and remote servers are outside its scope. Enter has no action. Counts refresh every
+ten seconds; the menu is a snapshot taken when opened.
+
+Automatic tmux focus remains deferred. Once focused, j/k scroll an overflowing list
+and q/Escape dismiss. Check the icon's accent/underline on open and removal on close,
+including outside-click and switching menus. Total sessions stay white and attached
+sessions purple. Offscreen Qt tests cannot validate compositor keyboard ownership.
