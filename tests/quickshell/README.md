@@ -31,7 +31,7 @@ build test dependencies; it does not activate the desktop configuration.
 | --- | --- |
 | `tst_power.qml` | Eight Qt test cases covering action selection, Vim keys, auto-repeat, duplicate dispatch, start/exit failure recovery, invalid inputs, row growth and surface padding |
 | `run.py` | Stages declared file/link layout, checks local imports, and runs QtTest plus native Quickshell theme loading offscreen |
-| `tst_theme.qml` | Instantiates all theme component types through Quickshell's import resolver without creating a window |
+| `tst_theme.qml` | Instantiates theme components and the production startup configuration reader with Nix-generated synthetic paths |
 | `test_launcher.py` | Seven cases covering exact IPC routing, failed/false/invalid responses, no startup attempts, request timeout and error notifications, using fake Quickshell and notify-send |
 | `test_power_status.py` | Five cases covering active/inactive state, failed/invalid IPC, timeouts and the user-scoped Waybar refresh signal, using fake Quickshell/pkill |
 | `tst_screenshots.qml` | Six cases covering PNG filtering/order, virtualized rows, scrolling/Vim navigation, copy completion/failures, duplicate Enter and empty folders |
@@ -60,6 +60,10 @@ Successful requests emit none. Menu commands must never start Quickshell. These 
 The native theme check uses the pinned Quickshell binary, an isolated runtime,
 cache and state directory, and the offscreen platform. Display, Hyprland and power
 command variables are removed; the session-bus address points to an absent socket.
+It also reads the generated JSON through the production `StartupConfig.qml`, checking
+both command paths and a screenshot directory containing a space and `#`. Package
+builders are stubbed during Nix evaluation, so those commands cannot perform host
+actions. This exercises Nix JSON generation, deployment and native QML reading.
 It never opens the production menu or executes a power action. It catches imports
 that exist on disk but leave Quickshell's virtual configuration root. This check
 does not exercise the native PanelWindow backend, focus or rendering on Hyprland.

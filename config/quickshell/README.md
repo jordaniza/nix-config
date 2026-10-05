@@ -30,7 +30,8 @@ last icon state remains until the next refresh or Waybar reload.
 | `shared/VimNavigation.js` | Keyboard navigation |
 | `shared/CommandRunner.qml` | Process lifecycle |
 | `open-menu.sh` | Bounded IPC request and failure notification |
-| `default.nix` | Managed service, its environment and packaged commands |
+| `default.nix` | Managed service, generated configuration and packaged commands |
+| `shared/StartupConfig.qml` | Read generated `config.json` at startup |
 
 `~/.config/quickshell/` contains behavior; `~/.config/theme/quickshell/` contains
 appearance. The theme module provides a `quickshell/theme` link to that central
@@ -50,8 +51,11 @@ target, so the service has no automatic WantedBy target. Home Manager supplies
 30 seconds. An intentional service stop stays stopped. A compositor crash may
 bypass the logout hook; display failures can then exhaust the restart limit.
 
-The service supplies the command paths and screenshot directory. `shell.qml`
-reads these once per shell-root creation. Menu commands send one IPC request,
+Nix generates `~/.config/quickshell/config.json` with the power action command,
+screenshot copy command and screenshot directory. `StartupConfig.qml` reads it
+at shell startup and passes the values to the menus. File watching is disabled;
+restart Quickshell after activation to use new values. Edit the Nix declaration,
+not the generated file. Read/parse errors appear in the journal. Menu commands send one IPC request,
 with a three-second deadline and one-second kill grace. They never start or
 restart Quickshell. Failures, including a QML `false` response, return exit 1 and
 send a bounded error notification.
@@ -101,7 +105,6 @@ asynchronously at thumbnail size with image caching disabled. Closing destroys
 the list/model/previews. There is no index, pagination, custom watcher or daemon.
 Opening either menu closes the other. Super+P opens power; Super+Shift+V opens screenshots.
 
-A Nix-generated configuration file will replace the service's environment values
-in a separate change. Power actions, screenshot copying and the Waybar status
-adapter remain as they are; this migration changes process ownership and menu
-requests, not those integrations.
+The service still inherits the display/session environment and supplies PATH for
+the Waybar status helper. Application command paths and the screenshot directory
+come from the generated JSON; themes remain under `config/theme/`.

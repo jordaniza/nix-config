@@ -57,15 +57,17 @@ in {
       RestartSec = 2;
       # Restart=on-failure is supplied by the Home Manager module.
       Environment = [
-        "POWER_ACTION=${lib.getExe powerAction}"
-        "SCREENSHOT_COPY=${lib.getExe screenshotCopy}"
-        "SCREENSHOT_DIRECTORY=${config.home.homeDirectory}/Pictures/Screenshots"
         "PATH=${lib.makeBinPath [powerStatus]}:/run/current-system/sw/bin"
       ];
     };
   };
   home.packages = [powerMenu powerStatus screenshotHistory];
   xdg.configFile = {
+    "quickshell/config.json".text = builtins.toJSON {
+      powerAction = lib.getExe powerAction;
+      screenshotCopy = lib.getExe screenshotCopy;
+      screenshotDirectory = "${config.home.homeDirectory}/Pictures/Screenshots";
+    };
     "quickshell/shell.qml".source = ./shell.qml;
     "quickshell/shared" = {
       source = ./shared;

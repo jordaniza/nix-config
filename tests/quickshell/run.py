@@ -32,11 +32,16 @@ rendered = json.loads(subprocess.check_output(
     ["nix-instantiate", "--eval", "--strict", "--json", "--expr", expression], text=True))
 # Evaluate the module's file declarations without evaluating its packages.
 deployment_expression = """
-builtins.mapAttrs (_: file: {
-  source = toString file.source;
-  recursive = file.recursive or false;
-}) (import %s/config/quickshell/default.nix {
-  config = {}; lib = {}; pkgs = {};
+builtins.mapAttrs (_: file:
+  if file ? text then { inherit (file) text; }
+  else {
+    source = toString file.source;
+    recursive = file.recursive or false;
+  }
+) (import %s/config/quickshell/default.nix {
+  config.home.homeDirectory = "/synthetic home/#captures";
+  lib.getExe = package: "/fake bin/" + package.name;
+  pkgs.writeShellApplication = args: { inherit (args) name; };
 }).xdg.configFile
 """ % repo
 deployment = json.loads(subprocess.check_output(
@@ -48,10 +53,14 @@ with tempfile.TemporaryDirectory(prefix="quickshell-test-") as temporary:
     store = fixture / "store"
     store.mkdir()
     for index, (name, entry) in enumerate(deployment.items()):
-        source = Path(entry["source"])
         backing = store / str(index)
         target = fixture / "config" / name
         target.parent.mkdir(parents=True, exist_ok=True)
+        if "text" in entry:
+            backing.write_text(entry["text"])
+            target.symlink_to(backing)
+            continue
+        source = Path(entry["source"])
         if source.is_dir():
             shutil.copytree(source, backing)
             if entry["recursive"]:
@@ -139,4 +148,4 @@ with tempfile.TemporaryDirectory(prefix="quickshell-test-") as temporary:
     output = result.stdout + result.stderr
     if result.returncode != 0 or "THEME_LOAD_OK" not in output or "Failed to load configuration" in output:
         raise SystemExit(output)
-    print("PASS: native Quickshell theme loading (offscreen, isolated runtime)")
+    print("PASS: native Quickshell theme and generated configuration loading (offscreen, isolated runtime)")

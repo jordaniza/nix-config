@@ -1,28 +1,27 @@
 import QtQml
 import Quickshell
 import Quickshell.Io
+import "shared"
 import "components/power"
 import "components/screenshots"
 
 ShellRoot {
     id: shell
-    readonly property QtObject startup: QtObject {
-        readonly property string powerAction: Quickshell.env("POWER_ACTION")
-        readonly property string screenshotCopy: Quickshell.env("SCREENSHOT_COPY")
-        readonly property string screenshotDirectory: Quickshell.env("SCREENSHOT_DIRECTORY")
-        readonly property url screenshotFolder: "file://" + encodeURIComponent(screenshotDirectory).replace(/%2F/g, "/")
+    StartupConfig {
+        id: startup
+        path: Qt.resolvedUrl("config.json")
     }
 
     PowerMenu {
         id: powerMenu
-        actionCommand: shell.startup.powerAction
+        actionCommand: startup.powerAction
         onVisibleChanged: Quickshell.execDetached(["power-menu-status", "--refresh"])
     }
 
     ScreenshotHistory {
         id: screenshots
-        copyCommand: shell.startup.screenshotCopy
-        folder: shell.startup.screenshotFolder
+        copyCommand: startup.screenshotCopy
+        folder: startup.screenshotFolder
     }
 
     IpcHandler {
