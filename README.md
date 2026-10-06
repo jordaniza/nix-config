@@ -4,7 +4,7 @@ The implementation backlog is in [TODO.md](TODO.md). The notes below record actu
 
 ## Known desktop issues and fixes
 
-Notes updated: **2026-09-29**. Verification dates and limitations are recorded per issue; this is not a fresh validation of the whole desktop. Desktop observations unless stated otherwise. Preserve the working baseline while watching for recurrence after ordinary use, suspend/resume and reboot.
+Notes updated: **2026-10-06**. Verification dates and limitations are recorded per issue; this is not a fresh validation of the whole desktop. Desktop observations unless stated otherwise. Preserve the working baseline while watching for recurrence after ordinary use, suspend/resume and reboot.
 
 ### Start with service masks and actual capabilities
 
@@ -82,7 +82,8 @@ If a graphics or suspend symptom returns, record the time, actual renderer, conn
 
 ### Intermittent symptoms: currently working, not established fixes
 
-- **Brave microphone investigation, updated 2026-09-17:** start with the [canonical evidence, app grid and experiment ledger](investigations/brave-audio/README.md). A September 10 trace measured per-stream burst delivery and dropped audio before browser speech processing. The originating server/client fault remains unresolved. This later evidence and the September 17 old-tab/new-tab observations supersede generic microphone troubleshooting as the default next step.
+- **Hypridle timers, 2026-10-06 — display-off recovered, cause unresolved:** neither desktop display-off nor automatic lock initially fired despite Hypridle running and configured timers. No systemd idle blocker or inhibiting mapped window was observed. The installed unpatched 0.1.7 has a known D-Bus inhibitor-count leak fixed upstream in 0.1.8, but local execution is unproven; its output goes to `/dev/null`. The user restarted Hypridle and confirmed a temporary one-minute display-off test worked. At their request the repository timeout was restored to 15 minutes; applying it and restarting Hypridle are still required. The 30-minute automatic lock was not validated by that test. See the [findings, test result and restoration](reports/2026-10-06-hypridle-not-firing.md). No package change or agent-run build/activation occurred.
+- **Brave microphone investigation, updated 2026-10-06:** start with the [renewed investigation, retained evidence and Firefox comparison plan](reports/2026-10-05-brave-audio-deep-dive.md). The earlier six-file dossier was removed in the October 5 cleanup and remains in Git at `0485e94`; the report preserves its conclusions and ledger references. September 10 measured per-stream burst delivery and loss before browser processing. October 1–5 server logs also record Brave capture-buffer overruns. The user confirms recurrence across computers and microphones. The observed PipeWire 1.6.6 package predates the relevant capture-starvation fix verified in 1.6.9, but local causation remains unproven. Firefox is the next practical comparison; no package change, restart or rebuild was performed. Keep newer GPU instability and historical missing-microphone incidents separate.
 - **Clipboard:** the earlier Slack freeze/crash report and the September 29 XWayland → Wayland delivery failure remain unresolved known issues, currently on recurrence watch. See the [clipboard evidence and recurrence guidance below](#clipboard-boundary-failure-2026-09-29); the portal repair and new picker shortcuts are not established fixes for either symptom.
 - **Microphone/dictation:** ChatGPT dictation worked during testing, and Brave had an active, unmuted input stream from the default Samson G-Track Pro. Earlier reports involved microphone loss after a period of use in calls and ChatGPT. Current success is not proof of long-term reliability or a portal-related cause.
 - **Screen sharing:** the GTK backend repair may affect supporting dialogs, but no before/after test proved that it fixed sharing, freezes or echo. The Hyprland capture backend was already running.
@@ -93,7 +94,7 @@ If one recurs, note the time, app, action, selected devices and whether the mach
 
 **Known issue, recovered but not fixed.** This section now owns former TODO item 21. Active diagnostics are paused until recurrence; the clipboard picker improvements do not establish a bridge repair.
 
-The [clipboard investigation progression and evidence ledger](investigations/clipboard/README.md) records the ordered tests, hypotheses, decision branches, and acceptance criteria. On recurrence, capture the failing boundary before restarting applications or the desktop. Exiting Hyprland ends the session and closes its applications; it is not a way to preserve and return to the old session.
+The [clipboard investigation progression and evidence ledger](reports/investigations/clipboard/README.md) records the ordered tests, hypotheses, decision branches, and acceptance criteria. On recurrence, capture the failing boundary before restarting applications or the desktop. Exiting Hyprland ends the session and closes its applications; it is not a way to preserve and return to the old session.
 
 - **Separate earlier Slack freeze/crash report:** copying from Slack and pasting into another application was reported to freeze/crash an app, but the symptom was not reproducible during diagnosis. Slack and Brave were XWayland clients, Kitty/Telegram native Wayland, and CopyQ was running. No matching recent crash dump, OOM kill or clipboard-transfer error was found. If this symptom returns, identify the affected process and destination before testing synthetic plain versus rich content and backend differences. Do not conflate it with the timed-out delivery below or with Slack sign-in. Closure needs repeated successful pastes without hangs/crashes, including after suspend.
 
@@ -131,119 +132,100 @@ busctl --user call org.freedesktop.DBus /org/freedesktop/DBus org.freedesktop.DB
 
 An empty or expired capture proves nothing. Do not use unfiltered payload traces during real authentication. After an approved, targeted repair, repeat both the minimal reproduction and the real workflow.
 
-## Earlier setup notes
+## Configuration and workflow
 
-This is a bit of a primer on the nix stuff. I'm sure there's a lot here that's wrong but we can learn as we go!
+This repository manages Jordan's desktop and laptop through one
+`nixosConfigurations.default` output. [flake.nix](flake.nix) reads
+`/etc/machine-id` to select the machine's hardware and desktop settings. This is
+intentional and requires `--impure`; an unregistered machine ID aborts evaluation.
 
-- [] Configure user profile
-- [] Background image
-  - copy across
-- [x] Copilot
-- [] Power & hibernation
-- [] Btrfs snapshots (& test)
-- More Nixvim:
-  - [x] Solidity setup
-    - [x] basic LSP
-    - [x] GD
-    - [x] rn
-    - [x] GD to imports (might depend on project)
-  - [x] Split buffers and use tabs
-  - [x] navigate between windows
-  - [] session that actually works
-- [x] Configure VS Code & extensions if needed
-- [x] Turn off cmp for markdown as it's annoying
-- [x] Hook up to external display
-- [x] Have a shell that uses vim motions better
-  - [x] zsh - need to set fg
-  - [x] tmux
-    - [] Nicer presets for window splits
-- [x] ssh
-  - [x] Good local ssh setup
-  - [x] Prevent standby
-  - [] change hostnames to make it a bit easier
+The configured NixOS, Home Manager and Nixvim input branches are 26.05. Exact
+revisions are recorded in [flake.lock](flake.lock). Brave has a separate pinned
+input for the compatibility baseline described above. Input branches and source
+configuration do not establish which generation is currently running on either
+machine. Keep dependency updates separate from routine configuration edits.
 
-## Ultimate workflow
+### File ownership
 
-## Ricing
+| Path | Purpose |
+| --- | --- |
+| [flake.nix](flake.nix) | Inputs, Rust overlay, machine selection and NixOS output |
+| [configuration.nix](configuration.nix) | System services, user account and integrated Home Manager |
+| [hardware/](hardware/) | Machine-specific disks, boot and GPU configuration |
+| [home.nix](home.nix) | Home Manager imports and current npm activation hook |
+| [config/packages.nix](config/packages.nix) | User packages, including Foundry and ZapZap |
+| [config/hyprland/](config/hyprland/) | Shared desktop behavior and per-machine overlays |
+| [config/theme/](config/theme/README.md) | Shared palette, native appearance files and template rendering |
+| [config/quickshell/](config/quickshell/README.md) | Power, screenshot and tmux menus; service lifecycle |
+| [config/nixvim/](config/nixvim/) | Editor configuration and plugins |
+| [tests/quickshell/](tests/quickshell/README.md) | Safe component and command-adapter tests |
+| [TODO.md](TODO.md) | Remaining work and configured features awaiting acceptance |
+| [AGENTS.md](AGENTS.md) | Editing, approval and diagnostic rules |
 
-Once the workflow is sorted with gnome for things like tailscale and tmux, we can explore using hyprland and enable vim motions across the whole VM.
+Hyprland is configured as the base desktop, with GDM and GNOME keyring retained;
+GNOME Shell is disabled. Home Manager is part of the NixOS configuration. Foundry
+comes from `pkgs.foundry` in the package list, without a separate Foundry flake.
 
-# BASICS
+### Rebuild and apply
 
-You have a copy of the nix files in 2 places:
-
-/etc/nixos
-~/.nix/ we keep stuff here to keep it out of root stuff
-
-You can run using the nix command:
+The user runs builds, upgrades and activation. From either registered machine,
+the normal command is:
 
 ```sh
-sudo nixos-rebuild switch --flake ~/.nix#default
+sudo nixos-rebuild switch --flake ~/.nix#default --impure
 ```
 
-(which I have aliased to `nixup`)
+In the configured Zsh shell, `nixup` (also `nu`) runs that command and reloads
+`~/.zshrc` after success. Home Manager changes are applied through this system
+rebuild; a standalone Home Manager switch is not the normal workflow. Repository
+edits alone do not change the running system. Keep `system.stateVersion` and
+`home.stateVersion` as their existing compatibility values during release updates.
 
-don't use home-manager as we are seeing this as a complete system.
+Quickshell reads its generated configuration at startup. After applying changes
+to that configuration, the user restarts it with:
 
-On home manager you have:
+```sh
+systemctl --user restart quickshell.service
+```
 
-- pkgs (these are system packages you can install in home.nix)
-- Home manager packages (these have home-manager config settings)
+See the [Quickshell lifecycle notes](config/quickshell/README.md#service-lifecycle)
+for startup, failure recovery and the remaining manual checks. Idle configuration
+changes also need the running Hypridle instance to reload through a user-managed
+restart or a fresh session; see the current idle report above.
 
-Example: trash-cli you need to do at the top of home.nix
+### Fresh-machine and profile setup
 
-# Gnome
+- Review the matching [hardware configuration](hardware/), including disk paths,
+  encryption, swap and GPU selection, and register the machine ID in `flake.nix`
+  through the normal diff-preview process.
+- Review the user account, home directory, display rules, locking and laptop
+  lid/docked behavior before applying the configuration.
+- Restore Brave profiles and authenticate applications, password managers,
+  development tools and Copilot as needed. These are manual account steps.
+- Provision SSH keys and authorized keys separately; keep private keys and
+  credentials out of this repository.
+- Review local wallpaper and profile assets referenced by the configuration.
+- Verify the relevant command paths, graphical session, locking and normal
+  workflows after the user-managed activation.
 
-Gnome extensions need a few things
+### Current npm globals
 
-1. Install the extension as a package in home.nix
-2. Add the extension UUID to enable it
-3. Config the extension by exporting dconf - someone in github has a tool to convert to home manager
-4. Log back in if you need to activate a new extension as we can't reload the shell in wayland - TBC about X
+[home.nix](home.nix) contains a Home Manager activation hook for
+`@nomicfoundation/solidity-language-server`, `prettier-plugin-solidity` and
+`@openai/codex`. It runs when either the language-server directory or Codex
+directory is absent, writes the npm prefix to `~/.npmrc`, and installs unpinned
+packages under `~/.npm-packages`. The Zsh configuration adds that directory's
+executables and modules to its search paths.
 
-# Flakes and Nixvim
+This is activation-time behavior, not a script that runs on every boot. The
+Prettier plugin is not independently checked, and existing packages are not
+updated by this hook when both checked directories exist. Reproducibility and
+activation cleanup remain deferred tasks in [TODO.md](TODO.md#maintenance).
 
-Not super clear from the docs but nixvim needs to be installed as a flake to be accessible by home manager, then you can configure it
+### Verification
 
-# foundry
-
-Forge is extremely tricky as:
-
-- It aint a nixpkg
-- It's hard to install due to some issues with solc binaries
-
-There's a flake that takes care of the forge installation that's been added to flake.nix
-
-# Post install steps
-
-On a fresh profile, there are some manual steps you'll need to take:
-
-- [] Setup Hardware config for the specific machine
-  - [] There are sample config files in the [Hardware directory](./devices)
-  - [] You need to add the /etc/machine_id to flake.nix to dynamically switch
-- [] Sync Brave profiles -> easiest to do this manually and takes a few minutes
-- [] Authorize password managers and logins
-- [] Login to Google accounts where relevant
-- [] Login to copilot using :Copilot
-- [] Install npm globals (TODO: fix [see below](#npm-globals))
-- [] Set ssh config
-- [] Setup and backgrounds or user icons
-
-# NPM Globals
-
-Atm we have an issue that NPM globals not available as packages can't easily be added.
-We fix this by allowing globals to be installed in /home and changing the npm path.
-
-There's a startup script that runs but if you enable it, it will run on boot every time - this adds ~5mins to boot.
-We can conditionally run it but some issues with that. For now you can just run the command as it's 1 package but as this grows we will
-need a proper solution.
-
--- os
-
-206 2024-08-10 00:18:28  
-207 2024-08-10 00:19:19
-
--- hm
-
-162 2024-08-10 00:18:31  
-163 2024-08-10 00:19:32
+The [Quickshell test README](tests/quickshell/README.md) records commands, tool
+requirements, isolation and coverage. Its Nix shell may fetch or build tools and
+requires explicit delegation for an agent to enter. Already-available tools can
+run the safe adapter suites directly. Static syntax checks do not establish
+successful system evaluation, build, boot or graphical-session acceptance.

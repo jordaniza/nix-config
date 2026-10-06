@@ -28,7 +28,7 @@
       kitty-rename = "${config.home.homeDirectory}/.local/bin/kitty-rename";
       ssh-dt = "kitty +kitten ssh jordan@dt";
       ssh-local = "kitten ssh jordan@192.168.1.238";
-      whatsapp = "whatsapp-for-linux";
+      whatsapp = "zapzap";
       lf = "lfcd";
       rm = "echo '[INFO]: using trash-cli to remove files\n' && trash";
       vim = "nvim";
