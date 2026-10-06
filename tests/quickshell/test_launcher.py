@@ -71,12 +71,12 @@ readonly menu_title="${TEST_MENU_TITLE:-Power menu}"
                          ["--app-name=" + title, "--icon=dialog-error", title + " could not open"])
 
     def test_each_target_sends_one_ipc_request(self):
-        for target, title in [("power", "Power menu"), ("screenshots", "Screenshots")]:
+        for target, title in [("power", "Power menu"), ("screenshots", "Screenshots"), ("controls", "Controls")]:
             self.assertEqual(self.run_launcher(TEST_MENU_TARGET=target,
                                               TEST_MENU_TITLE=title).returncode, 0)
             self.assertEqual(self.records("calls")[-1],
                 ["ipc", "--path", self.env["TEST_CONFIG"], "call", target, "open"])
-        self.assertEqual(len(self.records("calls")), 2)
+        self.assertEqual(len(self.records("calls")), 3)
         self.assertEqual(self.records("notifications"), [])
 
     def test_failed_ipc_never_attempts_startup(self):
@@ -93,6 +93,10 @@ readonly menu_title="${TEST_MENU_TITLE:-Power menu}"
     def test_screenshot_failure_notification(self):
         self.assert_failure(self.run_launcher(TEST_MENU_TARGET="screenshots",
             TEST_MENU_TITLE="Screenshots", TEST_EXIT="1"), "Screenshots")
+
+    def test_controls_failure_notification(self):
+        self.assert_failure(self.run_launcher(TEST_MENU_TARGET="controls",
+            TEST_MENU_TITLE="Controls", TEST_RESULT="false"), "Controls")
 
     def test_request_timeout(self):
         before = time.monotonic()

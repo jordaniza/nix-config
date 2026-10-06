@@ -9,3 +9,4 @@ ScreenshotRow 1.0 ScreenshotRow.qml
 ListMessage 1.0 ListMessage.qml
 TmuxAppearance 1.0 TmuxAppearance.qml
 TmuxSessionRow 1.0 TmuxSessionRow.qml
+ControlsSurface 1.0 ControlsSurface.qml

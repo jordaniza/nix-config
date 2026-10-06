@@ -16,6 +16,7 @@ in {
     "theme/quickshell/Theme.qml".source = files.quickshell;
     "theme/quickshell/qmldir".source = ./quickshell/qmldir;
     "theme/quickshell/MenuSurface.qml".source = ./quickshell/MenuSurface.qml;
+    "theme/quickshell/ControlsSurface.qml".source = ./quickshell/ControlsSurface.qml;
     "theme/quickshell/MenuRow.qml".source = ./quickshell/MenuRow.qml;
     "theme/quickshell/MenuError.qml".source = ./quickshell/MenuError.qml;
     "theme/quickshell/PowerAppearance.qml".source = ./quickshell/PowerAppearance.qml;

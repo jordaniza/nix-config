@@ -4,9 +4,10 @@ Updated: 2026-10-06. Repository status and backlog; implementation changes still
 
 ## Next
 
+- [ ] **Top priority: implement the selected [Leader menu](design/concepts/tmux-viewer-and-leader.md#leader-key-control-menu).** Use the user-selected `Super+Space` prefix, then plain letters for tmux, screenshots, clipboard, audio, network, Bluetooth and power. Show available choices, reuse Waybar's open/focus actions, support Escape/q cancellation and reset leader mode on every exit or failure. Replace the difficult Ctrl+Super menu chord after validation. Prepare the implementation diff and safe tests for review; build and activation remain user-managed.
 - [ ] Make Super+F refocus an open, unfocused Quickshell menu and cycle through other floating windows, so returning to a menu never requires the mouse. Include Quickshell layer surfaces explicitly in the focus flow.
-- [ ] Verify the configured Super+Ctrl+T → `tmux-menu` binding after user-managed activation. Super+T opens tmux; Super+Shift+T opens a plain terminal.
-- [ ] Revisit tmux menu keyboard focus before adding interactive actions. The exclusive-focus attempt did not resolve it and its tmux-specific changes were removed at the user's request; defer investigation while the viewer is read-only.
+- [ ] Verify tmux open/focus through the leader menu and Waybar after implementation and user-managed activation. Retain Super+T for tmux and Super+Shift+T for a plain terminal.
+- [ ] Resolve tmux menu keyboard focus as part of the leader-menu acceptance checks, before adding interactive tmux actions. The exclusive-focus attempt did not resolve it and its tmux-specific changes were removed at the user's request; keep the viewer read-only.
 - [ ] Verify desktop idle behaviour: displays off at 15 minutes, lock at 30, and locked resume after manual suspend. Startup is verified; never automatically sleep the desktop.
 - [ ] Record remaining acceptance of the base Hyprland desktop on both machines: login, keyring and normal workflows. The specialisation and `hyprswitch` are already absent from the configuration.
 - [ ] Audit and validate the laptop's Hyprland/Waybar/Wofi/Mako configuration. Its device overlay is already wired; activation and runtime acceptance are separate checks.

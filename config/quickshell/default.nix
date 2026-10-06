@@ -40,6 +40,7 @@
   powerMenu = makeMenu "power-menu" "power" "Power menu";
   screenshotHistory = makeMenu "screenshot-history" "screenshots" "Screenshots";
   tmuxMenu = makeMenu "tmux-menu" "tmux" "tmux";
+  controlsMenu = makeMenu "controls-menu" "controls" "Controls";
   tmuxStatus = pkgs.writeShellApplication {
     name = "tmux-status";
     runtimeInputs = [pkgs.coreutils pkgs.procps pkgs.jq];
@@ -73,11 +74,34 @@ in {
       ];
     };
   };
-  home.packages = [powerMenu powerStatus screenshotHistory tmuxMenu tmuxStatus];
+  home.packages = [powerMenu powerStatus screenshotHistory tmuxMenu tmuxStatus controlsMenu];
   xdg.configFile = {
     "quickshell/config.json".text = builtins.toJSON {
       powerAction = lib.getExe powerAction;
       tmux = lib.getExe pkgs.tmux;
+      # The full leader menu: key, label and destination are defined together.
+      controlsActions = [
+        {key = "p"; label = "Power"; menu = "power";}
+        {key = "t"; label = "tmux"; menu = "tmux";}
+        {key = "s"; label = "Screenshots"; menu = "screenshots";}
+        {
+          key = "c"; label = "Clipboard";
+          command = [(lib.getExe pkgs.kitty) "--class" "cq-picker" "--title" "Clipboard history"
+            "-o" "map=enter" "-o" "map=space" "-e" "${config.home.homeDirectory}/.local/bin/cq" "ls"];
+        }
+        {
+          key = "b"; label = "Bluetooth";
+          command = [(lib.getExe pkgs.kitty) "-T" "bluetuith" "-e" (lib.getExe pkgs.bluetuith)];
+        }
+        {
+          key = "i"; label = "Internet";
+          command = [(lib.getExe pkgs.kitty) "-T" "nmtui" "-e" "${pkgs.networkmanager}/bin/nmtui"];
+        }
+        {
+          key = "v"; label = "Volume";
+          command = [(lib.getExe pkgs.kitty) "-T" "pulsemixer" "-e" (lib.getExe pkgs.pulsemixer)];
+        }
+      ];
       screenshotCopy = lib.getExe screenshotCopy;
       screenshotDirectory = "${config.home.homeDirectory}/Pictures/Screenshots";
     };

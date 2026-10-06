@@ -10,17 +10,24 @@ PanelWindow {
     default property alias contents: frame.contentData
     required property Item focusTarget
     property int preferredWidth: surface.implicitWidth
+    property bool centered: false
+    property bool exclusiveKeyboardFocus: false
     signal opened()
 
     visible: false
-    anchors { top: true; right: true }
-    margins { top: surface.barGap; right: surface.screenInset }
+    anchors { top: !popup.centered; right: !popup.centered }
+    margins {
+        top: popup.centered ? 0 : surface.barGap
+        right: popup.centered ? 0 : surface.screenInset
+    }
     exclusiveZone: 0
     implicitWidth: preferredWidth
     implicitHeight: surface.implicitHeight
     color: Theme.transparent
     WlrLayershell.layer: WlrLayer.Top
-    WlrLayershell.keyboardFocus: WlrKeyboardFocus.OnDemand
+    WlrLayershell.keyboardFocus: exclusiveKeyboardFocus
+        ? (visible ? WlrKeyboardFocus.Exclusive : WlrKeyboardFocus.None)
+        : WlrKeyboardFocus.OnDemand
 
     function open() {
         if (!visible) {

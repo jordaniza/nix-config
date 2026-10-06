@@ -74,7 +74,9 @@ Other observations to keep separate:
 
 ### GPU status and recurrence watch: 2026-09-29
 
-**Current status:** the user reports the GPU is working well. Desktop Brave GPU selection is implemented in the wrapper and hardware configuration above; keep the working XWayland/GTK 3 settings. Former TODO items 18–19 are no longer active implementation/diagnostic tasks.
+**September 29 observation:** the user reported the GPU working well. Desktop Brave GPU selection is implemented in the wrapper and hardware configuration above; keep the working XWayland/GTK 3 settings. Former TODO items 18–19 were closed at that point.
+
+**Recurrence, 2026-10-06:** Brave's GPU subprocess segfaulted twice around 15:54 Dubai time, with identical stacks in Mesa's Wayland EGL initialization despite `--ozone-platform=x11`. Crash mappings identify Mesa 26.1.8; the running kernel is 6.18.54, so the earlier working stack above is historical. No corresponding kernel GPU timeout/reset was found in the queried window. An EGL/display-platform mismatch is a hypothesis; the trigger remains unresolved. The connected monitor is now on the RX580. See the [crash evidence and next discriminating question](reports/2026-10-06-brave-gpu-crash.md). No runtime or configuration change was made.
 
 The earlier native-Wayland corruption and RX580 runtime-PM/UVD failure remain historical evidence, not a claim of a currently broken GPU. No new root cause or comprehensive suspend/laptop validation was established by the current report.
 

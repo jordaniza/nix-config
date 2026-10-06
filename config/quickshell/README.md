@@ -138,3 +138,33 @@ the count markup lives in `config/theme/waybar-tmux-counts.txt.in` and uses the 
 palette. The icon itself gains accent colour and the workspace-style underline
 while the menu is open. Visibility changes signal the tmux module with RTMIN+9;
 the existing ten-second refresh also clears stale state after a shell crash.
+
+
+## Leader controls
+
+Super+Space opens the centered Controls menu on the focused monitor. Press a
+letter or click the matching button: p Power, t tmux, s Screenshots, c Clipboard,
+b Bluetooth, i Internet/network, v Volume. q, Escape or the top-right Close button
+dismisses. Unassigned keys do nothing and automatic repeat does not launch actions.
+There is no navigation step. Microphone is deferred; Volume opens normal pulsemixer.
+
+Power, tmux and screenshot history use the existing in-process popup instances.
+`shared/MenuCoordinator.qml` applies the same switching policy to both leader
+actions and standalone IPC requests, restoring the previous popup if opening
+fails. `components/controls/ControlsController.qml` owns dispatch and duplicate
+suppression. The authoritative seven-entry `controlsActions` list in default.nix
+defines each key, label and popup target or external command. Both the rendered
+buttons and dispatch consume that same list through generated config.json. QML
+contains only the popup-instance wiring, with no second list of leader letters.
+External command argument arrays come from that registry,
+with absolute executable paths. Each argument is shell-quoted before Hyprland's
+exec dispatcher launches it, matching the existing keybindings' application owner
+rather than parenting terminals under the Quickshell service. Clipboard retains the
+existing cq-picker class, title and Kitty key overrides; Bluetooth, network and
+volume retain their existing window titles. Quickshell releases the leader's
+exclusive keyboard focus before requesting a terminal launch through Hyprland.
+
+Theme-owned ControlsSurface renders the responsive button grid and errors.
+The duplicate bottom-left close hint is removed. Dispatcher requests cannot
+confirm tool readiness or later failures; native launch/focus needs manual checks.
+Rebuild/apply through the normal user workflow and restart quickshell.service.

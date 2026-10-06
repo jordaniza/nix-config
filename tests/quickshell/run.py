@@ -43,6 +43,10 @@ builtins.mapAttrs (_: file:
   lib.getExe = package: "/fake bin/" + package.name;
   pkgs.writeShellApplication = args: { inherit (args) name; };
   pkgs.tmux.name = "tmux";
+  pkgs.kitty.name = "kitty";
+  pkgs.bluetuith.name = "bluetuith";
+  pkgs.pulsemixer.name = "pulsemixer";
+  pkgs.networkmanager = "/fake packages/networkmanager";
 }).xdg.configFile
 """ % repo
 deployment = json.loads(subprocess.check_output(
@@ -134,7 +138,7 @@ with tempfile.TemporaryDirectory(prefix="quickshell-test-") as temporary:
                     raise SystemExit(f"Unresolvable import {relative!r} from {qml.relative_to(fixture)}")
     tests = fixture / "tests/quickshell"
     tests.mkdir(parents=True)
-    for test_name in ["tst_power.qml", "tst_screenshots.qml", "tst_tmux.qml"]:
+    for test_name in ["tst_power.qml", "tst_screenshots.qml", "tst_tmux.qml", "tst_controls.qml"]:
         shutil.copy(repo / "tests/quickshell" / test_name, tests)
     # Small synthetic PNGs and distinct mtimes; never read the user's captures.
     fixtures = tests / "fixtures"
