@@ -35,7 +35,7 @@ sys.exit(1)  # No running Waybar is a valid case.
 set -euo pipefail
 readonly quickshell="$TEST_QS"
 readonly shell_config="$TEST_CONFIG"
-''' + (REPO / "config/quickshell/power-status.sh").read_text())
+''' + (REPO / "config/quickshell/components/power/power-status.sh").read_text())
         self.command.chmod(0o700)
         self.env = {**os.environ, "PATH": str(self.directory) + os.pathsep + os.environ["PATH"],
                     "TEST_QS": str(self.directory / "quickshell"),

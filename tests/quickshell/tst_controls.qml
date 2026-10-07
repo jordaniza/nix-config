@@ -97,21 +97,17 @@ TestCase {
         compare(dismissal.count, 0);
     }
 
-    function test_focusAndHoverEdges() {
-        const frame = findChild(content, "controlsFocusBorder");
-        verify(frame !== null);
-        compare(frame.border.color, content.focusBorderColor);
-        compare(frame.border.width, 2);
+    function test_buttonHoverEdges() {
         const button = findChild(content, "controlsAction_p");
         verify(button.height >= 68);
         compare(button.hotkey, "p");
+        mouseMove(content, content.width - 1, content.height - 1);
+        tryCompare(button, "hovered", false);
+        const idleColor = String(button.background.border.color);
         mouseMove(button, button.width / 2, button.height / 2);
         tryCompare(button, "hovered", true);
-        compare(button.background.border.color, frame.border.color);
-        content.focus = false;
-        tryCompare(content, "activeFocus", false);
-        compare(frame.border.width, 1);
-        verify(frame.border.color !== button.background.border.color);
+        tryVerify(() => String(button.background.border.color) !== idleColor);
+        compare(findChild(content, "controlsFocusBorder"), null);
     }
 
     function test_mouseClose() {

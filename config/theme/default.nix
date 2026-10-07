@@ -22,6 +22,9 @@ in {
     "theme/quickshell/PowerAppearance.qml".source = ./quickshell/PowerAppearance.qml;
     "theme/quickshell/ScreenshotAppearance.qml".source = ./quickshell/ScreenshotAppearance.qml;
     "theme/quickshell/ScreenshotRow.qml".source = ./quickshell/ScreenshotRow.qml;
+    "theme/quickshell/LauncherAppearance.qml".source = ./quickshell/LauncherAppearance.qml;
+    "theme/quickshell/TmuxSurface.qml".source = ./quickshell/TmuxSurface.qml;
+    "theme/quickshell/TmuxSessionGroup.qml".source = ./quickshell/TmuxSessionGroup.qml;
     "theme/quickshell/TmuxAppearance.qml".source = ./quickshell/TmuxAppearance.qml;
     "theme/quickshell/TmuxSessionRow.qml".source = ./quickshell/TmuxSessionRow.qml;
     "theme/quickshell/ListMessage.qml".source = ./quickshell/ListMessage.qml;

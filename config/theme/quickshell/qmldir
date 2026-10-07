@@ -10,3 +10,6 @@ ListMessage 1.0 ListMessage.qml
 TmuxAppearance 1.0 TmuxAppearance.qml
 TmuxSessionRow 1.0 TmuxSessionRow.qml
 ControlsSurface 1.0 ControlsSurface.qml
+LauncherAppearance 1.0 LauncherAppearance.qml
+TmuxSurface 1.0 TmuxSurface.qml
+TmuxSessionGroup 1.0 TmuxSessionGroup.qml

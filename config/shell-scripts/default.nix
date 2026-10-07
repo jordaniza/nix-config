@@ -27,9 +27,4 @@
     source = ./kitty-rename.sh;
     executable = true;
   };
-
-  home.file.".local/bin/toggle-floating" = {
-    source = ./toggle-floating.sh;
-    executable = true;
-  };
 }

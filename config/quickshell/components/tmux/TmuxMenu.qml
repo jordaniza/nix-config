@@ -1,16 +1,17 @@
 import QtQuick
 import Quickshell.Io
-import Quickshell.Wayland
 import "../../shared"
 import "../../theme"
 
-PopupWindow {
+FloatingMenuWindow {
     id: menu
     required property string tmuxExecutable
     property TmuxAppearance appearance: TmuxAppearance {}
-    preferredWidth: appearance.preferredWidth
+    title: "Quickshell tmux"
+    preferredWidth: appearance.widthFor(screen?.width ?? 0)
+    implicitHeight: Math.min(appearance.preferredHeight,
+        Math.max(1, (screen?.height ?? Infinity) - 2 * appearance.screenInset))
     focusTarget: list
-    WlrLayershell.namespace: "tmux"
     onOpened: {
         controller.refresh();
         list.positionViewAtBeginning();
@@ -29,7 +30,7 @@ PopupWindow {
     TmuxList {
         id: list
         width: parent.width
-        height: implicitHeight
+        height: parent.height
         model: controller.sessions
         sampledAt: controller.sampledAt
         message: controller.pending ? "Loading…" : controller.errorMessage || "No sessions"

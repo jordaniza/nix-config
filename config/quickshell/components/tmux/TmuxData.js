@@ -33,6 +33,13 @@ function parse(text) {
         || a.created - b.created || Number(a.id.slice(1)) - Number(b.id.slice(1)));
 }
 
+function boardRows(sessions, columns) {
+    var rows = [];
+    for (var index = 0; index < sessions.length; index += columns)
+        rows.push(sessions.slice(index, index + columns));
+    return rows;
+}
+
 function age(created, now) {
     var seconds = Math.max(0, now - created);
     if (seconds < 60) return "<1m";

@@ -20,18 +20,23 @@ last icon state remains until the next refresh or Waybar reload.
 
 ## Structure
 
-| Path | Responsibility |
-| --- | --- |
-| `shell.qml` | Compose components and expose IPC |
-| `components/power/PowerMenu.qml` | Assemble the power UI and wire events |
-| `components/power/PowerController.qml` | Actions, request state and errors |
-| `shared/PopupWindow.qml` | Monitor selection, placement, focus and dismissal |
-| `shared/ActionList.qml` | Selection and activation |
-| `shared/VimNavigation.js` | Keyboard navigation |
-| `shared/CommandRunner.qml` | Process lifecycle |
-| `open-menu.sh` | Bounded IPC request and failure notification |
-| `default.nix` | Managed service, generated configuration and packaged commands |
-| `shared/StartupConfig.qml` | Read generated `config.json` at startup |
+| Path                                   | Responsibility                                                 |
+| -------------------------------------- | -------------------------------------------------------------- |
+| `shell.qml`                            | Compose components and expose IPC                              |
+| `components/power/PowerMenu.qml`       | Assemble the power UI and wire events                          |
+| `components/power/PowerController.qml` | Actions, request state and errors                              |
+| `shared/PopupWindow.qml`               | Monitor selection, placement, focus and dismissal              |
+| `shared/ActionList.qml`                | Selection and activation                                       |
+| `shared/VimNavigation.js`              | Keyboard navigation                                            |
+| `shared/CommandRunner.qml`             | Process lifecycle                                              |
+| `shared/open-menu.sh`                    | Bounded IPC request and failure notification                   |
+| `shared/default.nix`                     | Shared menu command builder                                    |
+| `components/power/default.nix`           | Power action/menu/status packages and JSON setting             |
+| `components/screenshots/default.nix`     | Screenshot menu/copy packages and JSON settings                |
+| `components/tmux/default.nix`            | tmux menu/status packages and JSON setting                     |
+| `components/controls/default.nix`        | Controls command and complete leader-action registry           |
+| `default.nix`                            | Compose feature exports, managed service and deployment        |
+| `shared/StartupConfig.qml`             | Read generated `config.json` at startup                        |
 
 `~/.config/quickshell/` contains behavior; `~/.config/theme/quickshell/` contains
 appearance. The theme module provides a `quickshell/theme` link to that central
@@ -40,6 +45,12 @@ root. Home Manager installs `shared/` and `components/` with
 `recursive = true`, creating directories with individual file symlinks so `..`
 imports stay within the installed configuration tree. Edit appearance in
 `config/theme/quickshell/`.
+
+Each feature's default.nix exports `packages`, `settings`, and optional
+`statusPackages`. The root combines them into home.packages, config.json and the
+service PATH. Feature scripts stay beside their QML: power-status.sh in power/,
+copy-screenshot.sh in screenshots/, and tmux-status.sh in tmux/. The common
+IPC opener lives in shared/ and is used by all four menu commands.
 
 ## Service lifecycle
 
@@ -111,8 +122,9 @@ come from the generated JSON; themes remain under `config/theme/`.
 
 ## tmux viewer
 
-`tmux-menu` opens a read-only popup. Each session shows its window count,
-age since creation and a vertical list of window names. A purple filled circle
+`tmux-menu` opens a centered, read-only floating session board, matching
+Controls' width and normal height. A header gives session/attached counts and
+Close; responsive cards show window counts, creation ages and indexed names. A purple filled circle
 means attached; a muted hollow circle means detached. Session names are omitted.
 Attached sessions come first, then oldest first; windows retain tmux index order.
 j/k and arrows scroll, q/Escape closes. Enter has no action in this version.
@@ -130,15 +142,11 @@ An absent server shows `tmux: 0 sessions · 0 attached` and an empty list. Other
 count or a short menu error. Queries have bounded deadlines. Control characters in
 window names display as spaces; long names elide at the right edge.
 
-The tmux-specific exclusive-focus override and list focus declaration have been
-removed. It uses the shared popup's existing focus/dismissal behavior. Automatic
-focus investigation is deferred while the viewer remains read-only.
 Waybar shows total sessions in white and attached sessions in the accent colour;
 the count markup lives in `config/theme/waybar-tmux-counts.txt.in` and uses the shared
 palette. The icon itself gains accent colour and the workspace-style underline
 while the menu is open. Visibility changes signal the tmux module with RTMIN+9;
 the existing ten-second refresh also clears stale state after a shell crash.
-
 
 ## Leader controls
 
@@ -148,11 +156,11 @@ b Bluetooth, i Internet/network, v Volume. q, Escape or the top-right Close butt
 dismisses. Unassigned keys do nothing and automatic repeat does not launch actions.
 There is no navigation step. Microphone is deferred; Volume opens normal pulsemixer.
 
-Power, tmux and screenshot history use the existing in-process popup instances.
+Power, tmux and screenshot history use the existing in-process menu instances.
 `shared/MenuCoordinator.qml` applies the same switching policy to both leader
 actions and standalone IPC requests, restoring the previous popup if opening
 fails. `components/controls/ControlsController.qml` owns dispatch and duplicate
-suppression. The authoritative seven-entry `controlsActions` list in default.nix
+suppression. The authoritative seven-entry `controlsActions` list in components/controls/default.nix
 defines each key, label and popup target or external command. Both the rendered
 buttons and dispatch consume that same list through generated config.json. QML
 contains only the popup-instance wiring, with no second list of leader letters.
@@ -161,10 +169,32 @@ with absolute executable paths. Each argument is shell-quoted before Hyprland's
 exec dispatcher launches it, matching the existing keybindings' application owner
 rather than parenting terminals under the Quickshell service. Clipboard retains the
 existing cq-picker class, title and Kitty key overrides; Bluetooth, network and
-volume retain their existing window titles. Quickshell releases the leader's
-exclusive keyboard focus before requesting a terminal launch through Hyprland.
+volume retain their existing window titles. Quickshell closes Controls before requesting a terminal launch through Hyprland.
 
 Theme-owned ControlsSurface renders the responsive button grid and errors.
 The duplicate bottom-left close hint is removed. Dispatcher requests cannot
 confirm tool readiness or later failures; native launch/focus needs manual checks.
 Rebuild/apply through the normal user workflow and restart quickshell.service.
+
+## Floating Controls and tmux
+
+Controls and tmux use shared/FloatingMenuWindow.qml. They are ordinary floating
+clients, centered on the focused monitor, with the central Hyprland theme's
+focused/inactive border. Opening or explicitly reopening requests focus; blur
+and outside clicks leave them visible. q/Escape, Close or the compositor close
+binding dismiss them. Opening another Quickshell menu still replaces the current
+menu. Power and screenshots retain their existing layer-shell popup behavior.
+
+Super+F cycles mapped, non-hidden floating clients on visible workspaces across
+monitors, including pinned windows. It wraps in client-list order, starts at the
+first candidate when the active window is tiled/absent, and does nothing when
+none qualify. The helper queries current state and focuses an address without
+changing workspace or floating state. Hyprland 0.55 ignores cyclenext's visible
+argument, so the helper filters explicitly. It saves no window payloads.
+
+Tmux now uses a header, Close button and responsive session cards: up to three
+columns, with one/two sessions filling the available columns. Attached state,
+window count, creation age and literal indexed names remain read-only. Additional
+rows or long window lists scroll. Query/socket/deadline behavior is unchanged.
+LauncherAppearance shares only width constraints with Controls. All appearance
+remains in config/theme/quickshell; future floating menus reuse the shared base.

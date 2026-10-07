@@ -1,3 +1,4 @@
+//@ pragma AppId jordan.quickshell.menus
 import QtQml
 import Quickshell
 import Quickshell.Io
@@ -43,7 +44,7 @@ ShellRoot {
         id: controlsController
         coordinator: coordinator
         actions: startup.controlsActions
-        // Release exclusive focus before asking the terminal to open.
+        // Close the menu before asking the terminal to open.
         launch: argv => {
             controls.close();
             try {

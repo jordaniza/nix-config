@@ -30,28 +30,37 @@ in files.quickshell
 ''' % repo
 rendered = json.loads(subprocess.check_output(
     ["nix-instantiate", "--eval", "--strict", "--json", "--expr", expression], text=True))
-# Evaluate the module's file declarations without evaluating its packages.
+# Evaluate file declarations and package names with stubbed builders; no build.
 deployment_expression = """
-builtins.mapAttrs (_: file:
-  if file ? text then { inherit (file) text; }
-  else {
-    source = toString file.source;
-    recursive = file.recursive or false;
-  }
-) (import %s/config/quickshell/default.nix {
+let module = import %s/config/quickshell/default.nix {
   config.home.homeDirectory = "/synthetic home/#captures";
   lib.getExe = package: "/fake bin/" + package.name;
+  lib.foldl' = builtins.foldl';
+  lib.concatMap = f: list: builtins.concatLists (map f list);
   pkgs.writeShellApplication = args: { inherit (args) name; };
   pkgs.tmux.name = "tmux";
   pkgs.kitty.name = "kitty";
   pkgs.bluetuith.name = "bluetuith";
   pkgs.pulsemixer.name = "pulsemixer";
   pkgs.networkmanager = "/fake packages/networkmanager";
-}).xdg.configFile
+}; in {
+  files = builtins.mapAttrs (_: file:
+    if file ? text then { inherit (file) text; }
+    else {
+      source = toString file.source;
+      recursive = file.recursive or false;
+    }
+  ) module.xdg.configFile;
+  packages = map (package: package.name) module.home.packages;
+}
 """ % repo
-deployment = json.loads(subprocess.check_output(
+evaluated = json.loads(subprocess.check_output(
     ["nix-instantiate", "--eval", "--strict", "--json", "--expr", deployment_expression],
     text=True))
+if evaluated["packages"] != ["power-menu", "power-menu-status", "screenshot-history",
+                              "tmux-menu", "tmux-status", "controls-menu"]:
+    raise SystemExit("Feature composition changed the installed command packages")
+deployment = evaluated["files"]
 with tempfile.TemporaryDirectory(prefix="quickshell-test-") as temporary:
     fixture = Path(temporary)
     # Separate source trees reproduce store-backed directory symlink traversal.
@@ -180,3 +189,13 @@ with tempfile.TemporaryDirectory(prefix="quickshell-test-") as temporary:
     if result.returncode != 0 or "THEME_LOAD_OK" not in output or "Failed to load configuration" in output:
         raise SystemExit(output)
     print("PASS: native Quickshell theme and generated configuration loading (offscreen, isolated runtime)")
+
+    # Native floating-window lifecycle with fake focus dispatch and no desktop socket.
+    floating = fixture / "config/quickshell/test_floating.qml"
+    shutil.copy(repo / "tests/quickshell/tst_floating.qml", floating)
+    result = subprocess.run([args.quickshell, "--path", str(floating), "--no-color"],
+                            env=native_env, capture_output=True, text=True, timeout=10)
+    output = result.stdout + result.stderr
+    if result.returncode != 0 or "FLOATING_MENU_OK" not in output or "Failed to load configuration" in output:
+        raise SystemExit(output)
+    print("PASS: native floating-menu lifecycle (offscreen, fake focus dispatcher)")

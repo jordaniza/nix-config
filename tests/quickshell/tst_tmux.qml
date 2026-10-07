@@ -102,20 +102,43 @@ TestCase {
 
     function test_readOnlyScrollAndDismiss() {
         controller.sessions = Data.parse(Array.from({length: 15}, (_, i) => "$1\t100\t1\t" + i + "\twindow " + i).join("\n"));
-        tryVerify(() => list.contentHeight > list.height);
+        tryVerify(() => list.view.contentHeight > list.height);
         verify(list.activeFocus);
         list.positionViewAtBeginning();
-        const beginning = list.contentY;
+        const beginning = list.view.contentY;
         keyClick(Qt.Key_J);
-        verify(list.contentY > beginning);
+        verify(list.view.contentY > beginning);
         keyClick(Qt.Key_K);
-        compare(list.contentY, beginning);
+        compare(list.view.contentY, beginning);
         keyClick(Qt.Key_Return);
         compare(process.requests, 0);
-        verify(!list.highlight);
+        verify(!list.view.highlight);
         keyClick(Qt.Key_Q);
         keyClick(Qt.Key_Escape);
         compare(dismissal.count, 2);
+    }
+
+    function test_boardColumnsAndRows() {
+        const sessions = Array.from({length: 7}, (_, index) => ({id: "$" + index, windows: []}));
+        compare(Data.boardRows(sessions, 3).map(row => row.length), [3, 3, 1]);
+        compare(list.appearance.columnsFor(900, 1), 1);
+        compare(list.appearance.columnsFor(900, 7), 3);
+        compare(list.appearance.columnsFor(650, 7), 2);
+        compare(list.appearance.columnsFor(450, 7), 1);
+    }
+
+    function test_cardAndMouseClose() {
+        list.width = 960; list.height = 400;
+        controller.sessions = Data.parse("$1\t100\t1\t0\t<b>literal</b>\n");
+        tryVerify(() => findChild(list, "tmuxSession_$1") !== null);
+        const card = findChild(list, "tmuxSession_$1");
+        const name = findChild(card, "windowName");
+        compare(name.text, "<b>literal</b>");
+        compare(name.textFormat, Text.PlainText);
+        verify(card.width > 800);
+        mouseClick(findChild(list, "tmuxClose"));
+        compare(dismissal.count, 1);
+        list.width = 320; list.height = 120;
     }
 
     function test_ages() {

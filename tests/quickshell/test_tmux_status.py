@@ -59,7 +59,7 @@ sys.exit(1)  # No running Waybar is valid.
                   "shell_config": self.root / "config with spaces", "counts_format_file": counts}
         self.command = "\n".join("readonly " + key + "=" + shlex.quote(str(value))
                                  for key, value in values.items())
-        self.command += "\n" + (REPO / "config/quickshell/tmux-status.sh").read_text()
+        self.command += "\n" + (REPO / "config/quickshell/components/tmux/tmux-status.sh").read_text()
         self.env = {**os.environ, "PATH": str(self.root) + os.pathsep + os.environ["PATH"],
                     "TEST_CONFIG": str(values["shell_config"]),
                     "TEST_SIGNAL_LOG": str(self.root / "signals"), "TMUX": "/unwanted/socket,1,0"}

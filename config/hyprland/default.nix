@@ -25,6 +25,10 @@
       ''
     );
     "hypr/hyprpaper.conf".source = ./hyprpaper.conf;
+    "hypr/scripts/cycle-floating.sh" = {
+      source = ./scripts/cycle-floating.sh;
+      executable = true;
+    };
     "hypr/scripts/pane-layout.sh" = {
       source = ./scripts/pane-layout.sh;
       executable = true;

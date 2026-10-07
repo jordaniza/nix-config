@@ -28,18 +28,18 @@ build test dependencies; it does not activate the desktop configuration.
 
 ## Contents and coverage
 
-| File | Purpose |
-| --- | --- |
-| `tst_power.qml` | Eight Qt test cases covering action selection, Vim keys, auto-repeat, duplicate dispatch, start/exit failure recovery, invalid inputs, row growth and surface padding |
-| `run.py` | Stages declared file/link layout, checks local imports, and runs QtTest plus native Quickshell theme loading offscreen |
-| `tst_theme.qml` | Instantiates theme components and the production startup configuration reader with Nix-generated synthetic paths |
-| `test_launcher.py` | Seven cases covering exact IPC routing, failed/false/invalid responses, no startup attempts, request timeout and error notifications, using fake Quickshell and notify-send |
-| `test_power_status.py` | Five cases covering active/inactive state, failed/invalid IPC, timeouts and the user-scoped Waybar refresh signal, using fake Quickshell/pkill |
-| `tst_screenshots.qml` | Six cases covering PNG filtering/order, virtualized rows, scrolling/Vim navigation, copy completion/failures, duplicate Enter and empty folders |
-| `test_screenshot_copy.py` | Four cases verifying exact image bytes/MIME type, missing files, clipboard failures and timeout, with fake wl-copy |
-| `shell.nix` | Pinned tools and Qt paths for reproducible execution |
-| `tst_tmux.qml` | Grouping/window order, literal names, ages, refresh, failed queries, deadlines and read-only scrolling/dismissal with a fake process |
-| `test_tmux_status.py` | Counts and theme colours, menu visibility, IPC failures/timeouts, empty server, query failures/timeouts and user-scoped refresh with fake tmux/Quickshell/pkill |
+| File                      | Purpose                                                                                                                                                                     |
+| ------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `tst_power.qml`           | Eight Qt test cases covering action selection, Vim keys, auto-repeat, duplicate dispatch, start/exit failure recovery, invalid inputs, row growth and surface padding       |
+| `run.py`                  | Stages declared file/link layout, checks local imports, and runs QtTest plus native Quickshell theme loading offscreen                                                      |
+| `tst_theme.qml`           | Instantiates theme components and the production startup configuration reader with Nix-generated synthetic paths                                                            |
+| `test_launcher.py`        | Seven cases covering exact IPC routing, failed/false/invalid responses, no startup attempts, request timeout and error notifications, using fake Quickshell and notify-send |
+| `test_power_status.py`    | Five cases covering active/inactive state, failed/invalid IPC, timeouts and the user-scoped Waybar refresh signal, using fake Quickshell/pkill                              |
+| `tst_screenshots.qml`     | Six cases covering PNG filtering/order, virtualized rows, scrolling/Vim navigation, copy completion/failures, duplicate Enter and empty folders                             |
+| `test_screenshot_copy.py` | Four cases verifying exact image bytes/MIME type, missing files, clipboard failures and timeout, with fake wl-copy                                                          |
+| `shell.nix`               | Pinned tools and Qt paths for reproducible execution                                                                                                                        |
+| `tst_tmux.qml`            | Grouping/window order, literal names, ages, refresh, failed queries, deadlines and read-only scrolling/dismissal with a fake process                                        |
+| `test_tmux_status.py`     | Counts and theme colours, menu visibility, IPC failures/timeouts, empty server, query failures/timeouts and user-scoped refresh with fake tmux/Quickshell/pkill             |
 
 Each command returns nonzero on failure. QtTest also counts setup and teardown. Failure cases intentionally emit diagnostics while checking recovery. The launcher deadline
 case deliberately takes approximately three seconds.
@@ -111,7 +111,6 @@ switching between menus, and fitting the smallest display. Exclusive keyboard
 focus is enabled only for the visible controls box; the existing menus retain
 their OnDemand policy. Offscreen tests cannot verify compositor focus or placement.
 
-
 ### Controls actions
 
 The controls suite now covers all seven letters and matching mouse buttons,
@@ -139,3 +138,28 @@ After activation, check the larger centered launcher on each display and scale,
 the purple edge while focused, hover feedback, readable labels/keycaps, and
 keyboard focus handoff after opening a command. Offscreen Qt cannot establish
 Hyprland keyboard ownership or fit on unusually short displays.
+
+### Feature module composition
+
+The existing run.py command evaluates the root Quickshell module through its
+feature imports using stubbed builders. It checks all six installed command
+packages, stages the declared deployment, and checks the complete generated JSON
+through the native loading test. No packages are built. The command-adapter suites
+read the relocated production scripts in shared/ and components/<feature>/;
+their existing fake commands still prevent live IPC/power/clipboard operations.
+Run the same suite commands above after changing module composition or paths.
+After activation, manually check existing menu commands and Waybar status updates.
+
+## Floating menus
+
+Run python3 tests/quickshell/test_floating_cycle.py for the production cycle
+script with fake hyprctl: visible/hidden/tiled filtering, wraparound, multiple
+monitors, pinned and special workspaces, empty candidates and query failures.
+The main runner also exercises the shared floating window offscreen, with fake
+focus dispatch and no desktop socket. It checks open/refocus, blur retention,
+close/reopen and fixed-size constraints.
+
+After user-managed activation, verify Super+F through ordinary floating apps
+and Controls/tmux; focused/inactive borders; q/Escape/Close/compositor close;
+reopening and center/monitor placement on desktop/laptop. These compositor
+behaviors need live acceptance; power/screenshots still dismiss on outside click.

@@ -46,7 +46,7 @@ readonly quickshell="$TEST_QS"
 readonly shell_config="$TEST_CONFIG"
 readonly menu_target="${TEST_MENU_TARGET:-power}"
 readonly menu_title="${TEST_MENU_TITLE:-Power menu}"
-''' + (REPO / "config/quickshell/open-menu.sh").read_text())
+''' + (REPO / "config/quickshell/shared/open-menu.sh").read_text())
         self.launcher.chmod(0o700)
         self.env = {**os.environ,
                     "PATH": str(self.directory) + os.pathsep + os.environ["PATH"],

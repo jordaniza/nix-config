@@ -1,15 +1,12 @@
 import QtQuick
-import Quickshell.Wayland
 import "../../shared"
 
-PopupWindow {
+FloatingMenuWindow {
     id: menu
     required property ControlsController controller
-    centered: true
-    exclusiveKeyboardFocus: true
+    title: "Quickshell Controls"
     preferredWidth: content.widthFor(screen?.width ?? 0)
     focusTarget: content
-    WlrLayershell.namespace: "controls"
     onOpened: controller.reset()
 
     property Connections dispatch: Connections {

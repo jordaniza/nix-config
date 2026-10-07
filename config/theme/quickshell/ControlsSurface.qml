@@ -11,31 +11,12 @@ Item {
     property bool actionsEnabled: true
     property string errorMessage: ""
     readonly property int contentInset: 22
-    readonly property real widthFraction: 0.48
-    readonly property int minimumWidth: 640
-    readonly property int maximumWidth: 960
-    readonly property int screenInset: 24
-    readonly property color focusBorderColor: activeFocus ? Theme.accent : Theme.selection
+    property LauncherAppearance appearance: LauncherAppearance {}
     readonly property color buttonColor: Qt.tint(Theme.background,
         Qt.rgba(Theme.selection.r, Theme.selection.g, Theme.selection.b, 0.35))
     implicitHeight: layout.implicitHeight + 2 * contentInset
 
-    function widthFor(screenWidth) {
-        return Math.max(1, Math.min(screenWidth - 2 * screenInset,
-            Math.max(minimumWidth, Math.min(maximumWidth, Math.round(screenWidth * widthFraction)))));
-    }
-
-    // Covers the surrounding MenuSurface's six-pixel padding and neutral edge.
-    Rectangle {
-        objectName: "controlsFocusBorder"
-        anchors.fill: parent
-        anchors.margins: -6
-        z: -1
-        color: Theme.background
-        radius: Theme.cornerRadius
-        border.width: surface.activeFocus ? 2 : 1
-        border.color: surface.focusBorderColor
-    }
+    function widthFor(screenWidth) { return appearance.widthFor(screenWidth); }
 
     component ActionButton: Button {
         id: button

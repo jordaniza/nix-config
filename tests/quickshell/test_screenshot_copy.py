@@ -34,7 +34,7 @@ sys.exit(int(os.environ.get("TEST_EXIT", "0")))
 
     def copy(self, path, **extra):
         return subprocess.run(["bash", "-euo", "pipefail",
-            str(REPO / "config/quickshell/copy-screenshot.sh"), str(path)],
+            str(REPO / "config/quickshell/components/screenshots/copy-screenshot.sh"), str(path)],
             env={**self.env, **extra}, capture_output=True, timeout=6)
 
     def test_image_bytes_and_mime_type(self):
