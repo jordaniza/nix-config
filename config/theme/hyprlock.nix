@@ -24,7 +24,7 @@ in {
     label = [
       {
         monitor = "";
-        text = "$TIME";
+        text = "cmd[update:1000] ${pkgs.coreutils}/bin/date '+%H:%M:%S'";
         font_family = palette.monoFont;
         font_size = 64;
         color = "rgb(${palette.foreground})";

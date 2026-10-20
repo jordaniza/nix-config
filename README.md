@@ -4,7 +4,7 @@ The implementation backlog is in [TODO.md](TODO.md). The notes below record actu
 
 ## Known desktop issues and fixes
 
-Notes updated: **2026-10-06**. Verification dates and limitations are recorded per issue; this is not a fresh validation of the whole desktop. Desktop observations unless stated otherwise. Preserve the working baseline while watching for recurrence after ordinary use, suspend/resume and reboot.
+Notes updated: **2026-10-12**. Verification dates and limitations are recorded per issue; this is not a fresh validation of the whole desktop. Desktop observations unless stated otherwise. Preserve the working baseline while watching for recurrence after ordinary use, suspend/resume and reboot.
 
 ### Start with service masks and actual capabilities
 
@@ -77,6 +77,8 @@ Other observations to keep separate:
 **September 29 observation:** the user reported the GPU working well. Desktop Brave GPU selection is implemented in the wrapper and hardware configuration above; keep the working XWayland/GTK 3 settings. Former TODO items 18–19 were closed at that point.
 
 **Recurrence, 2026-10-06:** Brave's GPU subprocess segfaulted twice around 15:54 Dubai time, with identical stacks in Mesa's Wayland EGL initialization despite `--ozone-platform=x11`. Crash mappings identify Mesa 26.1.8; the running kernel is 6.18.54, so the earlier working stack above is historical. No corresponding kernel GPU timeout/reset was found in the queried window. An EGL/display-platform mismatch is a hypothesis; the trigger remains unresolved. The connected monitor is now on the RX580. See the [crash evidence and next discriminating question](reports/2026-10-06-brave-gpu-crash.md). No runtime or configuration change was made.
+
+**Comparison result, 2026-10-12:** the user's `EGL_PLATFORM=x11 brave` launch still produced two confirmed GPU-process SIGSEGVs around 12:50–12:51, with the same Wayland EGL stack as October 6, followed by another logged GPU exit. No matching kernel GPU reset was found in that crash window. Earlier VSync errors and AMD display-link warnings coincided with a 10:49 resume; their connection to the later crashes is unproven. The current replacement GPU process has `--use-gl=disabled`, consistent with fallback. Effective EGL environment and the triggering browser operation remain unresolved. Do not persist the test variable as a confirmed fix; see the [follow-up evidence and next question](reports/2026-10-06-brave-gpu-crash.md#october-12-scoped-x11-egl-launch-did-not-prevent-recurrence).
 
 The earlier native-Wayland corruption and RX580 runtime-PM/UVD failure remain historical evidence, not a claim of a currently broken GPU. No new root cause or comprehensive suspend/laptop validation was established by the current report.
 
