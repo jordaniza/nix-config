@@ -351,7 +351,7 @@
   {
     mode = "n";
     key = "<leader>lr";
-    action = ":LspRestart<CR>";
+    action = "<cmd>lsp restart<CR>";
     options = {
       noremap = true;
       silent = true;

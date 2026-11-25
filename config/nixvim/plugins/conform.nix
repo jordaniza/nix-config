@@ -13,8 +13,7 @@
       nix = ["alejandra"];
       python = ["black"];
       rust = ["rustfmt"];
-      # bit janky atm - put a prettierrc in the root and it works
-      solidity = ["prettier"];
+      solidity = ["forge_fmt"];
       sh = ["shfmt"];
       sql = ["sqlfluff"];
       terraform = ["terraform_fmt"];
